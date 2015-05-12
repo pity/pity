@@ -1,6 +1,7 @@
 package io.ask.bootstrap
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
+import groovy.json.JsonBuilder
 import io.ask.bootstrap.environment.BootstrapEnvironmentCollector
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
@@ -28,9 +29,11 @@ class AskBootstrapMain {
         allInjectors.addAll(injectorClasses)
 
         def injector = Guice.createInjector(allInjectors)
-        injector.getInstance(BootstrapEnvironmentCollector).collectEnvironmentData(new File('')).each {
-            println it
-        }
+        def results = injector.getInstance(BootstrapEnvironmentCollector).collectEnvironmentData(new File('').getAbsoluteFile())
+
+        def processedResults = results.collectEntries { [it.collectorName, it.environmentResults] }
+        
+        new File('generated-data.json').text = new JsonBuilder(processedResults).toPrettyString()
 
     }
 
