@@ -1,4 +1,18 @@
+apply plugin: 'idea'
+
+subprojects {
+    apply plugin: 'idea'
+}
 
 allprojects {
-  apply plugin: 'idea'
+    repositories {
+        mavenCentral()
+    }
+}
+
+idea {
+    project {
+        jdkName = '1.7'
+        languageLevel = '1.7'
+    }
 }
