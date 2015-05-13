@@ -1,16 +1,25 @@
 package io.ask.tasks.collector
-import io.ask.api.EnvironmentCollector
-import io.ask.api.EnvironmentData
-import io.ask.api.EnvironmentDataBuilder
 
-class WorkingDirectoryEnvironmentCollector implements EnvironmentCollector{
+import com.google.inject.Inject
+import io.ask.api.EnvironmentCollector
+import io.ask.api.WorkingDirectoryProvider
+
+class WorkingDirectoryEnvironmentCollector extends EnvironmentCollector {
 
     public static final String WORKING_DIRECTORY = 'workingDirectory'
 
+    @Inject
+    WorkingDirectoryEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider) {
+        super(workingDirectoryProvider)
+    }
+
     @Override
-    EnvironmentData collect(File workingDirectory) {
-        def builder = EnvironmentDataBuilder.Builder(WorkingDirectoryEnvironmentCollector.class.getSimpleName())
-        builder.addData(WORKING_DIRECTORY, workingDirectory.getAbsolutePath())
-        return builder.build()
+    boolean shouldCollect() {
+        return true;
+    }
+
+    @Override
+    void collect() {
+        environmentDataBuilder.addData(WORKING_DIRECTORY, workingDirectoryProvider.getWorkingDirectory().getAbsolutePath())
     }
 }

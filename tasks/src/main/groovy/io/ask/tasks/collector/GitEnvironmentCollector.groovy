@@ -1,8 +1,7 @@
 package io.ask.tasks.collector
-
+import com.google.inject.Inject
 import io.ask.api.EnvironmentCollector
-import io.ask.api.EnvironmentData
-import io.ask.api.EnvironmentDataBuilder
+import io.ask.api.WorkingDirectoryProvider
 import io.ask.tasks.util.ExternalProcessReporter
 import org.ajoberstar.grgit.BranchStatus
 import org.ajoberstar.grgit.exception.GrgitException
@@ -12,35 +11,35 @@ import org.eclipse.jgit.lib.RepositoryBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class GitEnvironmentCollector implements EnvironmentCollector {
+class GitEnvironmentCollector extends EnvironmentCollector {
 
     public static final Logger logger = LoggerFactory.getLogger(GitEnvironmentCollector.class)
-    def builder
 
-    GitEnvironmentCollector() {
-        builder = EnvironmentDataBuilder
-                .Builder(GitEnvironmentCollector.class.getSimpleName())
-                .addData('ahead', null)
-                .addData('behind', null)
-                .addData('tracking', null)
+    File gitDir
+
+    @Inject
+    def GitEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider) {
+        super(workingDirectoryProvider)
     }
 
     @Override
-    EnvironmentData collect(File workingDirectory) {
-
+    boolean shouldCollect() {
         def repoBuilder = new RepositoryBuilder().findGitDir()
-        if (!repoBuilder.getGitDir()) {
-            return builder.build()
-        }
+        gitDir = repoBuilder.getGitDir()
+        return null != gitDir
+    }
+
+    @Override
+    void collect() {
 
         logger.info("Generating working status of your project...")
 
-        def grgit = new OpenOp(dir: repoBuilder.getGitDir()).call()
+        def grgit = new OpenOp(dir: gitDir).call()
 
-        builder.addData('head', grgit.head().id)
+        environmentDataBuilder.addData('head', grgit.head().id)
         try {
             def status = grgit.branch.status(name: grgit.branch.current.name) as BranchStatus
-            builder
+            environmentDataBuilder
                     .addData('ahead', status.aheadCount)
                     .addData('behind', status.behindCount)
                     .addData('tracking', grgit.branch.current?.trackingBranch?.fullName)
@@ -51,16 +50,14 @@ class GitEnvironmentCollector implements EnvironmentCollector {
 
         collectGitCommandResults(workingDirectory, 'git diff HEAD origin/master', 'patch')
         collectGitCommandResults(workingDirectory, 'git diff', 'diff')
-
-        return builder.build()
     }
 
     private void collectGitCommandResults(File workingDirectory, String command, String name) {
-        def (diffOutput, diffErrorOutput) = new ExternalProcessReporter(command, workingDirectory).getResult()
-        builder.addData(name, diffOutput.text)
-        def errorOutput = diffErrorOutput.text
+        def processResult = new ExternalProcessReporter(command, workingDirectory).getResult()
+        environmentDataBuilder.addData(name, processResult.inputStream.text)
+        def errorOutput = processResult.errorStream.text
         if (!StringUtils.isEmpty(errorOutput)) {
-            logger.error("Error getting {} log: {}", name, diffErrorOutput.text)
+            logger.error("Error getting {} log: {}", name, processResult.errorStream.text)
         }
     }
 }

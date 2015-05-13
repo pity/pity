@@ -25,14 +25,14 @@ class AskBootstrapMain {
                 .collect { getInjectorClass(it) }
                 .findAll { null != it }
 
-        def allInjectors = [new BootstrapInjector()] as List<AbstractModule>
+        def allInjectors = [new BootstrapInjector(new File('').getAbsoluteFile())] as List<AbstractModule>
         allInjectors.addAll(injectorClasses)
 
         def injector = Guice.createInjector(allInjectors)
-        def results = injector.getInstance(BootstrapEnvironmentCollector).collectEnvironmentData(new File('').getAbsoluteFile())
+        def results = injector.getInstance(BootstrapEnvironmentCollector).collectEnvironmentData()
 
         def processedResults = results.collectEntries { [it.collectorName, it.environmentResults] }
-        
+
         new File('generated-data.json').text = new JsonBuilder(processedResults).toPrettyString()
 
     }

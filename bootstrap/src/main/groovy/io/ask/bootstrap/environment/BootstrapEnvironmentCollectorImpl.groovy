@@ -17,10 +17,11 @@ class BootstrapEnvironmentCollectorImpl implements BootstrapEnvironmentCollector
     }
 
     @Override
-    Set<EnvironmentData> collectEnvironmentData(File workingDir) {
+    Set<EnvironmentData> collectEnvironmentData() {
+        environmentCollectors.findAll { it }
         return environmentCollectors.collect {
             logger.debug("Getting results from {}", it.getClass().getSimpleName())
-            return it.collect(workingDir)
+            return it.collectEnvironmentData()
         }
     }
 }
