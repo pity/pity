@@ -50,6 +50,7 @@ class GitEnvironmentCollector extends EnvironmentCollector {
 
         collectGitCommandResults(workingDirectory, 'git diff HEAD origin/master', 'patch')
         collectGitCommandResults(workingDirectory, 'git diff', 'diff')
+        collectGitCommandResults(workingDirectory, 'git reflog', 'reflog')
     }
 
     private void collectGitCommandResults(File workingDirectory, String command, String name) {
