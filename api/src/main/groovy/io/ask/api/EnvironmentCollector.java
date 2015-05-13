@@ -15,14 +15,14 @@ public abstract class EnvironmentCollector {
         this.workingDirectoryProvider = workingDirectoryProvider;
     }
 
-    public File getWorkingDirectory() {
+    final public File getWorkingDirectory() {
         return workingDirectoryProvider.getWorkingDirectory();
     }
 
     public abstract boolean shouldCollect();
     public abstract void collect();
 
-    public EnvironmentData collectEnvironmentData() {
+    final public EnvironmentData collectEnvironmentData() {
 
         if(shouldCollect()){
             collect();
