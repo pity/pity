@@ -1,15 +1,10 @@
 package io.ask.tasks.collector
 import com.google.inject.Inject
-import io.ask.api.EnvironmentCollector
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.tasks.util.ExternalProcessReporter
-import org.apache.commons.lang3.StringUtils
-import org.slf4j.Logger
-import org.slf4j.LoggerFactory
 
-class SvnEnvironmentCollector extends EnvironmentCollector {
+class SvnEnvironmentCollector extends ProcessBasedEnvironmentCollector {
 
-    public static final Logger logger = LoggerFactory.getLogger(SvnEnvironmentCollector.class)
     public static final String WORKING_COPY = 'is not a working copy'
 
     @Inject
@@ -29,17 +24,7 @@ class SvnEnvironmentCollector extends EnvironmentCollector {
 
     @Override
     void collect() {
-        collectSvnCommandResults('svn status --depth=empty', 'status')
-        collectSvnCommandResults('svn diff', 'diff')
-    }
-
-    private void collectSvnCommandResults(String command, String name) {
-        def (diffOutput, diffErrorOutput) = new ExternalProcessReporter(command, workingDirectory).getResult()
-        environmentDataBuilder.addData(name, diffOutput.text)
-
-        def errorOutput = diffErrorOutput.text
-        if (!StringUtils.isEmpty(errorOutput)) {
-            logger.error("Error getting {} log: {}", name, diffErrorOutput.text)
-        }
+        collectCommandResults('status', 'svn status --depth=empty')
+        collectCommandResults('diff,', 'svn diff')
     }
 }

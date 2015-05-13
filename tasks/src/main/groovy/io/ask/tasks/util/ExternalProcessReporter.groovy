@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory
 @TupleConstructor
 class ExternalProcessReporter {
 
-    Logger logger = LoggerFactory.getLogger(ExternalProcessReporter.class)
+    static Logger logger = LoggerFactory.getLogger(ExternalProcessReporter.class)
 
     String command
     File workingDir
@@ -40,5 +40,4 @@ class ExternalProcessReporter {
             exitCode = process.exitValue()
         }
     }
-
 }
