@@ -1,4 +1,4 @@
-package io.ask.tasks.util
+package io.ask.tasks.util.process
 import groovy.transform.TupleConstructor
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -10,11 +10,12 @@ class ExternalProcessReporter {
 
     String command
     File workingDir
-    Integer timeout = 5 * 60 * 1000
+    int timeout
 
-    ExternalProcessReporter(String command, File workingDir) {
+    ExternalProcessReporter(String command, File workingDir, int timeout = 5 * 60 * 1000) {
         this.command = command
         this.workingDir = workingDir
+        this.timeout = timeout
     }
 
     ProcessResult getResult() {

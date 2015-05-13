@@ -1,6 +1,8 @@
 package io.ask.tasks.collector
 import com.google.inject.Inject
+import com.google.inject.Provider
 import io.ask.api.WorkingDirectoryProvider
+import io.ask.tasks.util.process.ExternalProcessCreator
 import org.ajoberstar.grgit.BranchStatus
 import org.ajoberstar.grgit.exception.GrgitException
 import org.ajoberstar.grgit.operation.OpenOp
@@ -11,8 +13,9 @@ class GitEnvironmentCollector extends ProcessBasedEnvironmentCollector {
     File gitDir
 
     @Inject
-    def GitEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider) {
-        super(workingDirectoryProvider)
+    def GitEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
+                                Provider<ExternalProcessCreator> externalProcessCreatorProvider) {
+        super(workingDirectoryProvider, externalProcessCreatorProvider)
     }
 
     @Override

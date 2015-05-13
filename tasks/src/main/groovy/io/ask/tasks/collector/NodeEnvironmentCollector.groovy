@@ -1,13 +1,16 @@
 package io.ask.tasks.collector
 
 import com.google.inject.Inject
+import com.google.inject.Provider
 import io.ask.api.WorkingDirectoryProvider
+import io.ask.tasks.util.process.ExternalProcessCreator
 
 class NodeEnvironmentCollector extends ProcessBasedEnvironmentCollector {
 
     @Inject
-    NodeEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider) {
-        super(workingDirectoryProvider)
+    NodeEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
+                             Provider<ExternalProcessCreator> externalProcessCreatorProvider) {
+        super(workingDirectoryProvider, externalProcessCreatorProvider)
     }
 
     @Override

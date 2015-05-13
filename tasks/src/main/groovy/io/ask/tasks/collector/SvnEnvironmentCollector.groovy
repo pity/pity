@@ -1,16 +1,21 @@
 package io.ask.tasks.collector
 import com.google.inject.Inject
+import com.google.inject.Provider
 import io.ask.api.WorkingDirectoryProvider
-import io.ask.tasks.util.ExternalProcessReporter
+import io.ask.tasks.util.process.ExternalProcessCreator
+import io.ask.tasks.util.process.ExternalProcessReporter
 
 class SvnEnvironmentCollector extends ProcessBasedEnvironmentCollector {
 
     public static final String WORKING_COPY = 'is not a working copy'
 
     @Inject
-    def SvnEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider) {
-        super(workingDirectoryProvider)
+    SvnEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
+                            Provider<ExternalProcessCreator> externalProcessCreatorProvider) {
+        super(workingDirectoryProvider, externalProcessCreatorProvider)
     }
+
+
 
     @Override
     boolean shouldCollect() {
