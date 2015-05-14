@@ -3,7 +3,6 @@ import com.google.inject.Inject
 import com.google.inject.Provider
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.tasks.util.process.ExternalProcessCreator
-import io.ask.tasks.util.process.ExternalProcessReporter
 
 class SvnEnvironmentCollector extends ProcessBasedEnvironmentCollector {
 
@@ -15,12 +14,13 @@ class SvnEnvironmentCollector extends ProcessBasedEnvironmentCollector {
         super(workingDirectoryProvider, externalProcessCreatorProvider)
     }
 
-
-
     @Override
     boolean shouldCollect() {
-        def result = new ExternalProcessReporter('svn status --depth=empty', workingDirectory).getResult()
-        if(result.inputStream.text.contains(WORKING_COPY) || result.errorStream.text.contains(WORKING_COPY)){
+        def result = externalProcessCreatorProvider.get().createProcess('svn status --depth=empty', workingDirectory).getResult()
+
+        def inputStream = result.inputStream.text
+        def errorStream = result.errorStream.text
+        if(inputStream.contains(WORKING_COPY) || errorStream.contains(WORKING_COPY)){
             return false;
         }
 
@@ -30,6 +30,6 @@ class SvnEnvironmentCollector extends ProcessBasedEnvironmentCollector {
     @Override
     void collect() {
         collectCommandResults('status', 'svn status --depth=empty')
-        collectCommandResults('diff,', 'svn diff')
+        collectCommandResults('diff', 'svn diff')
     }
 }

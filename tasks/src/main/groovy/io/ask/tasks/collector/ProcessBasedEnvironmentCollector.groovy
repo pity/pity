@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory
 abstract class ProcessBasedEnvironmentCollector extends EnvironmentCollector {
 
     public final Logger logger = LoggerFactory.getLogger(this.getClass())
-    private final Provider<ExternalProcessCreator> externalProcessCreatorProvider
+    final Provider<ExternalProcessCreator> externalProcessCreatorProvider
 
     public ProcessBasedEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
                                             Provider<ExternalProcessCreator> externalProcessCreatorProvider) {

@@ -5,7 +5,7 @@ import java.io.File;
 public class ExternalProcessCreator {
 
     public ExternalProcessReporter createProcess(String command, File workingDir, int timeout) {
-        return new ExternalProcessReporter(command, workingDir, timeout);
+        return new ExternalProcessReporterImpl(command, workingDir, timeout);
     }
 
     public ExternalProcessReporter createProcess(String command, File workingDir) {
