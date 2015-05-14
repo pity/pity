@@ -1,5 +1,6 @@
 package io.ask.api
 
+import io.ask.api.environment.EnvironmentCollector
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification

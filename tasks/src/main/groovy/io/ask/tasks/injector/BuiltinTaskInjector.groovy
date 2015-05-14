@@ -2,7 +2,7 @@ package io.ask.tasks.injector
 import com.google.inject.AbstractModule
 import com.google.inject.Provides
 import com.google.inject.multibindings.Multibinder
-import io.ask.api.EnvironmentCollector
+import io.ask.api.environment.EnvironmentCollector
 import io.ask.tasks.collector.*
 import io.ask.tasks.util.process.ExternalProcessCreator
 

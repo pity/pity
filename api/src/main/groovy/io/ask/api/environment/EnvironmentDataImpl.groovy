@@ -1,7 +1,7 @@
-package io.ask.api.internal
+package io.ask.api.environment.internal
 
 import groovy.transform.ToString
-import io.ask.api.EnvironmentData
+import io.ask.api.environment.EnvironmentData
 
 @ToString
 public class EnvironmentDataImpl implements EnvironmentData {

@@ -1,7 +1,7 @@
 package io.ask.tasks.collector
 
 import com.google.inject.Inject
-import io.ask.api.EnvironmentCollector
+import io.ask.api.environment.EnvironmentCollector
 import io.ask.api.WorkingDirectoryProvider
 
 class EnvironmentVariableCollector extends EnvironmentCollector {

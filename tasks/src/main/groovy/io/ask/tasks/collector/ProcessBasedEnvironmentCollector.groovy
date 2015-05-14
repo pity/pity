@@ -1,6 +1,6 @@
 package io.ask.tasks.collector
 import com.google.inject.Provider
-import io.ask.api.EnvironmentCollector
+import io.ask.api.environment.EnvironmentCollector
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.tasks.util.process.ExternalProcessCreator
 import org.apache.commons.lang3.StringUtils

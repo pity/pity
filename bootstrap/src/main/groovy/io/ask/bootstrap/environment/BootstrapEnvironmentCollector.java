@@ -1,6 +1,6 @@
 package io.ask.bootstrap.environment;
 
-import io.ask.api.EnvironmentData;
+import io.ask.api.environment.EnvironmentData;
 
 import java.util.Set;
 

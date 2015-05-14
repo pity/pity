@@ -1,6 +1,6 @@
 package io.ask.tasks.collector
 
-import io.ask.api.EnvironmentData
+import io.ask.api.environment.EnvironmentData
 import io.ask.api.WorkingDirectoryProvider
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder

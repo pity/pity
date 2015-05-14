@@ -1,6 +1,6 @@
-package io.ask.api
+package io.ask.api.environment
 
-import io.ask.api.internal.EnvironmentDataImpl
+import io.ask.api.environment.EnvironmentDataImpl
 
 class EnvironmentDataBuilder {
     EnvironmentDataImpl environmentData

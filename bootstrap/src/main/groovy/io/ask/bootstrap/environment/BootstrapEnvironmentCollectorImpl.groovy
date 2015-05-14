@@ -1,8 +1,8 @@
 package io.ask.bootstrap.environment
 
 import com.google.inject.Inject
-import io.ask.api.EnvironmentCollector
-import io.ask.api.EnvironmentData
+import io.ask.api.environment.EnvironmentCollector
+import io.ask.api.environment.EnvironmentData
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
