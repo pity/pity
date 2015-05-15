@@ -38,6 +38,16 @@ class PreProcessorExecutorImplTest extends Specification {
         newOption == processorExecutor.runPreProcessor(preProcessor, origonalOption)
     }
 
+    def 'when multiple pre-processors return results, the latest should be returned'() {
+        setup:
+        def commandOptions = (-1..1).collect { [:] as CommandOptions }
+        def commands = (-1..1).collect { new SampleCommandPreProcessor(it, { arg1, arg2 -> commandOptions[it + 1]}) }
+        def executor = new PreProcessorExecutorImpl(commands as Set)
+
+        expect:
+        executor.processCommandOptions([:] as CommandOptions) == commandOptions.last()
+    }
+
     @TupleConstructor
     static class SampleCommandPreProcessor implements CommandPreProcessor {
 
