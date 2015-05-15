@@ -26,7 +26,7 @@ class PreProcessorExecutorImplTest extends Specification {
         commandOptions == processorExecutor.runPreProcessor(preProcessor, commandOptions)
     }
 
-    def 'when command pre-processor returns non null, we should use the respose'() {
+    def 'when command pre-processor returns non null, we should use the result'() {
         setup:
         def processorExecutor = new PreProcessorExecutorImpl([] as Set)
         def origonalOption = [ : ] as CommandOptions
