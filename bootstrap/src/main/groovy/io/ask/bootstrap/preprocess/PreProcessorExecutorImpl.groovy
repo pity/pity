@@ -23,7 +23,7 @@ public class PreProcessorExecutorImpl implements PreProcessorExecutor {
     }
 
     Set<CommandPreProcessor> orderPreProcessors() {
-        return preProcessCommands.sort { -1 * it.commandPrecedence() }
+        return preProcessCommands.sort { it.commandPrecedence() }.reverse(true)
     }
 
     CommandOptions runPreProcessor(CommandPreProcessor processor, final CommandOptions commandOptions) {
