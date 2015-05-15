@@ -1,5 +1,4 @@
 package io.ask.api.environment.internal
-
 import groovy.transform.ToString
 import io.ask.api.environment.EnvironmentData
 
