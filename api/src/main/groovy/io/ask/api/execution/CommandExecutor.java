@@ -9,7 +9,7 @@ public interface CommandExecutor {
 
     boolean shouldStopExecutionAfter();
 
-    boolean willDoWork();
+    boolean willDoWork(CommandOptions commandOptions);
 
     CommandExecutionResults execute(CommandOptions commandOptions);
 }

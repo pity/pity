@@ -22,7 +22,7 @@ public class CommandExecutorRunnerImpl implements CommandExecutorRunner {
         def sortedCommandExecutors = commandExecutors.sort { it.commandPrecedence() }.reverse(true)
 
         for(CommandExecutor commandExecutor : sortedCommandExecutors) {
-            if(commandExecutor.willDoWork()){
+            if(commandExecutor.willDoWork(commandOptions)){
                 commandResults << commandExecutor.execute(commandOptions)
                 if(commandExecutor.shouldStopExecutionAfter()){
                     break;

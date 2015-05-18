@@ -17,7 +17,7 @@ class NoopCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    boolean willDoWork() {
+    boolean willDoWork(CommandOptions commandOptions) {
         return false
     }
 

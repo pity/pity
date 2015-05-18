@@ -13,4 +13,8 @@ class CommandOptionsFactory {
         }
         return new CommandOptionsImpl(filteredOptions)
     }
+
+    static CommandOptions create(String[] options){
+        return create(Arrays.asList(options))
+    }
 }
