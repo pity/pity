@@ -54,7 +54,7 @@ class CliArgumentProviderTest extends Specification {
 
         then:
         argumentProvider.getIvyConfiguration()
-        argumentProvider.getIvyConfiguration().configurationLocation == 'foo/bar/fizz'
+        argumentProvider.getIvyConfiguration().mavenRepository == 'foo/bar/fizz'
         argumentProvider.getIvyConfiguration().dependencies as Set == [ 'foo:bar:1', 'bar:bizz:5'] as Set
 
         when:

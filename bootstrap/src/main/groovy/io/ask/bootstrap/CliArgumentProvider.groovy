@@ -3,7 +3,8 @@ package io.ask.bootstrap
 import groovy.util.logging.Slf4j
 import io.ask.api.preprocess.CommandOptions
 import io.ask.api.preprocess.CommandOptionsFactory
-import io.ask.bootstrap.ivy.IvyDependencies
+import io.ask.bootstrap.ivy.DependencyConfiguration
+import io.ask.bootstrap.ivy.Dependency
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.Option
 
@@ -25,7 +26,7 @@ class CliArgumentProvider {
         cliBuilder.h(longOpt: 'help', 'Show usage information')
 
         optionAccessor = cliBuilder.parse(args)
-        if(!optionAccessor) {
+        if (!optionAccessor) {
             throw new ArgumentParseError()
         }
     }
@@ -41,32 +42,33 @@ class CliArgumentProvider {
         return sw
     }
 
-    public boolean isHelp(){
+    public boolean isHelp() {
         return optionAccessor.'help'
     }
 
-    public boolean isEnvironmentCollectionEnabled(){
+    public boolean isEnvironmentCollectionEnabled() {
         return !optionAccessor.'disable-env-collection'
     }
 
-    public IvyDependencies getIvyConfiguration() {
+    public DependencyConfiguration getIvyConfiguration() {
         def includes = optionAccessor.'includes'
-        if(includes){
-            return new IvyDependencies(configurationLocation: optionAccessor.'ivy-configuration', dependencies: includes)
+        if (includes) {
+            return new DependencyConfiguration(mavenRepository: optionAccessor.'ivy-configuration',
+                dependencies: includes.each { new Dependency(it) })
         } else {
-            return new IvyDependencies()
+            return new DependencyConfiguration()
         }
     }
 
-    public File getTargetDirectory(){
-        if(optionAccessor.'from'){
+    public File getTargetDirectory() {
+        if (optionAccessor.'from') {
             def dir = new File(optionAccessor.'from' as String)
-            if(dir.isFile()) {
+            if (dir.isFile()) {
                 log.warn("From was {} which is a file, using parent directory", dir.absolutePath)
                 dir = dir.getParentFile()
             }
 
-            if(dir.isDirectory() && dir.exists()) {
+            if (dir.isDirectory() && dir.exists()) {
                 return dir.getAbsoluteFile();
             } else {
                 throw new WorkingDirectoryNotFoundError(dir.absolutePath);
@@ -76,14 +78,14 @@ class CliArgumentProvider {
         }
     }
 
-    public boolean isCommandExecution(){
+    public boolean isCommandExecution() {
         return optionAccessor.'execute'
     }
 
-    public CommandOptions getExecutionCommandOptions(){
+    public CommandOptions getExecutionCommandOptions() {
         def executionOptions = optionAccessor.'execute'
         log.debug("execute arguments: {}", executionOptions)
-        if(executionOptions instanceof List) {
+        if (executionOptions instanceof List) {
             return CommandOptionsFactory.create(executionOptions as List<String>)
         }
 
