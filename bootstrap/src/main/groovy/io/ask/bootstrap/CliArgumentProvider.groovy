@@ -1,10 +1,11 @@
 package io.ask.bootstrap
 
-
 import groovy.util.logging.Slf4j
 import io.ask.api.preprocess.CommandOptions
 import io.ask.api.preprocess.CommandOptionsFactory
+import io.ask.bootstrap.ivy.IvyDependencies
 import org.apache.commons.cli.DefaultParser
+import org.apache.commons.cli.Option
 
 @Slf4j
 class CliArgumentProvider {
@@ -19,6 +20,8 @@ class CliArgumentProvider {
         cliBuilder._(longOpt: 'disable-env-collection', 'Disable collection of environmental data')
         cliBuilder._(longOpt: 'execute', args: 1, 'Execute the following command')
         cliBuilder._(longOpt: 'from', args: 1, 'The directory which you want to run against. By default this is the current directory.')
+        cliBuilder._(longOpt: 'ivy-configuration', args: 1, 'File that contains the external ivy resolver information')
+        cliBuilder._(longOpt: 'include', args: Option.UNLIMITED_VALUES, valueSeparator: ',', 'Dependency to be included on the classpath. This should be in form of [group]:[name]:[version]')
         cliBuilder.h(longOpt: 'help', 'Show usage information')
 
         optionAccessor = cliBuilder.parse(args)
@@ -44,6 +47,15 @@ class CliArgumentProvider {
 
     public boolean isEnvironmentCollectionEnabled(){
         return !optionAccessor.'disable-env-collection'
+    }
+
+    public IvyDependencies getIvyConfiguration() {
+        def includes = optionAccessor.'includes'
+        if(includes){
+            return new IvyDependencies(configurationLocation: optionAccessor.'ivy-configuration', dependencies: includes)
+        } else {
+            return new IvyDependencies()
+        }
     }
 
     public File getTargetDirectory(){

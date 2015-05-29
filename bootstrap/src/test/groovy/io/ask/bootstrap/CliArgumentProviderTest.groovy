@@ -46,6 +46,22 @@ class CliArgumentProviderTest extends Specification {
         then:
         argumentProvider.isCommandExecution()
         argumentProvider.getExecutionCommandOptions()
+    }
 
+    def 'dependency management'() {
+        when:
+        def argumentProvider = new CliArgumentProvider('--ivy-configuration foo/bar/fizz --include foo:bar:1,bar:bizz:5'.split(' '))
+
+        then:
+        argumentProvider.getIvyConfiguration()
+        argumentProvider.getIvyConfiguration().configurationLocation == 'foo/bar/fizz'
+        argumentProvider.getIvyConfiguration().dependencies as Set == [ 'foo:bar:1', 'bar:bizz:5'] as Set
+
+        when:
+        argumentProvider = new CliArgumentProvider('--ivy-configuration foo/bar/fizz'.split(' '))
+
+        then:
+        argumentProvider.getIvyConfiguration()
+        !argumentProvider.getIvyConfiguration().shouldResolve()
     }
 }

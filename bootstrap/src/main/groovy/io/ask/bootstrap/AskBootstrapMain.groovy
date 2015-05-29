@@ -7,6 +7,7 @@ import groovy.util.logging.Slf4j
 import io.ask.api.preprocess.CommandOptions
 import io.ask.bootstrap.environment.BootstrapEnvironmentCollector
 import io.ask.bootstrap.execution.CommandExecutorRunner
+import io.ask.bootstrap.ivy.IvyResolver
 import io.ask.bootstrap.preprocess.PreProcessorExecutor
 
 @Slf4j
@@ -19,6 +20,8 @@ class AskBootstrapMain {
             println cliArgumentProvider.usage()
             return
         }
+
+        new IvyResolver(cliArgumentProvider.ivyConfiguration).resolveDependencies()
 
         Injector injector = getInjector(cliArgumentProvider)
 
