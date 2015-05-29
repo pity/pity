@@ -2,16 +2,17 @@ package io.ask.api.execution;
 
 import com.google.inject.Inject;
 import io.ask.api.WorkingDirectoryProvider;
-import java.io.File;
-import java.io.IOException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
+
+import java.io.File;
+import java.io.IOException;
 
 
 abstract public class AbstractCommandExecutor implements CommandExecutor {
 
     final WorkingDirectoryProvider workingDirectoryProvider;
-    final File tempDir;
+    final protected File tempDir;
     public final CommandExecutionResultBuilder commandExecutionResultBuilder;
 
     @Inject

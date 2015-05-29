@@ -1,14 +1,10 @@
 package io.ask.tasks.execution.gradle
-
-
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.api.execution.AbstractCommandExecutor
 import io.ask.api.execution.CommandExecutionResults
 import io.ask.api.preprocess.CommandOptions
-import org.apache.commons.io.output.NullOutputStream
-import org.apache.commons.io.output.StringBuilderWriter
 import org.apache.commons.io.output.TeeOutputStream
 import org.gradle.tooling.GradleConnector
 import org.gradle.tooling.ProgressEvent
@@ -43,7 +39,6 @@ class GradleCommandExecutor extends AbstractCommandExecutor {
 
         log.info("About to execute gradle build. Please wait...")
         def projectConnection = GradleConnector.newConnector().forProjectDirectory(getWorkingDirectory()).connect()
-
 
         def stdOutStream = new ByteArrayOutputStream()
         def stdOutFile = new FileOutputStream(new File(tempDir, 'stdout.log'))
