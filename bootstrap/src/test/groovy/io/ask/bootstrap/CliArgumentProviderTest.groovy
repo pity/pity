@@ -1,6 +1,5 @@
 package io.ask.bootstrap
 
-
 import spock.lang.Specification
 
 class CliArgumentProviderTest extends Specification {
@@ -53,15 +52,16 @@ class CliArgumentProviderTest extends Specification {
         def argumentProvider = new CliArgumentProvider('--ivy-configuration foo/bar/fizz --include foo:bar:1,bar:bizz:5'.split(' '))
 
         then:
-        argumentProvider.getIvyConfiguration()
-        argumentProvider.getIvyConfiguration().mavenRepository == 'foo/bar/fizz'
+        argumentProvider.getIvyConfiguration() != null
+        argumentProvider.getIvyConfiguration().configurationFile != null
+        argumentProvider.getIvyConfiguration().configurationFile.getPath() == 'foo/bar/fizz'
         argumentProvider.getIvyConfiguration().dependencies as Set == [ 'foo:bar:1', 'bar:bizz:5'] as Set
 
         when:
         argumentProvider = new CliArgumentProvider('--ivy-configuration foo/bar/fizz'.split(' '))
 
         then:
-        argumentProvider.getIvyConfiguration()
+        argumentProvider.getIvyConfiguration() != null
         !argumentProvider.getIvyConfiguration().shouldResolve()
     }
 }

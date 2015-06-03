@@ -9,6 +9,6 @@ class DependencyConfiguration {
     List<Dependency> dependencies
 
     boolean shouldResolve() {
-        return !dependencies.isEmpty()
+        return null != dependencies && !dependencies.isEmpty()
     }
 }

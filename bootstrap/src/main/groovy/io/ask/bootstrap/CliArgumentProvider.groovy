@@ -22,7 +22,7 @@ class CliArgumentProvider {
         cliBuilder._(longOpt: 'from', args: 1, 'The directory which you want to run against. By default this is the current directory.')
         cliBuilder._(longOpt: 'ivy-configuration', args: 1, 'File that contains the external ivy resolver information')
         cliBuilder._(longOpt: 'include', args: Option.UNLIMITED_VALUES, valueSeparator: ',', 'Dependency to be included on the classpath. This should be in form of [group]:[name]:[version]')
-        cliBuilder._(longOpt: 'download-cache', args: 1, default: '~/.ask/cache', 'Location where to download dependencies to. Defaults to ~/.ask/cache')
+        cliBuilder._(longOpt: 'cache-location', args: 1, 'Location where to download dependencies to. Defaults to ~/.ask/cache')
         cliBuilder.h(longOpt: 'help', 'Show usage information')
 
         optionAccessor = cliBuilder.parse(args)
@@ -53,11 +53,24 @@ class CliArgumentProvider {
     public DependencyConfiguration getIvyConfiguration() {
         def includes = optionAccessor.'includes'
         if (includes) {
-            return new DependencyConfiguration(mavenRepository: optionAccessor.'ivy-configuration',
-                dependencies: includes.each { new Dependency(it) })
+            return new DependencyConfiguration(
+                configurationFile: findIvyConfigurationFile(),
+                dependencies: includes.each { new Dependency(it) },
+                cacheDir: findCacheDir() )
         } else {
             return new DependencyConfiguration()
         }
+    }
+
+    private File findCacheDir() {
+        def cacheLocation = optionAccessor.'cache-location'
+        return cacheLocation ? new File(cacheLocation as String) : new File("~/.ask/cache")
+    }
+
+    private File findIvyConfigurationFile() {
+        def configurationString = optionAccessor.'ivy-configuration'
+        def ivyConfiguration = configurationString ? new File(configurationString as String) : null
+        return ivyConfiguration
     }
 
     public File getTargetDirectory() {

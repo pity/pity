@@ -9,6 +9,7 @@ import io.ask.bootstrap.environment.BootstrapEnvironmentCollector
 import io.ask.bootstrap.execution.CommandExecutorRunner
 import io.ask.bootstrap.ivy.DependencyResolver
 import io.ask.bootstrap.preprocess.PreProcessorExecutor
+import org.codehaus.groovy.tools.RootLoader
 
 @Slf4j
 class AskBootstrapMain {
@@ -21,7 +22,9 @@ class AskBootstrapMain {
             return
         }
 
-        new DependencyResolver(cliArgumentProvider.ivyConfiguration).resolveDependencies()
+        def dependencyResolver = new DependencyResolver(cliArgumentProvider.ivyConfiguration,
+            this.getClassLoader().rootLoader as RootLoader)
+        dependencyResolver.resolveDependencies()
 
         Injector injector = getInjector(cliArgumentProvider)
 

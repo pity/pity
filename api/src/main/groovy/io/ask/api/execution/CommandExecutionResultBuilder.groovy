@@ -12,7 +12,7 @@ class CommandExecutionResultBuilder {
     private String stdError;
     private String stdOut;
     private Exception exception;
-    private Map<String, String> otherResults;
+    private Map<String, String> otherResults = [:];
 
     public CommandExecutionResultBuilder(String executor, File resultDir) {
         this.executor = executor
