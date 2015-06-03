@@ -1,5 +1,4 @@
 package io.ask.bootstrap.ivy
-
 import org.apache.ivy.Ivy
 import org.apache.ivy.core.module.descriptor.Configuration
 import org.apache.ivy.core.module.descriptor.DefaultDependencyDescriptor
@@ -9,23 +8,26 @@ import org.apache.ivy.core.report.ResolveReport
 import org.apache.ivy.core.resolve.ResolveOptions
 import org.apache.ivy.core.settings.IvySettings
 import org.apache.ivy.plugins.resolver.IBiblioResolver
+import org.codehaus.groovy.tools.RootLoader
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-class Resolver {
+class DependencyResolver {
 
-    private static final Logger logger = LoggerFactory.getLogger(Resolver.class)
+    private static final Logger logger = LoggerFactory.getLogger(DependencyResolver.class)
 
     final DependencyConfiguration dependencyConfiguration
     final Ivy ivyInstance;
+    final RootLoader rootLoader
 
-    public Resolver(DependencyConfiguration dependencyConfiguration) {
-        this(dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)))
+    public DependencyResolver(DependencyConfiguration dependencyConfiguration, RootLoader rootLoader) {
+        this(dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)), rootLoader)
     }
 
-    Resolver(DependencyConfiguration dependencyConfiguration, Ivy ivyInstance) {
+    DependencyResolver(DependencyConfiguration dependencyConfiguration, Ivy ivyInstance, RootLoader rootLoader) {
         this.dependencyConfiguration = dependencyConfiguration
         this.ivyInstance = ivyInstance
+        this.rootLoader = rootLoader
     }
 
     void resolveDependencies() {
@@ -38,7 +40,7 @@ class Resolver {
         dependencyConfiguration.dependencies.each {
             def mrid = ModuleRevisionId.newInstance(it.group, it.name, it.version)
             def dd = new DefaultDependencyDescriptor(md, mrid, false, false, true)
-            dd.addDependencyConfiguration('default', '*')
+            dd.addDependencyConfiguration('default', 'default')
             md.addDependency(dd)
         }
 
@@ -49,9 +51,16 @@ class Resolver {
 
         ResolveReport report = ivyInstance.resolve(md, resolveOptions)
 
+
         logger.info("Downloaded ${report.downloadSize >> 10} Kbytes in ${report.downloadTime}ms")
         logger.info("${report.allArtifactsReports*.toString().join(', ')}")
 
+        def artifacts = report.allArtifactsReports.findAll { return it.localFile }.collect { it.localFile.toURI() }
+
+        artifacts.each { artifact ->
+            logger.debug("Adding {}({}) to the rootLoader", artifact.toURL(), artifact.toString())
+            rootLoader.addURL(artifact.toURL())
+        }
     }
 
     private DefaultModuleDescriptor createDefaultModuleDescriptor() {
