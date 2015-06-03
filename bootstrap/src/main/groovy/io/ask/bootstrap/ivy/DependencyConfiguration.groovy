@@ -4,10 +4,11 @@ import groovy.transform.TupleConstructor
 
 @TupleConstructor
 class DependencyConfiguration {
-    String mavenRepository
+    File configurationFile
+    File cacheDir
     List<Dependency> dependencies
 
     boolean shouldResolve() {
-        return mavenRepository && dependencies
+        return !dependencies.isEmpty()
     }
 }
