@@ -20,3 +20,9 @@ dependencies {
         exclude group: 'org.codehaus.groovy'
     }
 }
+
+processResources {
+    filter {
+        it.replace('version', project.version as String)
+    }
+}

@@ -9,6 +9,7 @@ import io.ask.bootstrap.environment.BootstrapEnvironmentCollector
 import io.ask.bootstrap.execution.CommandExecutorRunner
 import io.ask.bootstrap.ivy.DependencyResolver
 import io.ask.bootstrap.preprocess.PreProcessorExecutor
+import io.ask.bootstrap.provider.PropertyValueProviderImpl
 import org.codehaus.groovy.tools.RootLoader
 
 @Slf4j
@@ -22,7 +23,8 @@ class AskBootstrapMain {
             return
         }
 
-        def dependencyResolver = new DependencyResolver(cliArgumentProvider.ivyConfiguration,
+        def dependencyResolver = new DependencyResolver(
+            cliArgumentProvider.ivyConfiguration,
             this.getClassLoader().rootLoader as RootLoader)
         dependencyResolver.resolveDependencies()
 
@@ -45,8 +47,12 @@ class AskBootstrapMain {
     }
 
     private static Injector getInjector(CliArgumentProvider cliArgumentProvider) {
-        def allInjectors = [new BootstrapInjector(cliArgumentProvider.getTargetDirectory())] as List<AbstractModule>
-        allInjectors.addAll(new InjectorFinder().findInjectors())
+        def injectorFinder = new PropertyFinder()
+        def propertyValueProviderImpl = new PropertyValueProviderImpl(injectorFinder.findAskProperties())
+
+        def allInjectors = [] as List<AbstractModule>
+        allInjectors.add(new BootstrapInjector(cliArgumentProvider.getTargetDirectory(), propertyValueProviderImpl))
+        allInjectors.addAll(injectorFinder.findInjectors())
 
         Guice.createInjector()
         def injector = Guice.createInjector(allInjectors)

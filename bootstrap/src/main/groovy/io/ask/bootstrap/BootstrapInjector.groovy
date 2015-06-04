@@ -1,5 +1,6 @@
 package io.ask.bootstrap
 import com.google.inject.AbstractModule
+import io.ask.api.PropertyValueProvider
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.bootstrap.environment.BootstrapEnvironmentCollector
 import io.ask.bootstrap.environment.BootstrapEnvironmentCollectorImpl
@@ -11,9 +12,11 @@ import io.ask.bootstrap.provider.WorkingDirectoryProviderImpl
 
 class BootstrapInjector extends AbstractModule {
     private final File workingDirectory
+    private final PropertyValueProvider propertyValueProvider
 
-    BootstrapInjector(File workingDirectory){
+    BootstrapInjector(File workingDirectory, PropertyValueProvider propertyValueProvider){
         this.workingDirectory = workingDirectory
+        this.propertyValueProvider = propertyValueProvider
     }
 
     @Override
@@ -23,6 +26,8 @@ class BootstrapInjector extends AbstractModule {
         bind(CommandExecutorRunner.class).to(CommandExecutorRunnerImpl.class)
 
         bind(WorkingDirectoryProvider.class).toInstance(new WorkingDirectoryProviderImpl(workingDirectory))
+
+        bind(PropertyValueProvider.class).toInstance(propertyValueProvider)
 
     }
 }
