@@ -1,4 +1,5 @@
 package io.ask.bootstrap
+
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Injector
@@ -18,7 +19,7 @@ class AskBootstrapMain {
     public static void main(String[] args) {
         def cliArgumentProvider = new CliArgumentProvider(args)
 
-        if(cliArgumentProvider.isHelp()){
+        if (cliArgumentProvider.isHelp()) {
             println cliArgumentProvider.usage()
             return
         }
@@ -35,20 +36,23 @@ class AskBootstrapMain {
         Injector injector = getInjector(cliArgumentProvider, injectorFinder)
         log.info("Loading version {}", injector.getInstance(PropertyValueProvider).getProperty('ask.version'))
 
-        if(cliArgumentProvider.isEnvironmentCollectionEnabled()) {
+        Map<String, Map> collectedData = [:]
+
+        if (cliArgumentProvider.isEnvironmentCollectionEnabled()) {
             log.debug("Collecting Environmental Data")
-            collectEnvironmentData(injector)
+            collectedData['env'] = collectEnvironmentData(injector)
         } else {
-            log.debug("NOT Environmental Data")
+            log.debug("NOT Collecting Environmental Data")
         }
 
-        if(cliArgumentProvider.isCommandExecution()) {
+        if (cliArgumentProvider.isCommandExecution()) {
             def commandOptions = cliArgumentProvider.getExecutionCommandOptions()
 
             log.info("Executing command: {}", commandOptions)
-            collectExecutionData(injector, commandOptions)
+            collectedData['process'] = collectExecutionData(injector, commandOptions)
         }
 
+        new File('generated-data.json').text = new JsonBuilder(collectedData).toPrettyString()
     }
 
     private static Injector getInjector(CliArgumentProvider cliArgumentProvider,
@@ -62,20 +66,21 @@ class AskBootstrapMain {
         return injector
     }
 
-    private static void collectEnvironmentData(Injector injector) {
+    private static Map<String, Object> collectEnvironmentData(Injector injector) {
         def results = injector.getInstance(BootstrapEnvironmentCollector).collectEnvironmentData()
 
-        def processedResults = results.collectEntries { [it.collectorName, it.environmentResults] }
-
-        new File('generated-data.json').text = new JsonBuilder(processedResults).toPrettyString()
+        return results.collectEntries { [it.collectorName, it.environmentResults] }
     }
 
-    private static void collectExecutionData(Injector injector, CommandOptions executionCommandOptions) {
+    private static Map<String, Object> collectExecutionData(Injector injector, CommandOptions executionCommandOptions) {
         def commandOptions = injector
             .getInstance(PreProcessorExecutor)
             .processCommandOptions(executionCommandOptions)
 
-        def executionResult = injector.getInstance(CommandExecutorRunner).execute(commandOptions)
-        println executionResult;
+        return injector
+            .getInstance(CommandExecutorRunner)
+            .execute(commandOptions)
+            .collectEntries { [it.commandExecutorClass, it] }
+
     }
 }
