@@ -20,6 +20,7 @@ class BuiltinTaskInjector extends AbstractModule {
         envBinder.addBinding().to(SvnEnvironmentCollector.class)
         envBinder.addBinding().to(EnvironmentVariableCollector.class)
         envBinder.addBinding().to(NodeEnvironmentCollector.class)
+        envBinder.addBinding().to(JavaProcessEnvironmentCollector.class)
 
         Multibinder<CommandPreProcessor> preprocessorBinder = Multibinder.newSetBinder(binder(), CommandPreProcessor.class);
         preprocessorBinder.addBinding().to(NoopPreProcessor.class)

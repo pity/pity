@@ -18,13 +18,20 @@ abstract class ProcessBasedEnvironmentCollector extends EnvironmentCollector {
         this.externalProcessCreatorProvider = externalProcessCreatorProvider
     }
 
-    public void collectCommandResults(String resultKey, String command) {
+    public void collectCommandResults(String resultKey, String command, Closure filter) {
         def processResult = externalProcessCreatorProvider.get().createProcess(command, workingDirectory).getResult()
-        environmentDataBuilder.addData(resultKey, processResult.inputStream.text)
+        StringWriter sw = new StringWriter()
+        processResult.inputStream.filterLine(filter).writeTo(sw)
+        sw.close()
+        environmentDataBuilder.addData(resultKey, sw.toString())
 
         def errorOutput = processResult.errorStream.text
         if (!StringUtils.isEmpty(errorOutput)) {
             logger.debug("Error getting {} log: {}", resultKey, errorOutput)
         }
+    }
+
+    public void collectCommandResults(String resultKey, String command) {
+        collectCommandResults(resultKey, command, { true })
     }
 }
