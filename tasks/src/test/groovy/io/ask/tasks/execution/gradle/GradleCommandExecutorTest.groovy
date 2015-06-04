@@ -7,7 +7,7 @@ class GradleCommandExecutorTest extends Specification {
 
 
     WorkingDirectoryProvider pwd = [
-        'getWorkingDirectory': { -> return new File('build.gradle').getAbsoluteFile().getParentFile() }
+        'getWorkingDirectory': { -> return new File('src/test/resources/build.gradle').getAbsoluteFile().getParentFile() }
     ] as WorkingDirectoryProvider
 
     def 'run tasks on local project'() {
@@ -16,7 +16,9 @@ class GradleCommandExecutorTest extends Specification {
         def executor = new GradleCommandExecutor(pwd)
 
         then:
-        executor.execute(CommandOptionsFactory.create('gradle tasks'.split(' ')))
+        def executionResults = executor.execute(CommandOptionsFactory.create('gradle tasks'.split(' ')))
+        executionResults.stdOut
+
 
     }
 }

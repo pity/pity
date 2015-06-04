@@ -2,7 +2,7 @@ package io.ask.bootstrap.provider
 
 import io.ask.api.PropertyValueProvider
 
-class PropertyValueProviderImpl implements PropertyValueProvider{
+class PropertyValueProviderImpl implements PropertyValueProvider {
     Map<String, String> loadedProperties
 
     PropertyValueProviderImpl(List<Properties> propertiesList){

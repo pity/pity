@@ -1,5 +1,6 @@
 package io.ask.bootstrap.ivy
 
+import io.ask.bootstrap.PropertyFinder
 import org.codehaus.groovy.tools.RootLoader
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
@@ -20,7 +21,7 @@ class DependencyResolverTest extends Specification {
         def rootLoader =new RootLoader([] as URL[], this.getClass().getClassLoader())
 
         when:
-        def resolver = new DependencyResolver(configuration, rootLoader)
+        def resolver = new DependencyResolver(new PropertyFinder(), configuration, rootLoader)
         resolver.resolveDependencies()
 
         then:

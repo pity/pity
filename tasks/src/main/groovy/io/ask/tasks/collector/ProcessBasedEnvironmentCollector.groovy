@@ -21,7 +21,7 @@ abstract class ProcessBasedEnvironmentCollector extends EnvironmentCollector {
     public void collectCommandResults(String resultKey, String command, Closure filter) {
         def processResult = externalProcessCreatorProvider.get().createProcess(command, workingDirectory).getResult()
         StringWriter sw = new StringWriter()
-        processResult.inputStream.filterLine(filter).writeTo(sw)
+        processResult.inputStream.filterLine(sw, filter)
         sw.close()
         environmentDataBuilder.addData(resultKey, sw.toString().trim())
 

@@ -4,12 +4,12 @@ import com.google.inject.Guice
 import com.google.inject.Injector
 import groovy.json.JsonBuilder
 import groovy.util.logging.Slf4j
+import io.ask.api.PropertyValueProvider
 import io.ask.api.preprocess.CommandOptions
 import io.ask.bootstrap.environment.BootstrapEnvironmentCollector
 import io.ask.bootstrap.execution.CommandExecutorRunner
 import io.ask.bootstrap.ivy.DependencyResolver
 import io.ask.bootstrap.preprocess.PreProcessorExecutor
-import io.ask.bootstrap.provider.PropertyValueProviderImpl
 import org.codehaus.groovy.tools.RootLoader
 
 @Slf4j
@@ -23,12 +23,17 @@ class AskBootstrapMain {
             return
         }
 
+        PropertyFinder injectorFinder = new PropertyFinder()
+
         def dependencyResolver = new DependencyResolver(
+            injectorFinder,
             cliArgumentProvider.ivyConfiguration,
             this.getClassLoader().rootLoader as RootLoader)
+
         dependencyResolver.resolveDependencies()
 
-        Injector injector = getInjector(cliArgumentProvider)
+        Injector injector = getInjector(cliArgumentProvider, injectorFinder)
+        log.info("Loading version {}", injector.getInstance(PropertyValueProvider).getProperty('ask.version'))
 
         if(cliArgumentProvider.isEnvironmentCollectionEnabled()) {
             log.debug("Collecting Environmental Data")
@@ -46,17 +51,15 @@ class AskBootstrapMain {
 
     }
 
-    private static Injector getInjector(CliArgumentProvider cliArgumentProvider) {
-        def injectorFinder = new PropertyFinder()
-        def propertyValueProviderImpl = new PropertyValueProviderImpl(injectorFinder.findAskProperties())
-
+    private static Injector getInjector(CliArgumentProvider cliArgumentProvider,
+                                        PropertyFinder injectorFinder) {
         def allInjectors = [] as List<AbstractModule>
-        allInjectors.add(new BootstrapInjector(cliArgumentProvider.getTargetDirectory(), propertyValueProviderImpl))
+        allInjectors.add(new BootstrapInjector(cliArgumentProvider.getTargetDirectory(), injectorFinder.createPropertyValueProvider()))
         allInjectors.addAll(injectorFinder.findInjectors())
 
         Guice.createInjector()
         def injector = Guice.createInjector(allInjectors)
-        injector
+        return injector
     }
 
     private static void collectEnvironmentData(Injector injector) {

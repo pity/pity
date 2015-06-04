@@ -22,11 +22,17 @@ class ExternalProcessReporterImpl implements ExternalProcessReporter {
         logger.debug("String process `{}` with PWD: `{}`", command, workingDir)
         def process = new ProcessBuilder(command.split(' '))
                 .directory(workingDir)
-                .redirectOutput(ProcessBuilder.Redirect.PIPE)
                 .start()
 
-        process.waitForOrKill(timeout)
+        def output = new ByteArrayOutputStream()
+        def error = new ByteArrayOutputStream()
+        def errorThread = process.consumegProcessErrorStream(error)
+        def outputThread = process.consumeProcessOutputStream(output)
 
-        return new ProcessResult(process)
+        process.waitForOrKill(timeout)
+        errorThread.join(1000)
+        outputThread.join(1000)
+
+        return new ProcessResult(process, new ByteArrayInputStream(output.toByteArray()), new ByteArrayInputStream(error.toByteArray()))
     }
 }

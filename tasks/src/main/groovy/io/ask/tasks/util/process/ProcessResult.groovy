@@ -7,10 +7,10 @@ class ProcessResult {
     public InputStreamReader errorStream;
     public int exitCode;
 
-    ProcessResult(Process process) {
-        inputStream = new InputStreamReader(process.getInputStream())
-        errorStream = new InputStreamReader(process.getErrorStream())
-        exitCode = process.exitValue()
+    ProcessResult(Process process, InputStream inputStream, InputStream errorStream) {
+        this.inputStream = new InputStreamReader(inputStream)
+        this.errorStream = new InputStreamReader(errorStream)
+        this.exitCode = process.exitValue()
     }
 
     ProcessResult(String inputString, String errorString, int exitCode) {

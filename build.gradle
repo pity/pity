@@ -5,6 +5,13 @@ subprojects {
     apply plugin: 'java'
     sourceCompatibility = '1.7'
     targetCompatibility = '1.7'
+
+
+    test {
+        beforeTest { desc ->
+            println "Executing test ${desc.className}.'${desc.name}'"
+        }
+    }
 }
 
 allprojects {

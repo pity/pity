@@ -2,6 +2,8 @@ package io.ask.bootstrap
 
 import com.google.inject.AbstractModule
 import groovy.util.logging.Slf4j
+import io.ask.api.PropertyValueProvider
+import io.ask.bootstrap.provider.PropertyValueProviderImpl
 import org.reflections.Reflections
 import org.reflections.scanners.ResourcesScanner
 import org.reflections.util.ConfigurationBuilder
@@ -19,6 +21,7 @@ class PropertyFinder {
         return injectorClasses
     }
 
+
     List<Properties> findAskProperties() {
         def reflections = new Reflections(ConfigurationBuilder.build().addScanners(new ResourcesScanner()))
         def resources = reflections.getResources(Pattern.compile('.*\\.properties'))
@@ -27,6 +30,10 @@ class PropertyFinder {
             .collect { log.debug("Found plugin property {}", it); return '/' + it }
             .collect { this.getClass().getResource(it) }
             .collect { urlToProperties(it) }
+    }
+
+    PropertyValueProvider createPropertyValueProvider() {
+        return new PropertyValueProviderImpl(findAskProperties())
     }
 
     Properties urlToProperties(URL propertyUrl) {

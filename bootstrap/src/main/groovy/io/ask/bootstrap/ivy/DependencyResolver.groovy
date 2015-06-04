@@ -1,4 +1,6 @@
 package io.ask.bootstrap.ivy
+import io.ask.api.PropertyValueProvider
+import io.ask.bootstrap.PropertyFinder
 import org.apache.ivy.Ivy
 import org.apache.ivy.core.module.descriptor.Configuration
 import org.apache.ivy.core.module.descriptor.DefaultDependencyDescriptor
@@ -16,24 +18,33 @@ class DependencyResolver {
 
     private static final Logger logger = LoggerFactory.getLogger(DependencyResolver.class)
 
-    final DependencyConfiguration dependencyConfiguration
     final Ivy ivyInstance;
     final RootLoader rootLoader
+    final PropertyValueProvider askProperties;
+    final DependencyConfiguration dependencyConfiguration
 
-    public DependencyResolver(DependencyConfiguration dependencyConfiguration, RootLoader rootLoader) {
-        this(dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)), rootLoader)
+    public DependencyResolver(PropertyFinder injectorFinder,
+                              DependencyConfiguration dependencyConfiguration,
+                              RootLoader rootLoader) {
+        this(injectorFinder, dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)), rootLoader)
     }
 
-    DependencyResolver(DependencyConfiguration dependencyConfiguration, Ivy ivyInstance, RootLoader rootLoader) {
+    DependencyResolver(PropertyFinder injectorFinder,
+                       DependencyConfiguration dependencyConfiguration,
+                       Ivy ivyInstance,
+                       RootLoader rootLoader) {
         this.dependencyConfiguration = dependencyConfiguration
         this.ivyInstance = ivyInstance
         this.rootLoader = rootLoader
+        this.askProperties = injectorFinder.createPropertyValueProvider()
     }
 
     void resolveDependencies() {
-        if(dependencyConfiguration.dependencies.isEmpty()){
+        if (dependencyConfiguration.dependencies.isEmpty()) {
             return
         }
+
+        println "VERSION: " + askProperties.getProperty('ask.version')
 
         DefaultModuleDescriptor md = createDefaultModuleDescriptor()
 
