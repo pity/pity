@@ -23,7 +23,7 @@ abstract class ProcessBasedEnvironmentCollector extends EnvironmentCollector {
         StringWriter sw = new StringWriter()
         processResult.inputStream.filterLine(filter).writeTo(sw)
         sw.close()
-        environmentDataBuilder.addData(resultKey, sw.toString())
+        environmentDataBuilder.addData(resultKey, sw.toString().trim())
 
         def errorOutput = processResult.errorStream.text
         if (!StringUtils.isEmpty(errorOutput)) {
