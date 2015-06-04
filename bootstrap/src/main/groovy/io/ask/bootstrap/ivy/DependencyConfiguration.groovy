@@ -6,7 +6,7 @@ import groovy.transform.TupleConstructor
 class DependencyConfiguration {
     File configurationFile
     File cacheDir
-    List<Dependency> dependencies
+    List<Dependency> dependencies = []
 
     boolean shouldResolve() {
         return null != dependencies && !dependencies.isEmpty()

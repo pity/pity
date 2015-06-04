@@ -58,7 +58,10 @@ class CliArgumentProvider {
                 dependencies: includes.each { new Dependency(it) },
                 cacheDir: findCacheDir() )
         } else {
-            return new DependencyConfiguration()
+            return new DependencyConfiguration(
+                configurationFile: findIvyConfigurationFile(),
+                cacheDir: findCacheDir()
+            )
         }
     }
 

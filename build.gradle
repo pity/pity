@@ -12,6 +12,8 @@ subprojects {
             println "Executing test ${desc.className}.'${desc.name}'"
         }
     }
+
+    project.buildDir = new File(rootDir, 'build/' + project.name)
 }
 
 allprojects {

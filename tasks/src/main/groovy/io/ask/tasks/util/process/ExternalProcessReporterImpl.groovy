@@ -26,7 +26,7 @@ class ExternalProcessReporterImpl implements ExternalProcessReporter {
 
         def output = new ByteArrayOutputStream()
         def error = new ByteArrayOutputStream()
-        def errorThread = process.consumegProcessErrorStream(error)
+        def errorThread = process.consumeProcessErrorStream(error)
         def outputThread = process.consumeProcessOutputStream(output)
 
         process.waitForOrKill(timeout)
