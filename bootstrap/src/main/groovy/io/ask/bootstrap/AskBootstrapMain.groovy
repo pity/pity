@@ -1,11 +1,11 @@
 package io.ask.bootstrap
-
 import com.google.inject.AbstractModule
 import com.google.inject.Guice
 import com.google.inject.Injector
-import groovy.json.JsonBuilder
 import groovy.util.logging.Slf4j
 import io.ask.api.PropertyValueProvider
+import io.ask.api.environment.EnvironmentData
+import io.ask.api.execution.CommandExecutionResults
 import io.ask.api.preprocess.CommandOptions
 import io.ask.bootstrap.environment.BootstrapEnvironmentCollector
 import io.ask.bootstrap.execution.CommandExecutorRunner
@@ -36,11 +36,12 @@ class AskBootstrapMain {
         Injector injector = getInjector(cliArgumentProvider, injectorFinder)
         log.info("Loading version {}", injector.getInstance(PropertyValueProvider).getProperty('ask.version'))
 
-        Map<String, Map> collectedData = [:]
+        def envData = null
+        def executionData = null;
 
         if (cliArgumentProvider.isEnvironmentCollectionEnabled()) {
             log.debug("Collecting Environmental Data")
-            collectedData['env'] = collectEnvironmentData(injector)
+            envData = collectEnvironmentData(injector)
         } else {
             log.debug("NOT Collecting Environmental Data")
         }
@@ -49,10 +50,10 @@ class AskBootstrapMain {
             def commandOptions = cliArgumentProvider.getExecutionCommandOptions()
 
             log.info("Executing command: {}", commandOptions)
-            collectedData['process'] = collectExecutionData(injector, commandOptions)
+            executionData = collectExecutionData(injector, commandOptions)
         }
 
-        new File('generated-data.json').text = new JsonBuilder(collectedData).toPrettyString()
+        new OutputGenerator(envData, executionData).writeOutput(new File('generated-data.xml'))
     }
 
     private static Injector getInjector(CliArgumentProvider cliArgumentProvider,
@@ -66,13 +67,13 @@ class AskBootstrapMain {
         return injector
     }
 
-    private static Map<String, Object> collectEnvironmentData(Injector injector) {
-        def results = injector.getInstance(BootstrapEnvironmentCollector).collectEnvironmentData()
-
-        return results.collectEntries { [it.collectorName, it.environmentResults] }
+    private static Set<EnvironmentData> collectEnvironmentData(Injector injector) {
+        return injector.getInstance(BootstrapEnvironmentCollector).collectEnvironmentData()
     }
 
-    private static Map<String, Object> collectExecutionData(Injector injector, CommandOptions executionCommandOptions) {
+
+    private static List<CommandExecutionResults> collectExecutionData(Injector injector,
+                                             CommandOptions executionCommandOptions) {
         def commandOptions = injector
             .getInstance(PreProcessorExecutor)
             .processCommandOptions(executionCommandOptions)
@@ -80,7 +81,5 @@ class AskBootstrapMain {
         return injector
             .getInstance(CommandExecutorRunner)
             .execute(commandOptions)
-            .collectEntries { [it.commandExecutorClass, it] }
-
     }
 }
