@@ -1,11 +1,13 @@
 package io.ask.bootstrap
-
+import groovy.util.logging.Slf4j
 import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
 import io.ask.api.environment.EnvironmentData
 import io.ask.api.execution.CommandExecutionResults
 
+@Slf4j
 class OutputGenerator {
+
     Set<EnvironmentData> envData;
     List<CommandExecutionResults> executionData;
 
@@ -22,7 +24,7 @@ class OutputGenerator {
                     envData.each { collector ->
                         binding.collector(name: "$collector.collectorName") {
                             collector.environmentResults.each { envResult ->
-                                binding.entry(name: envResult.key, envResult.value)
+                                binding.entry(name: envResult.key, (envResult.value as String).replace(27 as char, '^' as char))
                             }
                         }
                     }
@@ -37,7 +39,7 @@ class OutputGenerator {
                             binding.'exception-thrown'(execution.exceptionThrown)
                             binding.'other-data' {
                                 execution.otherResults.each { key, value ->
-                                    binding.data(name: key, value)
+                                    binding.data(name: key){ mkp.yieldUnescaped "<![CDATA[${value}]]>" }
                                 }
                             }
                         }
@@ -46,7 +48,10 @@ class OutputGenerator {
             }
         }
 
-        return XmlUtil.serialize(result)
+        new File("debug.xml").text = result.toString()
+
+        log.debug("XML: `{}`", result.toString())
+        return XmlUtil.serialize(result.toString())
     }
 
     void writeToFile(File file) {
