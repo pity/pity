@@ -49,7 +49,7 @@ class OutputGenerator {
         return XmlUtil.serialize(result)
     }
 
-    void writeToString(File file) {
+    void writeToFile(File file) {
         file.text = createXmlString()
     }
 }

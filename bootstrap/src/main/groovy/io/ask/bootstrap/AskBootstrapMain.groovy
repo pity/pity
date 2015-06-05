@@ -53,7 +53,7 @@ class AskBootstrapMain {
             executionData = collectExecutionData(injector, commandOptions)
         }
 
-        new OutputGenerator(envData, executionData).writeOutput(new File('generated-data.xml'))
+        new OutputGenerator(envData, executionData).writeToFile(new File('generated-data.xml'))
     }
 
     private static Injector getInjector(CliArgumentProvider cliArgumentProvider,
