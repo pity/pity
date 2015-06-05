@@ -48,8 +48,6 @@ class OutputGenerator {
             }
         }
 
-        new File("debug.xml").text = result.toString()
-
         log.debug("XML: `{}`", result.toString())
         return XmlUtil.serialize(result.toString())
     }
