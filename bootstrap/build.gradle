@@ -1,3 +1,6 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
+
 apply plugin: 'groovy'
 apply plugin: 'application'
 
@@ -22,7 +25,5 @@ dependencies {
 }
 
 processResources {
-    filter {
-        it.replace('version', project.version as String)
-    }
+    filter(ReplaceTokens, tokens: [version: project.version as String])
 }
