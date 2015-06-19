@@ -1,9 +1,11 @@
 package io.ask.tasks.collector
 
 import com.google.inject.Inject
+import groovy.transform.CompileStatic
 import io.ask.api.environment.EnvironmentCollector
 import io.ask.api.WorkingDirectoryProvider
 
+@CompileStatic
 class EnvironmentVariableCollector extends EnvironmentCollector {
 
     final Map<String, String> envVariables;

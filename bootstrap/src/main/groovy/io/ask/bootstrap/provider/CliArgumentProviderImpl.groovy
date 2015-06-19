@@ -25,6 +25,7 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
         cliBuilder._(longOpt: 'disable-env-collection', 'Disable collection of environmental data')
         cliBuilder._(longOpt: 'execute', args: 1, 'Execute the following command')
         cliBuilder._(longOpt: 'from', args: 1, 'The directory which you want to run against. By default this is the current directory.')
+        cliBuilder._(longOpt: 'ticket', 'Provides a ticket for this report')
         cliBuilder._(longOpt: 'ivy-configuration', args: 1, 'File that contains the external ivy resolver information')
         cliBuilder._(longOpt: 'include', args: Option.UNLIMITED_VALUES, valueSeparator: ',', 'Dependency to be included on the classpath. This should be in form of [group]:[name]:[version]')
         cliBuilder._(longOpt: 'cache-location', args: 1, 'Location where to download dependencies to. Defaults to ~/.ask/cache')
@@ -123,6 +124,11 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
         }
 
         return CommandOptionsFactory.create(executionOptions.toString().split(' ').toList())
+    }
+
+    @Override
+    String getTicketId() {
+        return optionAccessor.'ticket'
     }
 
     public static class ArgumentParseError extends Error {

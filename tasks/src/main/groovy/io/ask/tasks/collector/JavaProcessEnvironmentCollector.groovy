@@ -2,9 +2,11 @@ package io.ask.tasks.collector
 
 import com.google.inject.Inject
 import com.google.inject.Provider
+import groovy.transform.CompileStatic
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.tasks.util.process.ExternalProcessCreator
 
+@CompileStatic
 class JavaProcessEnvironmentCollector extends ProcessBasedEnvironmentCollector {
 
     @Inject
@@ -20,6 +22,6 @@ class JavaProcessEnvironmentCollector extends ProcessBasedEnvironmentCollector {
 
     @Override
     void collect() {
-        collectCommandResults('processes', 'ps -few', { it.contains('java') })
+        collectCommandResults('processes', 'ps -few', { String it -> it.contains('java') })
     }
 }

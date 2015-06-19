@@ -2,9 +2,11 @@ package io.ask.tasks.collector
 
 import com.google.inject.Inject
 import com.google.inject.Provider
+import groovy.transform.CompileStatic
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.tasks.util.process.ExternalProcessCreator
 
+@CompileStatic
 class NodeEnvironmentCollector extends ProcessBasedEnvironmentCollector {
 
     @Inject
