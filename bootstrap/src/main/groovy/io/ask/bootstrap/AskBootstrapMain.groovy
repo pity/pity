@@ -39,7 +39,7 @@ class AskBootstrapMain {
         def collectionResults = injector.getInstance(CollectionResults)
         Class publisher = Class.forName(injectorFinder.createPropertyValueProvider().getProperty('default.publisher'))
         if (!ReportPublisher.isAssignableFrom(publisher)) {
-            log.error("Unable to publish results, failing back to XML")
+            log.error("Unable to publish results using {}, failing back to XML", publisher)
             publisher = XmlReportPublisher.class
         }
 
