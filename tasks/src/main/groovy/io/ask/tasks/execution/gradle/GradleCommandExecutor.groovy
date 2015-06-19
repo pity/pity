@@ -3,7 +3,7 @@ import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.api.execution.AbstractCommandExecutor
-import io.ask.api.execution.CommandExecutionResults
+import io.ask.api.execution.CommandExecutionResult
 import io.ask.api.preprocess.CommandOptions
 import org.apache.commons.io.output.TeeOutputStream
 import org.gradle.tooling.GradleConnector
@@ -34,7 +34,7 @@ class GradleCommandExecutor extends AbstractCommandExecutor {
     }
 
     @Override
-    CommandExecutionResults execute(CommandOptions commandOptions) {
+    CommandExecutionResult execute(CommandOptions commandOptions) {
         commandExecutionResultBuilder.setCommandOptions(commandOptions)
 
         log.info("About to execute gradle build. Please wait...")

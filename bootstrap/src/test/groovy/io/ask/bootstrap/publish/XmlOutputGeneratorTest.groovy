@@ -1,20 +1,23 @@
-package io.ask.bootstrap
+package io.ask.bootstrap.publish
 import io.ask.api.environment.EnvironmentDataBuilder
 import io.ask.api.execution.CommandExecutionResultBuilder
+import io.ask.api.reporting.ResultCollectorImpl
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
 
-class OutputGeneratorTest extends Specification {
+class XmlOutputGeneratorTest extends Specification {
+    ResultCollectorImpl resultCollector
     @Rule TemporaryFolder temporaryFolder = new TemporaryFolder()
 
     def setup() {
+        resultCollector = new ResultCollectorImpl()
         temporaryFolder.create()
     }
 
     def 'able to write xml'(){
         when:
-        def xml = new OutputGenerator([] as Set, []).createXmlString()
+        def xml = new XmlOutputGenerator(resultCollector).createXmlString()
         def parsed = new XmlSlurper().parseText(xml)
 
         then:
@@ -27,9 +30,10 @@ class OutputGeneratorTest extends Specification {
         builder.addData('field1', 'data1')
         builder.addData('field2', 'data2')
         builder.addData('field3', 'data3')
+        resultCollector.collect(builder.build())
 
         when:
-        def xml = new OutputGenerator([builder.build()] as Set, []).createXmlString()
+        def xml = new XmlOutputGenerator(resultCollector).createXmlString()
         def parsed = new XmlSlurper().parseText(xml)
 
         then:
@@ -43,9 +47,10 @@ class OutputGeneratorTest extends Specification {
         builder.addResult('field1', 'result1')
         builder.addResult('field2', 'result2')
         builder.addResult('field3', 'result3')
+        resultCollector.collect(builder.build())
 
         when:
-        def xml = new OutputGenerator([] as Set, [builder.build()]).createXmlString()
+        def xml = new XmlOutputGenerator(resultCollector).createXmlString()
         def parsed = new XmlSlurper().parseText(xml)
 
         then:

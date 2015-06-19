@@ -1,11 +1,10 @@
 package io.ask.api.execution.internal
 
 
-import io.ask.api.execution.CommandExecutionResults
-import io.ask.api.execution.CommandExecutor
+import io.ask.api.execution.CommandExecutionResult
 import io.ask.api.preprocess.CommandOptions
 
-class CommandExecutionResultsImpl implements CommandExecutionResults {
+class CommandExecutionResultImpl implements CommandExecutionResult {
 
     private final String executor;
     private final CommandOptions commandOptions
@@ -15,7 +14,7 @@ class CommandExecutionResultsImpl implements CommandExecutionResults {
     private final Exception exception;
     private final Map<String, String> otherResults;
 
-    CommandExecutionResultsImpl(Exception exception, File resultDir, String stdOut, String stdError,
+    CommandExecutionResultImpl(Exception exception, File resultDir, String stdOut, String stdError,
         CommandOptions commandOptions, String executor, Map<String, String> otherResults) {
         this.exception = exception
         this.resultDir = resultDir

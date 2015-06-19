@@ -1,4 +1,4 @@
-package io.ask.bootstrap
+package io.ask.bootstrap.injection
 
 import com.google.inject.AbstractModule
 import groovy.util.logging.Slf4j

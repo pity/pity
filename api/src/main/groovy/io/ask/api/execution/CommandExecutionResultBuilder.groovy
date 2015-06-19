@@ -1,7 +1,7 @@
 package io.ask.api.execution
 
 
-import io.ask.api.execution.internal.CommandExecutionResultsImpl
+import io.ask.api.execution.internal.CommandExecutionResultImpl
 import io.ask.api.preprocess.CommandOptions
 
 class CommandExecutionResultBuilder {
@@ -40,8 +40,8 @@ class CommandExecutionResultBuilder {
         return this
     }
 
-    public CommandExecutionResults build() {
-        return new CommandExecutionResultsImpl(exception, resultDir, stdOut, stdError, commandOptions, executor,
+    public CommandExecutionResult build() {
+        return new CommandExecutionResultImpl(exception, resultDir, stdOut, stdError, commandOptions, executor,
             otherResults)
     }
 

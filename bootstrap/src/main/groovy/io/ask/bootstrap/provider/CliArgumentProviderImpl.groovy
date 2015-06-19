@@ -1,4 +1,6 @@
-package io.ask.bootstrap
+package io.ask.bootstrap.provider
+
+
 import groovy.util.logging.Slf4j
 import io.ask.api.preprocess.CommandOptions
 import io.ask.api.preprocess.CommandOptionsFactory
@@ -8,12 +10,12 @@ import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.Option
 
 @Slf4j
-class CliArgumentProvider {
+class CliArgumentProviderImpl implements InternalCliArgumentProvider {
     private final String[] args
     private final CliBuilder cliBuilder
     private final OptionAccessor optionAccessor
 
-    CliArgumentProvider(String[] args) {
+    CliArgumentProviderImpl(String[] args) {
         this.args = args
         cliBuilder = new CliBuilder(usage: 'ask', parser: new DefaultParser())
 

@@ -1,18 +1,20 @@
 package io.ask.bootstrap
 
+
+import io.ask.bootstrap.provider.CliArgumentProviderImpl
 import spock.lang.Specification
 
-class CliArgumentProviderTest extends Specification {
+class CliArgumentProviderImplTest extends Specification {
 
     def 'testing help argument'() {
         when:
-        def argumentProvider = new CliArgumentProvider(['--help'] as String[])
+        def argumentProvider = new CliArgumentProviderImpl(['--help'] as String[])
 
         then:
         argumentProvider.isHelp()
 
         when:
-        argumentProvider = new CliArgumentProvider(['-h'] as String[])
+        argumentProvider = new CliArgumentProviderImpl(['-h'] as String[])
 
         then:
         argumentProvider.isHelp()
@@ -20,13 +22,13 @@ class CliArgumentProviderTest extends Specification {
 
     def 'testing disable-env-collection argument'() {
         when:
-        def argumentProvider = new CliArgumentProvider(['--disable-env-collection'] as String[])
+        def argumentProvider = new CliArgumentProviderImpl(['--disable-env-collection'] as String[])
 
         then:
         !argumentProvider.isEnvironmentCollectionEnabled()
 
         when:
-        argumentProvider = new CliArgumentProvider([''] as String[])
+        argumentProvider = new CliArgumentProviderImpl([''] as String[])
 
         then:
         argumentProvider.isEnvironmentCollectionEnabled()
@@ -34,13 +36,13 @@ class CliArgumentProviderTest extends Specification {
 
     def 'testing execute argument and options'() {
         when:
-        new CliArgumentProvider(['--execute'] as String[])
+        new CliArgumentProviderImpl(['--execute'] as String[])
 
         then:
-        thrown(CliArgumentProvider.ArgumentParseError)
+        thrown(CliArgumentProviderImpl.ArgumentParseError)
 
         when:
-        def argumentProvider = new CliArgumentProvider('--execute ls'.split(' '))
+        def argumentProvider = new CliArgumentProviderImpl('--execute ls'.split(' '))
 
         then:
         argumentProvider.isCommandExecution()
@@ -49,7 +51,7 @@ class CliArgumentProviderTest extends Specification {
 
     def 'dependency management'() {
         when:
-        def argumentProvider = new CliArgumentProvider('--ivy-configuration foo/bar/fizz --include foo:bar:1,bar:bizz:5'.split(' '))
+        def argumentProvider = new CliArgumentProviderImpl('--ivy-configuration foo/bar/fizz --include foo:bar:1,bar:bizz:5'.split(' '))
 
         then:
         argumentProvider.getIvyConfiguration() != null
@@ -58,7 +60,7 @@ class CliArgumentProviderTest extends Specification {
         argumentProvider.getIvyConfiguration().dependencies as Set == [ 'foo:bar:1', 'bar:bizz:5'] as Set
 
         when:
-        argumentProvider = new CliArgumentProvider('--ivy-configuration foo/bar/fizz'.split(' '))
+        argumentProvider = new CliArgumentProviderImpl('--ivy-configuration foo/bar/fizz'.split(' '))
 
         then:
         argumentProvider.getIvyConfiguration() != null

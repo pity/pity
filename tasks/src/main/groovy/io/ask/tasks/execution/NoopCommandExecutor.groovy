@@ -1,7 +1,7 @@
 package io.ask.tasks.execution
 
 
-import io.ask.api.execution.CommandExecutionResults
+import io.ask.api.execution.CommandExecutionResult
 import io.ask.api.execution.CommandExecutor
 import io.ask.api.preprocess.CommandOptions
 
@@ -22,7 +22,7 @@ class NoopCommandExecutor implements CommandExecutor {
     }
 
     @Override
-    CommandExecutionResults execute(CommandOptions commandOptions) {
+    CommandExecutionResult execute(CommandOptions commandOptions) {
         return null
     }
 }

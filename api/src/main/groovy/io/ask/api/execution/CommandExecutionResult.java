@@ -5,7 +5,7 @@ import java.io.File;
 import java.util.Map;
 
 
-public interface CommandExecutionResults {
+public interface CommandExecutionResult {
 
     CommandOptions getCommandExecuted();
 

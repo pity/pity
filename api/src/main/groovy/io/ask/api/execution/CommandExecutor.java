@@ -11,5 +11,5 @@ public interface CommandExecutor {
 
     boolean willDoWork(CommandOptions commandOptions);
 
-    CommandExecutionResults execute(CommandOptions commandOptions);
+    CommandExecutionResult execute(CommandOptions commandOptions);
 }

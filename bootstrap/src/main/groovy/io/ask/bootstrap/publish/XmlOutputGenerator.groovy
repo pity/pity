@@ -1,19 +1,20 @@
-package io.ask.bootstrap
+package io.ask.bootstrap.publish
 import groovy.util.logging.Slf4j
 import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
 import io.ask.api.environment.EnvironmentData
-import io.ask.api.execution.CommandExecutionResults
+import io.ask.api.execution.CommandExecutionResult
+import io.ask.api.reporting.CollectionResults
 
 @Slf4j
-class OutputGenerator {
+class XmlOutputGenerator {
 
     Set<EnvironmentData> envData;
-    List<CommandExecutionResults> executionData;
+    List<CommandExecutionResult> executionData;
 
-    OutputGenerator(Set<EnvironmentData> envData, List<CommandExecutionResults> executionData) {
-        this.envData = envData
-        this.executionData = executionData
+    XmlOutputGenerator(CollectionResults collectedResults) {
+        this.envData = collectedResults.getEnvironmentData()
+        this.executionData = collectedResults.getCommandExecutionResults()
     }
 
     String createXmlString() {

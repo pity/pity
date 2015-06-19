@@ -1,6 +1,6 @@
 package io.ask.bootstrap.ivy
 import io.ask.api.PropertyValueProvider
-import io.ask.bootstrap.PropertyFinder
+import io.ask.bootstrap.injection.PropertyFinder
 import org.apache.ivy.Ivy
 import org.apache.ivy.core.module.descriptor.Configuration
 import org.apache.ivy.core.module.descriptor.DefaultDependencyDescriptor

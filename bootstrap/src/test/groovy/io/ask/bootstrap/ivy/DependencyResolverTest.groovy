@@ -1,6 +1,6 @@
 package io.ask.bootstrap.ivy
 
-import io.ask.bootstrap.PropertyFinder
+import io.ask.bootstrap.injection.PropertyFinder
 import org.codehaus.groovy.tools.RootLoader
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
