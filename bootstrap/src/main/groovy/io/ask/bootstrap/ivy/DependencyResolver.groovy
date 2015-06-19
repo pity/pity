@@ -1,4 +1,7 @@
 package io.ask.bootstrap.ivy
+
+
+import groovy.util.logging.Slf4j
 import io.ask.api.PropertyValueProvider
 import io.ask.bootstrap.injection.PropertyFinder
 import org.apache.ivy.Ivy
@@ -14,6 +17,7 @@ import org.codehaus.groovy.tools.RootLoader
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+@Slf4j
 class DependencyResolver {
 
     private static final Logger logger = LoggerFactory.getLogger(DependencyResolver.class)
@@ -43,8 +47,6 @@ class DependencyResolver {
         if (dependencyConfiguration.dependencies.isEmpty()) {
             return
         }
-
-        println "VERSION: " + askProperties.getProperty('ask.version')
 
         DefaultModuleDescriptor md = createDefaultModuleDescriptor()
 
