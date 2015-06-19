@@ -1,6 +1,7 @@
 package io.ask.bootstrap.injection
 import com.google.inject.AbstractModule
 import com.google.inject.multibindings.Multibinder
+import io.ask.api.CliArgumentProvider
 import io.ask.api.PropertyValueProvider
 import io.ask.api.RootCollectorExecutor
 import io.ask.api.WorkingDirectoryProvider
@@ -39,6 +40,7 @@ class BootstrapInjector extends AbstractModule {
 
         bind(PropertyValueProvider.class).toInstance(propertyValueProvider)
         bind(InternalCliArgumentProvider.class).toInstance(cliArgumentProvider)
+        bind(CliArgumentProvider.class).toInstance(cliArgumentProvider)
 
         def reportCollector = new ResultCollectorImpl()
         bind(ResultCollector.class).toInstance(reportCollector)
