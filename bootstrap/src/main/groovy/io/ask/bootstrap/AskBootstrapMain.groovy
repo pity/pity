@@ -2,8 +2,10 @@ package io.ask.bootstrap
 
 
 import com.google.inject.Injector
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import io.ask.api.PropertyValueProvider
+import io.ask.api.StopExecutionException
 import io.ask.api.reporting.CollectionResults
 import io.ask.api.reporting.ReportPublisher
 import io.ask.bootstrap.injection.MainInjectorCreator
@@ -13,6 +15,7 @@ import io.ask.bootstrap.provider.CliArgumentProviderImpl
 import io.ask.bootstrap.publish.XmlReportPublisher
 
 @Slf4j
+@CompileStatic
 class AskBootstrapMain {
 
     public static void main(String[] args) {
@@ -30,13 +33,20 @@ class AskBootstrapMain {
         Injector injector = new MainInjectorCreator(cliArgumentProvider, injectorFinder).getInjector();
         log.info("Loading version {}", injector.getInstance(PropertyValueProvider).getProperty('ask.version'))
 
+        def publisher = findPublisher(injectorFinder, injector)
+        try {
+            publisher.validateRequirements()
+        } catch (StopExecutionException e) {
+            log.error("Stopping execution because {}", e.getMessage())
+            return;
+        }
+
         injector.getInstance(RootExecutor).executeAll()
 
-        publish(injectorFinder, injector)
+        publisher.publishReport(injector.getInstance(CollectionResults))
     }
 
-    private static void publish(PropertyFinder injectorFinder, Injector injector) {
-        def collectionResults = injector.getInstance(CollectionResults)
+    private static ReportPublisher findPublisher(PropertyFinder injectorFinder, Injector injector) {
         Class publisher = Class.forName(injectorFinder.createPropertyValueProvider().getProperty('default.publisher'))
         if (!ReportPublisher.isAssignableFrom(publisher)) {
             log.error("Unable to publish results using {}, failing back to XML", publisher)
@@ -44,6 +54,6 @@ class AskBootstrapMain {
         }
 
         log.debug("Publisher class: {}", publisher.getName())
-        (injector.getInstance(publisher) as ReportPublisher).publishReport(collectionResults)
+        return (injector.getInstance(publisher) as ReportPublisher)
     }
 }

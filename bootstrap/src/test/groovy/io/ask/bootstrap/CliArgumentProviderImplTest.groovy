@@ -66,4 +66,12 @@ class CliArgumentProviderImplTest extends Specification {
         argumentProvider.getIvyConfiguration() != null
         !argumentProvider.getIvyConfiguration().shouldResolve()
     }
+
+    def 'when argument is not present, can it be retrieved'() {
+        when:
+        new CliArgumentProviderImpl('--bar biz'.split(' '))
+
+        then:
+        noExceptionThrown()
+    }
 }

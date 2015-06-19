@@ -131,6 +131,11 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
         return optionAccessor.'ticket'
     }
 
+    @Override
+    String[] getRawOption() {
+        return args
+    }
+
     public static class ArgumentParseError extends Error {
 
     }

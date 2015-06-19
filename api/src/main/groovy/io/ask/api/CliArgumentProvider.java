@@ -17,5 +17,7 @@ public interface CliArgumentProvider {
     CommandOptions getExecutionCommandOptions();
 
     String getTicketId();
+
+    String[] getRawOption();
 }
 
