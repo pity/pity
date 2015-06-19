@@ -1,7 +1,7 @@
 package io.ask.bootstrap.publish
 import io.ask.api.environment.EnvironmentDataBuilder
 import io.ask.api.execution.CommandExecutionResultBuilder
-import io.ask.api.reporting.ResultCollectorImpl
+import io.ask.api.reporting.internal.ResultCollectorImpl
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification

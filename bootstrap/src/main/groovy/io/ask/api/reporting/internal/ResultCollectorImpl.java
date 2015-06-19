@@ -1,4 +1,4 @@
-package io.ask.api.reporting;
+package io.ask.api.reporting.internal;
 
 import io.ask.api.environment.EnvironmentData;
 import io.ask.api.execution.CommandExecutionResult;

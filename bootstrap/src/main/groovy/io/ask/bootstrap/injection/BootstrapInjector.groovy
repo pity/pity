@@ -6,11 +6,9 @@ import io.ask.api.RootCollectorExecutor
 import io.ask.api.WorkingDirectoryProvider
 import io.ask.api.reporting.CollectionResults
 import io.ask.api.reporting.ResultCollector
-import io.ask.api.reporting.ResultCollectorImpl
-import io.ask.bootstrap.RootExecutor
+import io.ask.api.reporting.internal.ResultCollectorImpl
 import io.ask.bootstrap.environment.MainEnvironmentCollectorExecutor
 import io.ask.bootstrap.execution.MainCommandExecutor
-import io.ask.bootstrap.provider.CliArgumentProviderImpl
 import io.ask.bootstrap.environment.BootstrapEnvironmentCollector
 import io.ask.bootstrap.environment.BootstrapEnvironmentCollectorImpl
 import io.ask.bootstrap.execution.CommandExecutorRunner
