@@ -11,4 +11,9 @@ public class XmlReportPublisher implements ReportPublisher {
         XmlOutputGenerator xmlOutputGenerator = new XmlOutputGenerator(collectedResults);
         xmlOutputGenerator.writeToFile(new File("generated-data.xml"));
     }
+
+    @Override
+    public void validateRequirements() {
+        //NOOP
+    }
 }
