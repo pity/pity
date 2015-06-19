@@ -24,6 +24,10 @@ dependencies {
     }
 }
 
+run {
+    args(['--debug'])
+}
+
 processResources {
     filter(ReplaceTokens, tokens: [version: project.version as String])
 }

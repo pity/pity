@@ -2,9 +2,11 @@ apply plugin: 'idea'
 
 subprojects {
     apply plugin: 'idea'
-    apply plugin: 'java'
+    apply plugin: 'groovy'
+    apply plugin: 'maven-publish'
 
     version = '0.0.1'
+    group = 'io.ask'
 
     sourceCompatibility = '1.7'
     targetCompatibility = '1.7'
@@ -15,6 +17,27 @@ subprojects {
             println "Executing test ${desc.className}.'${desc.name}'"
         }
     }
+
+    task sourceJar(type: Jar) {
+      classifier = 'sources'
+      from sourceSets.main.allJava
+    }
+
+    task javadocJar(type: Jar, dependsOn: groovydoc) {
+      classifier = 'javadoc'
+      from groovydoc.destinationDir
+    }
+
+    publishing {
+      publications {
+        mavenJava(MavenPublication) {
+          from components.java
+          artifact sourceJar
+          artifact javadocJar
+        }
+      }
+    }
+
 
     project.buildDir = new File(rootDir, 'build/' + project.name)
 }
