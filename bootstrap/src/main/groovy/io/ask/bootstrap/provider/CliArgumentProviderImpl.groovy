@@ -1,6 +1,8 @@
 package io.ask.bootstrap.provider
 
 
+import ch.qos.logback.classic.Level
+import ch.qos.logback.classic.Logger
 import groovy.util.logging.Slf4j
 import io.ask.api.preprocess.CommandOptions
 import io.ask.api.preprocess.CommandOptionsFactory
@@ -8,6 +10,7 @@ import io.ask.bootstrap.ivy.Dependency
 import io.ask.bootstrap.ivy.DependencyConfiguration
 import org.apache.commons.cli.DefaultParser
 import org.apache.commons.cli.Option
+import org.slf4j.LoggerFactory
 
 @Slf4j
 class CliArgumentProviderImpl implements InternalCliArgumentProvider {
@@ -25,11 +28,23 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
         cliBuilder._(longOpt: 'ivy-configuration', args: 1, 'File that contains the external ivy resolver information')
         cliBuilder._(longOpt: 'include', args: Option.UNLIMITED_VALUES, valueSeparator: ',', 'Dependency to be included on the classpath. This should be in form of [group]:[name]:[version]')
         cliBuilder._(longOpt: 'cache-location', args: 1, 'Location where to download dependencies to. Defaults to ~/.ask/cache')
+        cliBuilder._(longOpt: 'debug', 'Enable debug logging.')
+        cliBuilder._(longOpt: 'silent', 'Disable all logging (except error).')
         cliBuilder.h(longOpt: 'help', 'Show usage information')
 
         optionAccessor = cliBuilder.parse(args)
         if (!optionAccessor) {
             throw new ArgumentParseError()
+        }
+
+        if(optionAccessor.'debug') {
+            Logger root = (Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+            root.setLevel(Level.DEBUG)
+        }
+
+        if(optionAccessor.'silent') {
+            Logger root = (Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
+            root.setLevel(Level.ERROR)
         }
     }
 
