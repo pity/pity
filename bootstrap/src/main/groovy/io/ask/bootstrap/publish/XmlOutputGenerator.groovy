@@ -49,7 +49,6 @@ class XmlOutputGenerator {
             }
         }
 
-        log.debug("XML: `{}`", result.toString())
         return XmlUtil.serialize(result.toString())
     }
 
