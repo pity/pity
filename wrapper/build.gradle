@@ -2,6 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 apply plugin: 'groovy'
 apply plugin: 'application'
+apply plugin: 'maven-publish'
 apply plugin: 'com.github.johnrengelman.shadow'
 
 mainClassName = 'io.pity.wrapper.WrapperMain'
@@ -19,4 +20,19 @@ run.dependsOn ':api:publishToMavenLocal', ':bootstrap:publishToMavenLocal', ':ta
 
 processResources {
     filter(ReplaceTokens, tokens: [version: project.version as String])
+}
+
+artifacts {
+    archives shadowJar
+}
+
+publishing {
+    publications {
+        shadow(MavenPublication) {
+            from components.java
+            artifact shadowJar {
+                classifier "all"
+            }
+        }
+    }
 }

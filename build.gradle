@@ -2,6 +2,7 @@ import groovy.json.JsonSlurper
 
 plugins {
     id "com.github.johnrengelman.shadow" version "1.2.1"
+    id "com.jfrog.bintray" version "1.2"
 }
 
 apply plugin: 'idea'
@@ -12,6 +13,7 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: 'groovy'
     apply plugin: 'maven-publish'
+    apply plugin: 'com.jfrog.bintray'
 
     version = '0.0.1'
     group = 'io.pity'
@@ -27,25 +29,41 @@ subprojects {
     }
 
     task sourceJar(type: Jar) {
-      classifier = 'sources'
-      from sourceSets.main.allJava
+        classifier = 'sources'
+        from sourceSets.main.allJava
     }
 
     task javadocJar(type: Jar, dependsOn: groovydoc) {
-      classifier = 'javadoc'
-      from groovydoc.destinationDir
+        classifier = 'javadoc'
+        from groovydoc.destinationDir
     }
 
     publishing {
-      publications {
-        mavenJava(MavenPublication) {
-          from components.java
-          artifact sourceJar
-          artifact javadocJar
+        publications {
+            standardjava(MavenPublication) {
+                from components.java
+                artifact sourceJar
+                artifact javadocJar
+            }
         }
-      }
     }
 
+    bintray {
+        user = bintray_user
+        key = bintray_key
+        configurations = ['published', 'archives']
+        publish = false
+        pkg {
+            repo = 'maven'
+            name = 'pity'
+            desc = 'Pity that Bug Report'
+            websiteUrl = 'https://github.com/pity/pity.io'
+            issueTrackerUrl = 'https://github.com/pity/pity.io/issues'
+            vcsUrl = 'https://github.com/pity/pity.io.git'
+            licenses = ['Apache-2.0']
+            publicDownloadNumbers = true
+        }
+    }
 
     project.buildDir = new File(rootDir, 'build/' + project.name)
 }
