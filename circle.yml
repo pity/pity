@@ -4,5 +4,5 @@ test:
       - find build -type f -regex ".*/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
       - git config user.name "circleci"
       - git config user.email "ci@pity.io"
-      - scripts/scripts/version-bump.sh
+      - scripts/version-bump.sh
 
