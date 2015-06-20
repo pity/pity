@@ -7,7 +7,7 @@ import io.pity.api.RootCollectorExecutor
 import io.pity.api.WorkingDirectoryProvider
 import io.pity.api.reporting.CollectionResults
 import io.pity.api.reporting.ResultCollector
-import io.pity.api.reporting.internal.ResultCollectorImpl
+import io.pity.bootstrap.ResultCollectorImpl
 import io.pity.bootstrap.environment.MainEnvironmentCollectorExecutor
 import io.pity.bootstrap.execution.MainCommandExecutor
 import io.pity.bootstrap.environment.BootstrapEnvironmentCollector

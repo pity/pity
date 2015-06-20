@@ -1,4 +1,4 @@
-package io.pity.api.reporting.internal;
+package io.pity.bootstrap;
 
 import io.pity.api.environment.EnvironmentData;
 import io.pity.api.execution.CommandExecutionResult;
