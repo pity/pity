@@ -1,0 +1,1 @@
+[![Circle CI](https://circleci.com/gh/pity/pity.io/tree/master.svg?style=svg)](https://circleci.com/gh/pity/pity.io/tree/master) [ ![Download](https://api.bintray.com/packages/ethankhall/maven/pity/images/download.svg) ](https://bintray.com/ethankhall/maven/pity/_latestVersion)
