@@ -14,9 +14,10 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
+import java.text.ParseException;
 
 public class WrapperMain {
-    public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException {
+    public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException, ParseException {
 
         if (DefaultGroovyMethods.contains(args, "--debug")) {
             ((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(Level.DEBUG);
