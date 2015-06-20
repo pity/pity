@@ -22,7 +22,7 @@ subprojects {
     apply plugin: 'maven'
     apply plugin: 'com.jfrog.bintray'
 
-    version = rootProject.file("VERSION").text
+    version = rootProject.file("VERSION").text.replaceAll('[^A-Za-z0-9\\.]', '');
     group = 'io.pity'
 
     sourceCompatibility = '1.7'
@@ -64,7 +64,7 @@ subprojects {
         user = bintray_user
         key = bintray_key
         configurations = ['archives']
-        publish = false
+        publish = project.hasProperty('bintray.publish') ? project.property('bintray.publish') as Boolean: false
         pkg {
             repo = 'maven'
             name = 'pity'
@@ -74,6 +74,10 @@ subprojects {
             vcsUrl = 'https://github.com/pity/pity.io.git'
             licenses = ['Apache-2.0']
             publicDownloadNumbers = true
+            version {
+                name = project.version
+                vcsTag = "V$project.version"
+            }
         }
     }
 
@@ -84,14 +88,6 @@ allprojects {
     repositories {
         mavenCentral()
         maven { url 'http://repo.gradle.org/gradle/libs-releases-local' }
-    }
-}
-
-task bumpVersion(dependsOn: check) {
-    doLast {
-        project.exec {
-            commandLine 'scripts/version-bump.sh', project.version
-        }
     }
 }
 
