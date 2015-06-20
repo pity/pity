@@ -1,4 +1,8 @@
+import groovy.json.JsonSlurper
+
 apply plugin: 'idea'
+
+project.ext.deps = new JsonSlurper().parse(file('dependencies.json')).dependencies
 
 subprojects {
     apply plugin: 'idea'

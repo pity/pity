@@ -2,15 +2,15 @@ apply plugin: 'groovy'
 
 dependencies {
     compile project(':api')
-    compile 'com.google.inject.extensions:guice-multibindings:4.0'
-    compile 'commons-io:commons-io:2.4'
-    compile 'org.apache.commons:commons-lang3:3.4'
+    compile deps.'guice-multibindings'
+    compile deps.'commons-io'
+    compile deps.'commons-lang3'
 
-    compile "org.gradle:gradle-tooling-api:2.4"
+    compile deps.'gradle-tooling-api'
 
-    testCompile 'cglib:cglib:3.1'
-    testCompile 'org.objenesis:objenesis:2.1'
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
-    testCompile 'ch.qos.logback:logback-classic:1.1.3'
+    testCompile deps.cglib
+    testCompile deps.objenesis
+    testCompile deps.spock
+    testCompile deps.logback
 }
 

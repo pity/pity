@@ -1,15 +1,15 @@
 apply plugin: 'groovy'
 
 dependencies {
-    compile 'org.codehaus.groovy:groovy-all:2.4.3'
-    compile 'com.google.inject:guice:4.0'
-    compile 'com.google.code.findbugs:jsr305:3.0.0'
-    compile 'org.apache.commons:commons-lang3:3.4'
-    compile 'commons-io:commons-io:2.4'
-    compile 'org.slf4j:slf4j-api:1.7.12'
+    compile deps.groovy
+    compile deps.guice
+    compile deps.jsr305
+    compile deps.'commons-lang3'
+    compile deps.'commons-io'
+    compile deps.'slf4j-api'
 
-    testCompile 'cglib:cglib:3.1'
-    testCompile 'org.spockframework:spock-core:1.0-groovy-2.4'
+    testCompile deps.cglib
+    testCompile deps.spock
 }
 
 javadoc {
