@@ -57,7 +57,7 @@ class CliArgumentProviderImplTest extends Specification {
         argumentProvider.getIvyConfiguration() != null
         argumentProvider.getIvyConfiguration().configurationFile != null
         argumentProvider.getIvyConfiguration().configurationFile.getPath() == 'foo/bar/fizz'
-        argumentProvider.getIvyConfiguration().dependencies*.toString() as Set == [ 'foo:bar:1', 'bar:bizz:5'] as Set
+        argumentProvider.getIvyConfiguration().dependencies*.toString()2 as Set == [ 'foo:bar:1', 'bar:bizz:5'] as Set
 
         when:
         argumentProvider = new CliArgumentProviderImpl('--ivy-configuration foo/bar/fizz'.split(' '))

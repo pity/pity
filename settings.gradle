@@ -1,1 +1,1 @@
-include ':bootstrap' , ':tasks', ':api'
+include ':bootstrap' , ':tasks', ':api', ':main'
