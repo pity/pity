@@ -1,0 +1,6 @@
+apply plugin: 'groovy'
+apply plugin: 'application'
+
+dependencies {
+    compile 'org.apache.ivy:ivy:2.4.0'
+}
