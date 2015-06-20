@@ -17,7 +17,7 @@ dependencies {
     }
 }
 
-run.dependsOn 'publishToMavenLocal'
+run.dependsOn ':api:publishToMavenLocal', ':bootstrap:publishToMavenLocal', ':tasks:publishToMavenLocal'
 
 processResources {
     filter(ReplaceTokens, tokens: [version: project.version as String])

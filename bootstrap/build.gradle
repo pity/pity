@@ -6,18 +6,29 @@ apply plugin: 'application'
 
 mainClassName = 'io.pity.bootstrap.AskBootstrapMain'
 
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        compileClasspath += configurations.provided
+    }
+}
+
 dependencies {
     compile deps.groovy
     compile deps.'guice-multibindings'
     compile deps.reflections
     compile deps.guice
     compile deps.'slf4j-api'
-    compile deps.logback
     compile deps.'commons-cli'
     compile deps.ivy
 
     runtime project(':tasks')
     compile project(':api')
+
+    provided deps.logback
 
     testCompile(deps.spock) {
         exclude group: 'org.codehaus.groovy'

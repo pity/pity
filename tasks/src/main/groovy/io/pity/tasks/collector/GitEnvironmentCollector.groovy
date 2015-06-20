@@ -29,7 +29,7 @@ class GitEnvironmentCollector extends ProcessBasedEnvironmentCollector {
     @Override
     void collect() {
 
-        logger.info("Generating working status of your project...")
+        logger.debug("Generating working status of your project...")
 
         collectCommandResults('status', 'git status --short --branch')
         collectCommandResults('origin/master', 'git rev-parse origin/master')

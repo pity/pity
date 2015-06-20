@@ -9,4 +9,5 @@ appender("STDOUT", ConsoleAppender) {
 }
 logger('org.reflections.vfs', Level.ERROR)
 logger('org.reflections', Level.ERROR)
+logger('io.pity.wrapper.ivy.IvyLogger', Level.OFF)
 root(Level.INFO, ["STDOUT"])

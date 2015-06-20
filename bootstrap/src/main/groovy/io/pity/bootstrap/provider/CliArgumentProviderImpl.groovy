@@ -1,12 +1,9 @@
 package io.pity.bootstrap.provider
 
-import ch.qos.logback.classic.Level
-import ch.qos.logback.classic.Logger
 import groovy.util.logging.Slf4j
 import io.pity.api.preprocess.CommandOptions
 import io.pity.api.preprocess.CommandOptionsFactory
 import org.apache.commons.cli.DefaultParser
-import org.slf4j.LoggerFactory
 
 @Slf4j
 class CliArgumentProviderImpl implements InternalCliArgumentProvider {
@@ -23,22 +20,14 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
         cliBuilder._(longOpt: 'from', args: 1, 'The directory which you want to run against. By default this is the current directory.')
         cliBuilder._(longOpt: 'ticket', args: 1, 'Provides a ticket for this report')
         cliBuilder._(longOpt: 'debug', 'Enable debug logging.')
+        cliBuilder._(longOpt: 'ivy-log-info', 'Enable Ivy\'s logging at info.')
+        cliBuilder._(longOpt: 'ivy-log-debug', 'Enable Ivy\'s logging at debug.')
         cliBuilder._(longOpt: 'silent', 'Disable all logging (except error).')
         cliBuilder.h(longOpt: 'help', 'Show usage information')
 
         optionAccessor = cliBuilder.parse(args)
         if (!optionAccessor) {
             throw new ArgumentParseError()
-        }
-
-        if(optionAccessor.'debug') {
-            Logger root = (Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            root.setLevel(Level.DEBUG)
-        }
-
-        if(optionAccessor.'silent') {
-            Logger root = (Logger)LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME);
-            root.setLevel(Level.ERROR)
         }
     }
 

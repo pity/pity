@@ -8,7 +8,6 @@ import org.apache.ivy.core.module.id.ModuleRevisionId
 import org.apache.ivy.core.report.ResolveReport
 import org.apache.ivy.core.resolve.ResolveOptions
 import org.apache.ivy.core.settings.IvySettings
-import org.apache.ivy.plugins.resolver.IBiblioResolver
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -20,22 +19,21 @@ class DependencyResolver {
     final Ivy ivyInstance;
     final DependencyConfiguration dependencyConfiguration
 
-    public DependencyResolver(
-        DependencyConfiguration dependencyConfiguration) {
+    public DependencyResolver(DependencyConfiguration dependencyConfiguration) {
         this(dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)))
     }
 
-    DependencyResolver(
-        DependencyConfiguration dependencyConfiguration,
-        Ivy ivyInstance) {
+    DependencyResolver(DependencyConfiguration dependencyConfiguration, Ivy ivyInstance) {
         this.dependencyConfiguration = dependencyConfiguration
         this.ivyInstance = ivyInstance
     }
 
     List<URL> resolveDependencies() {
         if (dependencyConfiguration.dependencies.isEmpty()) {
-            return
+            return [];
         }
+
+        logger.info("Retrieving Dependencies...")
 
         DefaultModuleDescriptor md = createDefaultModuleDescriptor()
 
@@ -54,8 +52,9 @@ class DependencyResolver {
         ResolveReport report = ivyInstance.resolve(md, resolveOptions)
 
 
-        logger.info("Downloaded ${report.downloadSize >> 10} Kbytes in ${report.downloadTime}ms")
-        logger.info("${report.allArtifactsReports*.toString().join(', ')}")
+        logger.info("Finished downloading {} dependencies", report.allArtifactsReports.size())
+        logger.debug("Downloaded ${report.downloadSize >> 10} Kbytes in ${report.downloadTime}ms")
+        logger.trace("${report.allArtifactsReports*.toString().join(', ')}")
 
         def artifacts = report.allArtifactsReports.findAll { return it.localFile }.collect { it.localFile.toURI() }
 
@@ -74,18 +73,8 @@ class DependencyResolver {
     static private IvySettings createIvySettings(DependencyConfiguration dependencyConfiguration) {
         // create an ivy instance
         IvySettings ivySettings = new IvySettings();
-        if (dependencyConfiguration?.configurationFile) {
-            ivySettings.load(dependencyConfiguration.configurationFile)
-        } else {
-            IBiblioResolver br = new IBiblioResolver();
-            br.setM2compatible(true);
-            br.setUsepoms(true);
-            br.setName("central");
+        ivySettings.load(dependencyConfiguration.configurationFile)
 
-            ivySettings.addResolver(br);
-            ivySettings.setDefaultResolver(br.getName());
-            ivySettings.setDefaultCache(dependencyConfiguration.cacheDir)
-        }
         return ivySettings
     }
 }
