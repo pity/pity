@@ -2,6 +2,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 
 apply plugin: 'groovy'
 apply plugin: 'application'
+//apply plugin: 'com.github.johnrengelman.shadow'
 
 mainClassName = 'io.pity.wrapper.WrapperMain'
 

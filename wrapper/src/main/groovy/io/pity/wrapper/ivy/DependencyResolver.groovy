@@ -1,10 +1,13 @@
 package io.pity.wrapper.ivy
+
+import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
 import org.apache.ivy.Ivy
 import org.apache.ivy.core.module.descriptor.Configuration
 import org.apache.ivy.core.module.descriptor.DefaultDependencyDescriptor
 import org.apache.ivy.core.module.descriptor.DefaultModuleDescriptor
 import org.apache.ivy.core.module.id.ModuleRevisionId
+import org.apache.ivy.core.report.ArtifactDownloadReport
 import org.apache.ivy.core.report.ResolveReport
 import org.apache.ivy.core.resolve.ResolveOptions
 import org.apache.ivy.core.settings.IvySettings
@@ -12,6 +15,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 @Slf4j
+@CompileStatic
 class DependencyResolver {
 
     private static final Logger logger = LoggerFactory.getLogger(DependencyResolver.class)
@@ -37,12 +41,7 @@ class DependencyResolver {
 
         DefaultModuleDescriptor md = createDefaultModuleDescriptor()
 
-        dependencyConfiguration.dependencies.each {
-            def mrid = ModuleRevisionId.newInstance(it.group, it.name, it.version)
-            def dd = new DefaultDependencyDescriptor(md, mrid, false, false, true)
-            dd.addDependencyConfiguration('default', 'default')
-            md.addDependency(dd)
-        }
+        addDependencies(md)
 
         ResolveOptions resolveOptions = new ResolveOptions()
             .setConfs(['default'] as String[])
@@ -56,9 +55,29 @@ class DependencyResolver {
         logger.debug("Downloaded ${report.downloadSize >> 10} Kbytes in ${report.downloadTime}ms")
         logger.trace("${report.allArtifactsReports*.toString().join(', ')}")
 
-        def artifacts = report.allArtifactsReports.findAll { return it.localFile }.collect { it.localFile.toURI() }
+        List<URI> artifacts = getUriFromReport(report)
 
         return artifacts.collect { artifact -> artifact.toURL() }
+    }
+
+    private List<URI> getUriFromReport(ResolveReport resolveReport) {
+        List<URI> deps = new ArrayList<>()
+        for(ArtifactDownloadReport report: resolveReport.allArtifactsReports) {
+            if(null != report.localFile && report.localFile.exists()) {
+                deps.add(report.localFile.toURI())
+            }
+        }
+
+        return deps;
+    }
+
+    private void addDependencies(DefaultModuleDescriptor md) {
+        for(Dependency dep: dependencyConfiguration.dependencies) {
+            def mrid = ModuleRevisionId.newInstance(dep.group, dep.name, dep.version)
+            def dd = new DefaultDependencyDescriptor(md, mrid, false, false, true)
+            dd.addDependencyConfiguration('default', 'default')
+            md.addDependency(dd)
+        }
     }
 
     private DefaultModuleDescriptor createDefaultModuleDescriptor() {
@@ -71,10 +90,8 @@ class DependencyResolver {
     }
 
     static private IvySettings createIvySettings(DependencyConfiguration dependencyConfiguration) {
-        // create an ivy instance
         IvySettings ivySettings = new IvySettings();
         ivySettings.load(dependencyConfiguration.configurationFile)
-
         return ivySettings
     }
 }

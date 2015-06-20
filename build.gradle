@@ -1,5 +1,9 @@
 import groovy.json.JsonSlurper
 
+//plugins {
+//    id "com.github.johnrengelman.shadow" version "1.2.1"
+//}
+
 apply plugin: 'idea'
 
 project.ext.deps = new JsonSlurper().parse(file('dependencies.json')).dependencies
