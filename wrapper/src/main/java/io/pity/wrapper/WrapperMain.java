@@ -7,23 +7,25 @@ import io.pity.wrapper.ivy.DependencyResolver;
 import io.pity.wrapper.ivy.IvyConfiguration;
 import io.pity.wrapper.ivy.IvyLogger;
 import org.apache.ivy.util.Message;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.net.URLClassLoader;
 import java.text.ParseException;
 
 public class WrapperMain {
-    public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException, ParseException {
+    public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException,
+        ParseException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
-        if (DefaultGroovyMethods.contains(args, "--debug")) {
+        if (contains(args, "--debug")) {
             ((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(Level.DEBUG);
-        } else if (DefaultGroovyMethods.contains(args, "--silent")) {
+        } else if (contains(args, "--silent")) {
             ((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(Level.ERROR);
-        } else if (DefaultGroovyMethods.contains(args, "--trace")) {
+        } else if (contains(args, "--trace")) {
             ((Logger) LoggerFactory.getLogger(Logger.ROOT_LOGGER_NAME)).setLevel(Level.TRACE);
         }
 
@@ -38,7 +40,17 @@ public class WrapperMain {
         URLClassLoader loader = new URLClassLoader(urls, WrapperMain.class.getClassLoader());
 
         Class<?> mainClass = Class.forName("io.pity.bootstrap.AskBootstrapMain", false, loader);
-        DefaultGroovyMethods.invokeMethod(mainClass, "main", new Object[]{args});
+        Method method = mainClass.getDeclaredMethod("main", String[].class);
+        method.invoke(null, (Object)args);
+    }
+
+    public static boolean contains(String[] args, String name) {
+        for (String arg : args) {
+            if (name.equals(arg)) {
+                return true;
+            }
+        }
+        return false;
     }
 
 }

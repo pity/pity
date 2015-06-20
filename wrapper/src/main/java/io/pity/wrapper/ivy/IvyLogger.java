@@ -2,16 +2,16 @@ package io.pity.wrapper.ivy;
 
 import ch.qos.logback.classic.Level;
 import ch.qos.logback.classic.Logger;
+import io.pity.wrapper.WrapperMain;
 import org.apache.ivy.util.AbstractMessageLogger;
 import org.apache.ivy.util.Message;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.slf4j.LoggerFactory;
 
 public class IvyLogger extends AbstractMessageLogger {
     public IvyLogger(String[] args) {
-        if (DefaultGroovyMethods.contains(args, "--ivy-log-info")) {
+        if (WrapperMain.contains(args, "--ivy-log-info")) {
             log.setLevel(Level.INFO);
-        } else if (DefaultGroovyMethods.contains(args, "--ivy-log-debug")) {
+        } else if (WrapperMain.contains(args, "--ivy-log-debug")) {
             log.setLevel(Level.DEBUG);
         }
 
