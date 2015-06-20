@@ -1,8 +1,14 @@
 import groovy.json.JsonSlurper
 
-plugins {
-    id "com.github.johnrengelman.shadow" version "1.2.1"
-    id "com.jfrog.bintray" version "1.2"
+buildscript {
+    repositories {
+        mavenLocal()
+        jcenter()
+    }
+    dependencies {
+        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:0.6"
+        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.1"
+    }
 }
 
 apply plugin: 'idea'
@@ -13,6 +19,7 @@ subprojects {
     apply plugin: 'idea'
     apply plugin: 'groovy'
     apply plugin: 'maven-publish'
+    apply plugin: 'maven'
     apply plugin: 'com.jfrog.bintray'
 
     version = '0.0.1'
@@ -38,6 +45,11 @@ subprojects {
         from groovydoc.destinationDir
     }
 
+    artifacts {
+        archives sourceJar
+        archives javadocJar
+    }
+
     publishing {
         publications {
             standardjava(MavenPublication) {
@@ -51,7 +63,7 @@ subprojects {
     bintray {
         user = bintray_user
         key = bintray_key
-        configurations = ['published', 'archives']
+        configurations = ['archives']
         publish = false
         pkg {
             repo = 'maven'

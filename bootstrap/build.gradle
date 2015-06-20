@@ -1,10 +1,6 @@
 import org.apache.tools.ant.filters.ReplaceTokens
 
-
 apply plugin: 'groovy'
-apply plugin: 'application'
-
-mainClassName = 'io.pity.bootstrap.AskBootstrapMain'
 
 configurations {
     provided
@@ -33,10 +29,6 @@ dependencies {
     testCompile(deps.spock) {
         exclude group: 'org.codehaus.groovy'
     }
-}
-
-run {
-    args('--debug')
 }
 
 processResources {

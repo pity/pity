@@ -9,6 +9,7 @@
             <ivy pattern="${user.home}/.m2/repository/${m2-pom}"/>
         </filesystem>
         <ibiblio name="gradle-releases" m2compatible="true" root="http://repo.gradle.org/gradle/libs-releases-local"/>
+        <ibiblio name="bintray" m2compatible="true" root="https://dl.bintray.com/ethankhall/maven/"/>
     </resolvers>
 
     <include url="${ivy.default.settings.dir}/ivysettings-public.xml"/>
@@ -21,6 +22,7 @@
         <chain name="custom-resolver" dual="true">
             <resolver ref="local-maven2"/>
             <resolver ref="default"/>
+            <resolver ref="bintray"/>
             <resolver ref="gradle-releases" />
         </chain>
     </resolvers>
