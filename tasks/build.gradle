@@ -3,8 +3,6 @@ apply plugin: 'groovy'
 dependencies {
     compile project(':api')
     compile 'com.google.inject.extensions:guice-multibindings:4.0'
-
-    compile 'org.ajoberstar:grgit:1.1.0'
     compile 'commons-io:commons-io:2.4'
     compile 'org.apache.commons:commons-lang3:3.4'
 

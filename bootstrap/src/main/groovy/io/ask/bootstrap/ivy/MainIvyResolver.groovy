@@ -1,10 +1,12 @@
 package io.ask.bootstrap.ivy
 
 
+import groovy.transform.CompileStatic
 import io.ask.bootstrap.provider.CliArgumentProviderImpl
 import io.ask.bootstrap.injection.PropertyFinder
 import org.codehaus.groovy.tools.RootLoader
 
+@CompileStatic
 class MainIvyResolver {
     PropertyFinder injectorFinder;
     CliArgumentProviderImpl cliArgumentProvider
@@ -14,11 +16,10 @@ class MainIvyResolver {
         this.cliArgumentProvider = cliArgumentProvider;
     }
 
-    void resolveDependencies() {
+    void resolveDependencies(URLClassLoader rootLoader) {
         def dependencyResolver = new DependencyResolver(
             injectorFinder,
-            cliArgumentProvider.ivyConfiguration,
-            this.getClass().getClassLoader().rootLoader as RootLoader)
+            cliArgumentProvider.ivyConfiguration, rootLoader)
 
         dependencyResolver.resolveDependencies()
     }

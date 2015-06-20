@@ -25,7 +25,7 @@ class XmlOutputGenerator {
                     envData.each { collector ->
                         binding.collector(name: "$collector.collectorName") {
                             collector.environmentResults.each { envResult ->
-                                binding.entry(name: envResult.key, (envResult.value as String).replace(27 as char, '^' as char))
+                                binding.entry(name: envResult.key, (envResult.value as String)?.replace(27 as char, '^' as char))
                             }
                         }
                     }

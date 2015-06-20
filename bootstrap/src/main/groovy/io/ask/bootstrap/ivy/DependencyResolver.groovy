@@ -23,20 +23,21 @@ class DependencyResolver {
     private static final Logger logger = LoggerFactory.getLogger(DependencyResolver.class)
 
     final Ivy ivyInstance;
-    final RootLoader rootLoader
+    final URLClassLoader rootLoader
     final PropertyValueProvider askProperties;
     final DependencyConfiguration dependencyConfiguration
 
     public DependencyResolver(PropertyFinder injectorFinder,
-                              DependencyConfiguration dependencyConfiguration,
-                              RootLoader rootLoader) {
-        this(injectorFinder, dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)), rootLoader)
+        DependencyConfiguration dependencyConfiguration,
+        URLClassLoader rootLoader) {
+        this(injectorFinder, dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)),
+            rootLoader)
     }
 
     DependencyResolver(PropertyFinder injectorFinder,
-                       DependencyConfiguration dependencyConfiguration,
-                       Ivy ivyInstance,
-                       RootLoader rootLoader) {
+        DependencyConfiguration dependencyConfiguration,
+        Ivy ivyInstance,
+        URLClassLoader rootLoader) {
         this.dependencyConfiguration = dependencyConfiguration
         this.ivyInstance = ivyInstance
         this.rootLoader = rootLoader
@@ -47,6 +48,8 @@ class DependencyResolver {
         if (dependencyConfiguration.dependencies.isEmpty()) {
             return
         }
+
+        log.debug("Ask Bundeled Version: " + askProperties.getProperty('ask.version'))
 
         DefaultModuleDescriptor md = createDefaultModuleDescriptor()
 

@@ -22,7 +22,7 @@ class PropertyFinder {
         return injectorClasses
     }
 
-    @Memoized
+    @Memoized()
     List<Properties> findAskProperties() {
         def reflections = new Reflections(ConfigurationBuilder.build().addScanners(new ResourcesScanner()))
         def resources = reflections.getResources(Pattern.compile('.*\\.properties'))

@@ -25,7 +25,7 @@ dependencies {
 }
 
 run {
-    args(['--debug'])
+    args('--debug')
 }
 
 processResources {
