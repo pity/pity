@@ -14,7 +14,7 @@ dependencies {
     compile deps.'slf4j-api'
     compile deps.logback
     compile deps.'command-cli'
-    compile 'org.apache.ivy:ivy:2.4.0'
+    compile deps.ivy
 
     runtime project(':tasks')
     compile project(':api')

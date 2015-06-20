@@ -13,6 +13,7 @@
         "gradle-tooling-api": "org.gradle:gradle-tooling-api:2.4",
         "cglib": "cglib:cglib:3.1",
         "objenesis": "org.objenesis:objenesis:2.1",
-        "jsr305": "com.google.code.findbugs:jsr305:3.0.0"
+        "jsr305": "com.google.code.findbugs:jsr305:3.0.0",
+        "ivy": "org.apache.ivy:ivy:2.4.0"
     }
 }
