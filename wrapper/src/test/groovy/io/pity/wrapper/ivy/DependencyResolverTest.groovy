@@ -15,7 +15,8 @@ class DependencyResolverTest extends Specification {
     def 'can download dependencies from maven central'() {
         setup:
         def folder = new File(temporaryFolder.newFolder(), ".ask/cache")
-        def configuration = new DependencyConfiguration(null, folder, [new Dependency("org.mockito:mockito-core:1.10.19")])
+        def ivySettingUrl = this.getClass().getResource("/pity/ivy/settings.xml").toURI().toURL();
+        def configuration = new DependencyConfiguration(ivySettingUrl, folder, [new Dependency("org.mockito:mockito-core:1.10.19")])
 
         when:
         def resolver = new DependencyResolver(configuration).resolveDependencies()
