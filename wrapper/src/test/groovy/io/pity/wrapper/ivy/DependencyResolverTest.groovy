@@ -1,7 +1,5 @@
-package io.pity.bootstrap.ivy
+package io.pity.wrapper.ivy
 
-import io.pity.bootstrap.injection.PropertyFinder
-import org.codehaus.groovy.tools.RootLoader
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification
@@ -18,14 +16,12 @@ class DependencyResolverTest extends Specification {
         setup:
         def folder = new File(temporaryFolder.newFolder(), ".ask/cache")
         def configuration = new DependencyConfiguration(null, folder, [new Dependency("org.mockito:mockito-core:1.10.19")])
-        def rootLoader =new RootLoader([] as URL[], this.getClass().getClassLoader())
 
         when:
-        def resolver = new DependencyResolver(new PropertyFinder(), configuration, rootLoader)
-        resolver.resolveDependencies()
+        def resolver = new DependencyResolver(configuration).resolveDependencies()
 
         then:
-        rootLoader.getURLs().size() == 3
+        resolver.size() == 3
     }
 
 }

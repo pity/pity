@@ -1,4 +1,4 @@
-package io.pity.bootstrap.ivy
+package io.pity.wrapper.ivy
 
 class Dependency {
     String group
@@ -10,6 +10,12 @@ class Dependency {
         group = split[0]
         name = split[1]
         version = split[2]
+    }
+
+    Dependency(String group, String name, String version) {
+        this.group = group
+        this.name = name
+        this.version = version
     }
 
     @Override

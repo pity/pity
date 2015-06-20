@@ -1,10 +1,10 @@
-package io.pity.bootstrap.ivy
+package io.pity.wrapper.ivy
 
 import groovy.transform.TupleConstructor
 
 @TupleConstructor
 class DependencyConfiguration {
-    File configurationFile
+    URL configurationFile
     File cacheDir
     List<Dependency> dependencies = []
 

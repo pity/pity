@@ -1,6 +1,4 @@
 package io.pity.bootstrap
-
-
 import com.google.inject.Injector
 import groovy.transform.CompileStatic
 import groovy.util.logging.Slf4j
@@ -10,7 +8,6 @@ import io.pity.api.reporting.CollectionResults
 import io.pity.api.reporting.ReportPublisher
 import io.pity.bootstrap.injection.MainInjectorCreator
 import io.pity.bootstrap.injection.PropertyFinder
-import io.pity.bootstrap.ivy.MainIvyResolver
 import io.pity.bootstrap.provider.CliArgumentProviderImpl
 import io.pity.bootstrap.publish.XmlReportPublisher
 import org.apache.commons.lang3.StringUtils
@@ -28,12 +25,6 @@ class AskBootstrapMain {
         }
 
         PropertyFinder injectorFinder = new PropertyFinder()
-
-        new MainIvyResolver(injectorFinder, cliArgumentProvider).resolveDependencies(ClassLoader.getSystemClassLoader() as URLClassLoader)
-
-        //Reload with new classes
-        injectorFinder = new PropertyFinder()
-
         Injector injector = new MainInjectorCreator(cliArgumentProvider, injectorFinder).getInjector();
         log.info("Loading version {}", injector.getInstance(PropertyValueProvider).getProperty('ask.version'))
 

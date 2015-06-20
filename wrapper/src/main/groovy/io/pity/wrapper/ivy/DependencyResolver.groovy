@@ -1,9 +1,5 @@
-package io.pity.bootstrap.ivy
-
-
+package io.pity.wrapper.ivy
 import groovy.util.logging.Slf4j
-import io.pity.api.PropertyValueProvider
-import io.pity.bootstrap.injection.PropertyFinder
 import org.apache.ivy.Ivy
 import org.apache.ivy.core.module.descriptor.Configuration
 import org.apache.ivy.core.module.descriptor.DefaultDependencyDescriptor
@@ -22,33 +18,24 @@ class DependencyResolver {
     private static final Logger logger = LoggerFactory.getLogger(DependencyResolver.class)
 
     final Ivy ivyInstance;
-    final URLClassLoader rootLoader
-    final PropertyValueProvider askProperties;
     final DependencyConfiguration dependencyConfiguration
 
-    public DependencyResolver(PropertyFinder injectorFinder,
-        DependencyConfiguration dependencyConfiguration,
-        URLClassLoader rootLoader) {
-        this(injectorFinder, dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)),
-            rootLoader)
+    public DependencyResolver(
+        DependencyConfiguration dependencyConfiguration) {
+        this(dependencyConfiguration, Ivy.newInstance(createIvySettings(dependencyConfiguration)))
     }
 
-    DependencyResolver(PropertyFinder injectorFinder,
+    DependencyResolver(
         DependencyConfiguration dependencyConfiguration,
-        Ivy ivyInstance,
-        URLClassLoader rootLoader) {
+        Ivy ivyInstance) {
         this.dependencyConfiguration = dependencyConfiguration
         this.ivyInstance = ivyInstance
-        this.rootLoader = rootLoader
-        this.askProperties = injectorFinder.createPropertyValueProvider()
     }
 
-    void resolveDependencies() {
+    List<URL> resolveDependencies() {
         if (dependencyConfiguration.dependencies.isEmpty()) {
             return
         }
-
-        log.debug("Ask Bundeled Version: " + askProperties.getProperty('ask.version'))
 
         DefaultModuleDescriptor md = createDefaultModuleDescriptor()
 
@@ -72,10 +59,7 @@ class DependencyResolver {
 
         def artifacts = report.allArtifactsReports.findAll { return it.localFile }.collect { it.localFile.toURI() }
 
-        artifacts.each { artifact ->
-            logger.debug("Adding {}({}) to the rootLoader", artifact.toURL(), artifact.toString())
-            rootLoader.addURL(artifact.toURL())
-        }
+        return artifacts.collect { artifact -> artifact.toURL() }
     }
 
     private DefaultModuleDescriptor createDefaultModuleDescriptor() {
@@ -90,7 +74,7 @@ class DependencyResolver {
     static private IvySettings createIvySettings(DependencyConfiguration dependencyConfiguration) {
         // create an ivy instance
         IvySettings ivySettings = new IvySettings();
-        if (dependencyConfiguration?.configurationFile?.exists()) {
+        if (dependencyConfiguration?.configurationFile) {
             ivySettings.load(dependencyConfiguration.configurationFile)
         } else {
             IBiblioResolver br = new IBiblioResolver();

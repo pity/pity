@@ -1,6 +1,24 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 apply plugin: 'groovy'
-//apply plugin: 'application'
+apply plugin: 'application'
+
+mainClassName = 'io.pity.wrapper.WrapperMain'
 
 dependencies {
     compile deps.groovy
+    compile deps.ivy
+    compile deps.'commons-cli'
+    compile deps.'slf4j-api'
+    compile deps.logback
+
+    testCompile(deps.spock) {
+        exclude group: 'org.codehaus.groovy'
+    }
+}
+
+run.dependsOn 'publishToMavenLocal'
+
+processResources {
+    filter(ReplaceTokens, tokens: [version: project.version as String])
 }

@@ -10,7 +10,7 @@ subprojects {
     apply plugin: 'maven-publish'
 
     version = '0.0.1'
-    group = 'io.ask'
+    group = 'io.pity'
 
     sourceCompatibility = '1.7'
     targetCompatibility = '1.7'

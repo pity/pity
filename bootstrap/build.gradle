@@ -13,7 +13,7 @@ dependencies {
     compile deps.guice
     compile deps.'slf4j-api'
     compile deps.logback
-    compile deps.'command-cli'
+    compile deps.'commons-cli'
     compile deps.ivy
 
     runtime project(':tasks')
