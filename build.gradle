@@ -87,6 +87,14 @@ allprojects {
     }
 }
 
+task bumpVersion(dependsOn: check) {
+    doLast {
+        project.exec {
+            commandLine 'scripts/version-bump.sh', project.version
+        }
+    }
+}
+
 idea {
     project {
         jdkName = '1.7'
