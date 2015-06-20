@@ -22,7 +22,7 @@ subprojects {
     apply plugin: 'maven'
     apply plugin: 'com.jfrog.bintray'
 
-    version = '0.0.1'
+    version = rootProject.file("VERSION").text
     group = 'io.pity'
 
     sourceCompatibility = '1.7'
