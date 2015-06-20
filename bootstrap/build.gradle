@@ -4,7 +4,7 @@ import org.apache.tools.ant.filters.ReplaceTokens
 apply plugin: 'groovy'
 apply plugin: 'application'
 
-mainClassName = 'io.ask.bootstrap.AskBootstrapMain'
+mainClassName = 'io.pity.bootstrap.AskBootstrapMain'
 
 dependencies {
     compile 'com.google.inject.extensions:guice-multibindings:4.0'
