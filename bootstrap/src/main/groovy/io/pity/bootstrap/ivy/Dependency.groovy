@@ -11,4 +11,9 @@ class Dependency {
         name = split[1]
         version = split[2]
     }
+
+    @Override
+    String toString() {
+        return group + ':' + name + ':' + version
+    }
 }
