@@ -4,7 +4,7 @@ package io.pity.bootstrap.environment
 import com.google.inject.Inject
 import groovy.util.logging.Slf4j
 import io.pity.api.RootCollectorExecutor
-import io.pity.bootstrap.provider.InternalCliArgumentProvider
+import io.pity.bootstrap.provider.cli.InternalCliArgumentProvider
 
 @Slf4j
 public class MainEnvironmentCollectorExecutor implements RootCollectorExecutor {

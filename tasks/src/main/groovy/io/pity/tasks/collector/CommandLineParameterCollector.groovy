@@ -3,7 +3,7 @@ package io.pity.tasks.collector
 
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
-import io.pity.api.CliArgumentProvider
+import io.pity.api.cli.CliArgumentProvider
 import io.pity.api.WorkingDirectoryProvider
 import io.pity.api.environment.EnvironmentCollector
 
@@ -25,6 +25,6 @@ class CommandLineParameterCollector extends EnvironmentCollector {
 
     @Override
     void collect() {
-        environmentDataBuilder.addData('ticketId', cliArgumentProvider.getTicketId())
+        environmentDataBuilder.addData('configured-options', cliArgumentProvider.getOptions().join(', '))
     }
 }

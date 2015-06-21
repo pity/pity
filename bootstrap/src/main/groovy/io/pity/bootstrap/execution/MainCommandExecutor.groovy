@@ -6,7 +6,7 @@ import groovy.util.logging.Slf4j
 import io.pity.api.RootCollectorExecutor
 import io.pity.api.preprocess.CommandOptions
 import io.pity.bootstrap.preprocess.PreProcessorExecutor
-import io.pity.bootstrap.provider.InternalCliArgumentProvider
+import io.pity.bootstrap.provider.cli.InternalCliArgumentProvider
 
 @Slf4j
 class MainCommandExecutor implements RootCollectorExecutor {

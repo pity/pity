@@ -1,7 +1,8 @@
-package io.pity.api;
+package io.pity.api.cli;
 
 import io.pity.api.preprocess.CommandOptions;
 import java.io.File;
+import java.util.List;
 
 
 public interface CliArgumentProvider {
@@ -16,8 +17,10 @@ public interface CliArgumentProvider {
 
     CommandOptions getExecutionCommandOptions();
 
-    String getTicketId();
+    List<String> getOptions();
 
-    String[] getRawOption();
+    Object getRawOption(String param);
+
+    String[] getRawArgs();
 }
 

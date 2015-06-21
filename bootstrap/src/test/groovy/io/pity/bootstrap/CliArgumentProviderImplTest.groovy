@@ -1,7 +1,7 @@
 package io.pity.bootstrap
 
 
-import io.pity.bootstrap.provider.CliArgumentProviderImpl
+import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl
 import spock.lang.Specification
 
 class CliArgumentProviderImplTest extends Specification {

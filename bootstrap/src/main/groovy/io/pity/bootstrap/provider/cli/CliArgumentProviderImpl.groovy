@@ -1,6 +1,6 @@
-package io.pity.bootstrap.provider
-
+package io.pity.bootstrap.provider.cli
 import groovy.util.logging.Slf4j
+import io.pity.api.cli.CliOptionConfigurer
 import io.pity.api.preprocess.CommandOptions
 import io.pity.api.preprocess.CommandOptionsFactory
 import org.apache.commons.cli.DefaultParser
@@ -11,19 +11,11 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
     private final CliBuilder cliBuilder
     private final OptionAccessor optionAccessor
 
-    CliArgumentProviderImpl(String[] args) {
+    CliArgumentProviderImpl(String[] args, Set<CliOptionConfigurer> configurers) {
         this.args = args
         cliBuilder = new CliBuilder(usage: 'ask', parser: new DefaultParser())
 
-        cliBuilder._(longOpt: 'disable-env-collection', 'Disable collection of environmental data')
-        cliBuilder._(longOpt: 'execute', args: 1, 'Execute the following command')
-        cliBuilder._(longOpt: 'from', args: 1, 'The directory which you want to run against. By default this is the current directory.')
-        cliBuilder._(longOpt: 'ticket', args: 1, 'Provides a ticket for this report')
-        cliBuilder._(longOpt: 'debug', 'Enable debug logging.')
-        cliBuilder._(longOpt: 'ivy-log-info', 'Enable Ivy\'s logging at info.')
-        cliBuilder._(longOpt: 'ivy-log-debug', 'Enable Ivy\'s logging at debug.')
-        cliBuilder._(longOpt: 'silent', 'Disable all logging (except error).')
-        cliBuilder.h(longOpt: 'help', 'Show usage information')
+        configurers.each { it.configureCli(cliBuilder) }
 
         optionAccessor = cliBuilder.parse(args)
         if (!optionAccessor) {
@@ -83,17 +75,17 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
     }
 
     @Override
-    String getTicketId() {
-        if(optionAccessor.'ticket') {
-            return optionAccessor.'ticket'
-        } else {
-            return null
-        }
+    Object getRawOption(String option) {
+        return optionAccessor.getProperty(option)
     }
 
     @Override
-    String[] getRawOption() {
-        return args
+    String[] getRawArgs() {
+        return args;
+    }
+
+    List<String> getOptions() {
+        return optionAccessor.getInner().getOptions().collect { it.getArgName() }
     }
 
     public static class ArgumentParseError extends Error {
