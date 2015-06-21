@@ -12,6 +12,11 @@ dependencies {
     testCompile deps.spock
 }
 
-javadoc {
+groovydoc {
     exclude '**/internal/**'
+}
+
+task groovydocZip(type: Zip, dependsOn: groovydoc) {
+    from groovydoc.destinationDir
+    appendix = 'groovydoc'
 }

@@ -1,20 +1,23 @@
 package io.pity.bootstrap
-
-
 import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl
+import io.pity.bootstrap.provider.cli.DefaultCliOptionConfigurer
+import spock.lang.Shared
 import spock.lang.Specification
 
 class CliArgumentProviderImplTest extends Specification {
 
+    @Shared
+    DefaultCliOptionConfigurer defaultCliOptionConfigurer = new DefaultCliOptionConfigurer()
+
     def 'testing help argument'() {
         when:
-        def argumentProvider = new CliArgumentProviderImpl(['--help'] as String[])
+        def argumentProvider = createCliArgumentProvider(['--help'] as String[])
 
         then:
         argumentProvider.isHelp()
 
         when:
-        argumentProvider = new CliArgumentProviderImpl(['-h'] as String[])
+        argumentProvider = createCliArgumentProvider(['-h'] as String[])
 
         then:
         argumentProvider.isHelp()
@@ -22,13 +25,13 @@ class CliArgumentProviderImplTest extends Specification {
 
     def 'testing disable-env-collection argument'() {
         when:
-        def argumentProvider = new CliArgumentProviderImpl(['--disable-env-collection'] as String[])
+        def argumentProvider = createCliArgumentProvider(['--disable-env-collection'] as String[])
 
         then:
         !argumentProvider.isEnvironmentCollectionEnabled()
 
         when:
-        argumentProvider = new CliArgumentProviderImpl([''] as String[])
+        argumentProvider = createCliArgumentProvider([''] as String[])
 
         then:
         argumentProvider.isEnvironmentCollectionEnabled()
@@ -36,13 +39,13 @@ class CliArgumentProviderImplTest extends Specification {
 
     def 'testing execute argument and options'() {
         when:
-        new CliArgumentProviderImpl(['--execute'] as String[])
+        createCliArgumentProvider(['--execute'] as String[])
 
         then:
         thrown(CliArgumentProviderImpl.ArgumentParseError)
 
         when:
-        def argumentProvider = new CliArgumentProviderImpl('--execute ls'.split(' '))
+        def argumentProvider = createCliArgumentProvider('--execute ls'.split(' '))
 
         then:
         argumentProvider.isCommandExecution()
@@ -51,9 +54,13 @@ class CliArgumentProviderImplTest extends Specification {
 
     def 'when argument is not present, can it be retrieved'() {
         when:
-        new CliArgumentProviderImpl('--bar biz'.split(' '))
+        createCliArgumentProvider('--bar biz'.split(' '))
 
         then:
         noExceptionThrown()
+    }
+
+    private CliArgumentProviderImpl createCliArgumentProvider(String[] strings) {
+        new CliArgumentProviderImpl(strings, [defaultCliOptionConfigurer] as Set)
     }
 }
