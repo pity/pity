@@ -84,7 +84,7 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
         return args;
     }
 
-    List<String> getOptions() {
+    List<String> getCommandLineOptions() {
         return optionAccessor.getInner().getOptions().collect { it.getArgName() }
     }
 
