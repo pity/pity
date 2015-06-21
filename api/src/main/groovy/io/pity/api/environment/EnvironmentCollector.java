@@ -5,6 +5,9 @@ import io.pity.api.WorkingDirectoryProvider;
 
 import java.io.File;
 
+/**
+ * Base class used for all environment collectors.
+ */
 public abstract class EnvironmentCollector {
 
     public final WorkingDirectoryProvider workingDirectoryProvider;
