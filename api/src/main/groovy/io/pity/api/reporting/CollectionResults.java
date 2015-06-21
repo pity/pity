@@ -6,7 +6,18 @@ import java.util.List;
 import java.util.Set;
 
 
+/**
+ * An interface to contain all the collected results.
+ */
 public interface CollectionResults {
+
+    /**
+     * @return Set of the {@link EnvironmentData} that was collected
+     */
     Set<EnvironmentData> getEnvironmentData();
+
+    /**
+     * @return List of the {@link CommandExecutionResult}s that were collected.
+     */
     List<CommandExecutionResult> getCommandExecutionResults();
 }
