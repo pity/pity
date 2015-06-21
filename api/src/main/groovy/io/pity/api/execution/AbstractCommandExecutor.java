@@ -9,6 +9,10 @@ import java.io.File;
 import java.io.IOException;
 
 
+/**
+ * All plugins that want to be able to execute a command <strong>should</strong> extend this. This is a convenience
+ * implementation for {@link CommandExecutor}
+ */
 abstract public class AbstractCommandExecutor implements CommandExecutor {
 
     final WorkingDirectoryProvider workingDirectoryProvider;
@@ -18,12 +22,17 @@ abstract public class AbstractCommandExecutor implements CommandExecutor {
     @Inject
     public AbstractCommandExecutor(WorkingDirectoryProvider workingDirectoryProvider) throws IOException {
         this.workingDirectoryProvider = workingDirectoryProvider;
-        tempDir = new File(FileUtils.getTempDirectory(), "ask_" + RandomStringUtils.randomAlphanumeric(10));
+        tempDir = new File(FileUtils.getTempDirectory(), "pity_" + RandomStringUtils.randomAlphanumeric(10));
         FileUtils.forceMkdir(tempDir);
 
         commandExecutionResultBuilder = new CommandExecutionResultBuilder(this.getClass().getSimpleName(), tempDir);
     }
 
+    /**
+     * The working directory to use used to execute the process
+     *
+     * @return File to the working directory.
+     */
     public File getWorkingDirectory() {
         return workingDirectoryProvider.getWorkingDirectory();
     }

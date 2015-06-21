@@ -4,6 +4,9 @@ package io.pity.api.execution
 import io.pity.api.execution.internal.CommandExecutionResultImpl
 import io.pity.api.preprocess.CommandOptions
 
+/**
+ * Builder used to create a {@link CommandExecutionResult}
+ */
 class CommandExecutionResultBuilder {
 
     private final String executor;

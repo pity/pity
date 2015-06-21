@@ -38,7 +38,7 @@ class EnvironmentDataBuilder {
      * Get an instance of {@link EnvironmentData}. This may update if {@link EnvironmentDataBuilder#addData(String, Object)}
      * is called after build is called.
      *
-     * @return an instance of {@link EnvironmentData}
+     * @return an instance of {@link EnvironmentData}g
      */
     public EnvironmentData build() {
         return environmentData;
