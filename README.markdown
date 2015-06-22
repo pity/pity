@@ -4,7 +4,14 @@
 
 ## Why?
 
-There are two major use cases that pity could be used for. The first is for collecting data for bug reports. A project
-developer usually knows what is needed for a bug report. Pity allows you to create specific bug reports.
+Have you ever gotten a bug report that was essentially useless? Pity aims to prevent that from happening. Pity provides
+a way to collect any data about an environment. Pity also allows for execution of commands though it. By executing a command
+using Pity, more data can be collected. For example, automatically enabling debug logging.
 
-The second use case is to collect data quickly in the event of a site outage. 
+## Collecting Bug Reports
+Pity provides a way to collect bug reports in an automated mechanism. Pity allows the maintains of projects to configure
+what needs to be collected for a project.
+
+## Collecting Important Emergency Metrics
+When the site is down, you don't have time to collect all the data about whats happening, you're working on on getting
+it back up. Pity can allow you to collect data about a machine to be used to create better results as a system runs.
