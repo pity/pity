@@ -26,9 +26,7 @@ dependencies {
 
     provided deps.logback
 
-    testCompile(deps.spock) {
-        exclude group: 'org.codehaus.groovy'
-    }
+    testCompile(deps.spock)
 }
 
 processResources {

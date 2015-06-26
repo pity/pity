@@ -60,6 +60,16 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
         }
     }
 
+    @Override
+    boolean isOverridePublisher() {
+        return optionAccessor.'publisher'
+    }
+
+    @Override
+    String getOverriddenPublisher() {
+        return optionAccessor.'publisher'
+    }
+
     public boolean isCommandExecution() {
         return optionAccessor.'execute'
     }

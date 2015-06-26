@@ -2,6 +2,7 @@ apply plugin: 'groovy'
 
 dependencies {
     compile project(':api')
+    compile deps.groovy
     compile deps.'guice-multibindings'
     compile deps.'commons-io'
     compile deps.'commons-lang3'

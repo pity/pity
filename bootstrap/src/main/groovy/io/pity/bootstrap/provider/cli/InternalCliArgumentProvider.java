@@ -11,4 +11,8 @@ public interface InternalCliArgumentProvider extends CliArgumentProvider {
 
     File getTargetDirectory();
 
+    boolean isOverridePublisher();
+
+    String getOverriddenPublisher();
+
 }

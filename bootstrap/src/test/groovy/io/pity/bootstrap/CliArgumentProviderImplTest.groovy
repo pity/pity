@@ -29,6 +29,7 @@ class CliArgumentProviderImplTest extends Specification {
 
         then:
         !argumentProvider.isEnvironmentCollectionEnabled()
+        argumentProvider.getRawOption('disable-env-collection') == true
 
         when:
         argumentProvider = createCliArgumentProvider([''] as String[])
@@ -50,6 +51,7 @@ class CliArgumentProviderImplTest extends Specification {
         then:
         argumentProvider.isCommandExecution()
         argumentProvider.getExecutionCommandOptions()
+        argumentProvider.getRawOption('execute') == 'ls'
     }
 
     def 'when argument is not present, can it be retrieved'() {

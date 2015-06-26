@@ -13,6 +13,7 @@ class DefaultCliOptionConfigurer implements CliOptionConfigurer {
         cliBuilder._(longOpt: 'ivy-log-info', 'Enable Ivy\'s logging at info.')
         cliBuilder._(longOpt: 'ivy-log-debug', 'Enable Ivy\'s logging at debug.')
         cliBuilder._(longOpt: 'silent', 'Disable all logging (except error).')
+        cliBuilder._(longOpt: 'publisher', args: 1, 'Override the default publisher with this. Must be a fully qualified class like io.pity.bootstrap.publish.XmlReportPublisher')
         cliBuilder.h(longOpt: 'help', 'Show usage information')
     }
 }
