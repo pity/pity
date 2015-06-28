@@ -15,6 +15,6 @@ echo $VERSION > $DIR/../VERSION
 git commit -a -m "Bumping version to $VERSION
 
 [ci skip]"
-git push
+git push origin master
 git push --tags
 
