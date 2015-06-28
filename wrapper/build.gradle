@@ -23,16 +23,20 @@ processResources {
 }
 
 task createExecScript(type: Copy) {
+    outputs.upToDateWhen { false }
     from file('resources/pity.sh')
     filter(ReplaceTokens, tokens: [version: project.version as String])
     into "$buildDir/dist"
+    rename('pity.sh', "pity-${project.version}.sh")
     fileMode 0755
 }
 
 artifacts {
     archives shadowJar
-    archives file: file("$buildDir/dist/pity.sh"), name: 'pity.sh', builtBy: createExecScript
+    archives file: file("$buildDir/dist/pity-${project.version}.sh"), name: "pity-${project.version}.sh", builtBy: createExecScript
 }
+
+assemble.dependsOn createExecScript
 
 publishing {
     publications {
@@ -40,6 +44,10 @@ publishing {
             from components.java
             artifact shadowJar {
                 classifier "all"
+            }
+            artifact("$buildDir/dist/pity-${project.version}.sh") {
+                extension "sh"
+                builtBy createExecScript
             }
         }
     }
