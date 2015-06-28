@@ -38,8 +38,8 @@ class PublishManager {
     private static String findReportPublisher(PropertyFinder injectorFinder) {
         def publisherName = injectorFinder.createPropertyValueProvider().getProperty('default.publisher')
         if (StringUtils.isEmpty(publisherName)) {
-            log.trace("Could not find property, defaulting")
             publisherName = XmlReportPublisher.class.getName()
+            log.trace("Could not find publisher, default to {}", publisherName)
         }
         return publisherName;
     }

@@ -1,6 +1,5 @@
 package io.pity.bootstrap.injection;
 
-import groovy.transform.Memoized;
 import io.pity.api.PropertyValueProvider;
 import io.pity.bootstrap.provider.PropertyValueProviderImpl;
 import org.reflections.Reflections;
@@ -22,6 +21,7 @@ public class PropertyFinder {
 
     public static final Logger logger = LoggerFactory.getLogger(PropertyFinder.class);
     private final Reflections reflections;
+    List<Properties> propertiesList;
 
     public PropertyFinder() {
         ConfigurationBuilder configuration = ConfigurationBuilder.build()
@@ -30,20 +30,20 @@ public class PropertyFinder {
         reflections = new Reflections(configuration);
     }
 
-    @Memoized
     public List<Properties> findAskProperties() throws IOException {
-        List<Properties> propertiesList = new ArrayList<Properties>();
-        Set<String> resources = reflections.getResources(Pattern.compile(".*\\.properties"));
+        if(null == propertiesList) {
+            propertiesList = new ArrayList<Properties>();
+            Set<String> resources = reflections.getResources(Pattern.compile(".*\\.properties"));
 
-        for (String resource : resources) {
-            logger.debug("Found plugin property {}", resource);
-            propertiesList.add(urlToProperties(this.getClass().getResourceAsStream("/" + resource)));
+            for (String resource : resources) {
+                logger.debug("Found plugin property {}", resource);
+                propertiesList.add(urlToProperties(this.getClass().getResourceAsStream("/" + resource)));
+            }
         }
 
         return propertiesList;
     }
 
-    @Memoized
     public PropertyValueProvider createPropertyValueProvider() throws IOException {
         return new PropertyValueProviderImpl(findAskProperties());
     }

@@ -18,6 +18,8 @@ import java.net.URLClassLoader;
 import java.text.ParseException;
 
 public class WrapperMain {
+    public static final org.slf4j.Logger logger = LoggerFactory.getLogger(WrapperMain.class);
+
     public static void main(String[] args) throws IOException, URISyntaxException, ClassNotFoundException,
         ParseException, NoSuchMethodException, InvocationTargetException, IllegalAccessException {
 
@@ -32,16 +34,30 @@ public class WrapperMain {
 
         Message.setDefaultLogger(new IvyLogger(args));
 
+        long startIvyTime = System.currentTimeMillis();
+        URLClassLoader loader = createNewClassLoader();
+        long endIvyTime = System.currentTimeMillis();
+        logger.trace("Ivy Resolve took {}ms", endIvyTime - startIvyTime);
+
+        long startTime = System.currentTimeMillis();
+        executeMain(args, loader);
+        long endTime = System.currentTimeMillis();
+        logger.trace("Total execution time: {}ms", endTime - startTime);
+    }
+
+    private static void executeMain(Object args, URLClassLoader loader) throws ClassNotFoundException, NoSuchMethodException, IllegalAccessException, InvocationTargetException {
+        Class<?> mainClass = Class.forName("io.pity.bootstrap.AskBootstrapMain", false, loader);
+        Method method = mainClass.getDeclaredMethod("main", String[].class);
+        method.invoke(null, args);
+    }
+
+    private static URLClassLoader createNewClassLoader() throws URISyntaxException, IOException, ParseException {
         IvyConfiguration ivyConfiguration = new IvyConfiguration();
         ivyConfiguration.update();
         DependencyConfiguration configuration = new DependencyConfiguration(ivyConfiguration, null);
 
         URL[] urls = new DependencyResolver(configuration).resolveDependencies().toArray(new URL[0]);
-        URLClassLoader loader = new URLClassLoader(urls, WrapperMain.class.getClassLoader());
-
-        Class<?> mainClass = Class.forName("io.pity.bootstrap.AskBootstrapMain", false, loader);
-        Method method = mainClass.getDeclaredMethod("main", String[].class);
-        method.invoke(null, (Object)args);
+        return new URLClassLoader(urls, WrapperMain.class.getClassLoader());
     }
 
     public static boolean contains(String[] args, String name) {
