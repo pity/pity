@@ -22,8 +22,16 @@ processResources {
     filter(ReplaceTokens, tokens: [version: project.version as String])
 }
 
+task createExecScript(type: Copy) {
+    from file('resources/pity.sh')
+    filter(ReplaceTokens, tokens: [version: project.version as String])
+    into "$buildDir/dist"
+    fileMode 0755
+}
+
 artifacts {
     archives shadowJar
+    archives file: file("$buildDir/dist/pity.sh"), name: 'pity.sh', builtBy: createExecScript
 }
 
 publishing {
