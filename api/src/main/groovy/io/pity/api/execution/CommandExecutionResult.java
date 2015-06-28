@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * Results from a command execution
  */
-public interface CommandExecutionResult {
+public interface CommandExecutionResult extends Comparable<CommandExecutionResult> {
 
     /**
      * {@link CommandOptions} that was used to execute

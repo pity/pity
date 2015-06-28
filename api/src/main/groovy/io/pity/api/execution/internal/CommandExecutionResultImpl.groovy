@@ -59,4 +59,9 @@ class CommandExecutionResultImpl implements CommandExecutionResult {
     Map<String, String> getOtherResults() {
         return otherResults
     }
+
+    @Override
+    int compareTo(CommandExecutionResult o) {
+        return getCommandExecutorClass().compareTo(o.getCommandExecutorClass())
+    }
 }
