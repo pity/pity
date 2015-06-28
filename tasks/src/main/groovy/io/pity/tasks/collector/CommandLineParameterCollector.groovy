@@ -25,6 +25,6 @@ class CommandLineParameterCollector extends EnvironmentCollector {
 
     @Override
     void collect() {
-        environmentDataBuilder.addData('configured-options', cliArgumentProvider.getCommandLineOptions().join(', '))
+        environmentDataBuilder.addData('configured-options', cliArgumentProvider.getRawArgs())
     }
 }

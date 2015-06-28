@@ -10,7 +10,7 @@ import io.pity.api.reporting.CollectionResults
 class XmlOutputGenerator {
 
     Set<EnvironmentData> envData;
-    List<CommandExecutionResult> executionData;
+    Set<CommandExecutionResult> executionData;
 
     XmlOutputGenerator(CollectionResults collectedResults) {
         this.envData = collectedResults.getEnvironmentData()

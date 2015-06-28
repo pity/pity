@@ -28,6 +28,7 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
 
         StringWriter sw = new StringWriter()
         cliBuilder.writer = new PrintWriter(sw)
+        cliBuilder.width = 120
         cliBuilder.usage()
 
         cliBuilder.writer = oldWriter

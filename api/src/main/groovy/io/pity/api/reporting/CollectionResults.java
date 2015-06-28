@@ -17,7 +17,7 @@ public interface CollectionResults {
     Set<EnvironmentData> getEnvironmentData();
 
     /**
-     * @return List of the {@link CommandExecutionResult}s that were collected.
+     * @return Set of the {@link CommandExecutionResult}s that were collected.
      */
-    List<CommandExecutionResult> getCommandExecutionResults();
+    Set<CommandExecutionResult> getCommandExecutionResults();
 }

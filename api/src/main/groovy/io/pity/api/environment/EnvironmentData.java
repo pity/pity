@@ -5,7 +5,7 @@ import java.util.Map;
 /**
  * The format that a {@link EnvironmentCollector} will return when {@link EnvironmentCollector#collectEnvironmentData()}
  */
-public interface EnvironmentData {
+public interface EnvironmentData extends Comparable<EnvironmentData> {
 
     /**
      * Get the name of the collector that collected the environment data

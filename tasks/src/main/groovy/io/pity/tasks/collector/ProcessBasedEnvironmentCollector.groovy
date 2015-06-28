@@ -27,6 +27,7 @@ abstract class ProcessBasedEnvironmentCollector extends EnvironmentCollector {
 
         def errorOutput = processResult.errorStream.text
         if (!StringUtils.isEmpty(errorOutput)) {
+            environmentDataBuilder.addData(resultKey + '-error', errorOutput.trim())
             logger.debug("Error getting {} log: {}", resultKey, errorOutput)
         }
     }

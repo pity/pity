@@ -22,6 +22,7 @@ class PublishManager {
         String publisherName = findReportPublisher(injectorFinder)
         if(cliArgumentProvider.isOverridePublisher()) {
             publisherName = cliArgumentProvider.overriddenPublisher
+            log.info("Overriding publisher to {}", publisherName)
         }
 
         Class publisher = Class.forName(publisherName)
@@ -37,6 +38,7 @@ class PublishManager {
     private static String findReportPublisher(PropertyFinder injectorFinder) {
         def publisherName = injectorFinder.createPropertyValueProvider().getProperty('default.publisher')
         if (StringUtils.isEmpty(publisherName)) {
+            log.trace("Could not find property, defaulting")
             publisherName = XmlReportPublisher.class.getName()
         }
         return publisherName;

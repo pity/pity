@@ -7,17 +7,22 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 
 public class IvyConfiguration {
 
+    private static final Logger logger = LoggerFactory.getLogger(IvyConfiguration.class);
     public static final String PITY_CONF_FILE = ".pity/config.properties";
 
-    URL ivySettingUrl;
+    private PityProperties pityProperties;
+
     List<Dependency> dependencies;
 
-    public IvyConfiguration() throws URISyntaxException, MalformedURLException {
-        ivySettingUrl = this.getClass().getResource("/pity/ivy/settings.xml").toURI().toURL();
+    public IvyConfiguration() throws URISyntaxException, IOException {
         dependencies = new ArrayList<Dependency>();
+        pityProperties = new PityProperties();
     }
 
     public void update() throws IOException {
@@ -29,39 +34,42 @@ public class IvyConfiguration {
             updateSettings(currentDirConf);
         } else if(homePityConf.exists()) {
             updateSettings(homePityConf);
-        } else {
-            Properties properties = new Properties();
-            InputStream inputStream = getClass().getResourceAsStream("/wrapper-default.properties");
-            properties.load(inputStream);
-            String wrapperVersion = properties.getProperty("pity.wrapper.version");
-
-            dependencies.add(new Dependency("io.pity", "bootstrap", wrapperVersion));
-            dependencies.add(new Dependency("io.pity", "tasks", wrapperVersion));
-            dependencies.add(new Dependency("io.pity", "api", wrapperVersion));
         }
-    }
 
-    void updateSettings(File file) throws IOException {
-        Properties pityProperties = new Properties();
+        pityProperties.update(System.getProperties());
 
-        FileReader fileReader = new FileReader(file);
-        pityProperties.load(fileReader);
+        addPityDependencies(pityProperties.version);
 
-        ivySettingUrl = new File(pityProperties.getProperty("pity.ivy.settings.file")).toURI().toURL();
-        String dependenciesString = pityProperties.getProperty("pity.dependencies");
-        String version = pityProperties.getProperty("pity.version");
-        dependencies.add(new Dependency("io.pity", "bootstrap", version));
-        dependencies.add(new Dependency("io.pity", "api", version));
-        if(null != dependenciesString) {
-            String[] dependencyArray = dependenciesString.split(",");
+        if(null != pityProperties.dependencies) {
+            String[] dependencyArray = pityProperties.dependencies.split(",");
             for (String dep : dependencyArray) {
                 dependencies.add(new Dependency(dep));
             }
         }
+
+        logger.debug("Version: {}", pityProperties.version);
+        logger.debug("Dependencies: {}", pityProperties.dependencies);
+        logger.debug("Ivy Settings: {}", pityProperties.ivySettings);
+    }
+
+    void updateSettings(File file) throws IOException {
+        logger.debug("Loading properties from: {}", file);
+        Properties props = new Properties();
+
+        FileReader fileReader = new FileReader(file);
+        props.load(fileReader);
+
+        pityProperties.update(props);
+    }
+
+    void addPityDependencies(String version) {
+        dependencies.add(new Dependency("io.pity", "bootstrap", version));
+        dependencies.add(new Dependency("io.pity", "tasks", version));
+        dependencies.add(new Dependency("io.pity", "api", version));
     }
 
     public URL getIvySettingUrl() {
-        return ivySettingUrl;
+        return pityProperties.ivySettings;
     }
 
     public List<Dependency> getDependencies() {

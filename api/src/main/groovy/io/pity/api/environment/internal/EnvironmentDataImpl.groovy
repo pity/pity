@@ -17,4 +17,9 @@ public class EnvironmentDataImpl implements EnvironmentData {
     public Map<String, ?> getEnvironmentResults() {
         return environmentResults;
     }
+
+    @Override
+    int compareTo(EnvironmentData o) {
+        return collectorName.compareTo(o.collectorName)
+    }
 }

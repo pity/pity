@@ -9,12 +9,13 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 
 public class ResultCollectorImpl implements ResultCollector, CollectionResults {
 
-    Set<EnvironmentData> environmentDataSet = Collections.synchronizedSet(new HashSet<EnvironmentData>());
-    List<CommandExecutionResult> commandExecutionResultSet = Collections.synchronizedList(new ArrayList<CommandExecutionResult>());
+    Set<EnvironmentData> environmentDataSet = Collections.synchronizedSet(new TreeSet<EnvironmentData>());
+    Set<CommandExecutionResult> commandExecutionResultSet = Collections.synchronizedSet(new TreeSet<CommandExecutionResult>());
 
     @Override
     public void collect(EnvironmentData environmentData) {
@@ -32,7 +33,7 @@ public class ResultCollectorImpl implements ResultCollector, CollectionResults {
     }
 
     @Override
-    public List<CommandExecutionResult> getCommandExecutionResults() {
+    public Set<CommandExecutionResult> getCommandExecutionResults() {
         return commandExecutionResultSet;
     }
 }
