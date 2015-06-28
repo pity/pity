@@ -9,7 +9,7 @@ import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl
 @Slf4j
 class InjectorCreators {
 
-    private PropertyFinder propertyFinder = new PropertyFinder()
+    final   private PropertyFinder propertyFinder = new PropertyFinder()
 
     public Injector findTaskInjectors(CliArgumentProviderImpl cliArgumentProvider) {
         def allInjectors = [] as List<AbstractModule >
@@ -22,6 +22,10 @@ class InjectorCreators {
 
     public Injector findBootstrapInjectors() {
         return Guice.createInjector(findInjectors('bootstrap-injector-class'))
+    }
+
+    public PropertyFinder getPropertyFinder() {
+        return propertyFinder;
     }
 
     List<AbstractModule> findInjectors(String propertyName) {

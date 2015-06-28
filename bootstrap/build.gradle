@@ -29,6 +29,11 @@ dependencies {
     testCompile(deps.spock)
 }
 
+task run(type: JavaExec) {
+    main = 'io.pity.bootstrap.AskBootstrapMain'
+    classpath = sourceSets.main.runtimeClasspath
+}
+
 processResources {
     filter(ReplaceTokens, tokens: [version: project.version as String])
 }
