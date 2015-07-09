@@ -61,8 +61,8 @@ subprojects {
     }
 
     bintray {
-        user = bintray_user
-        key = bintray_key
+        user = System.getenv('BINTRAY_USER') ?: bintray_user
+        key = System.getenv('BINTRAY_PASSWORD') ?: bintray_key
         configurations = ['archives']
         publish = project.hasProperty('bintray.publish') ? project.property('bintray.publish') as Boolean: false
         pkg {
