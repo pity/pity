@@ -1,27 +1,26 @@
 package io.pity.bootstrap.injection
-
 import com.google.inject.AbstractModule
-import com.google.inject.Guice
-import com.google.inject.Injector
 import groovy.util.logging.Slf4j
+import io.pity.bootstrap.injection.injectors.InitializationInjector
+import io.pity.bootstrap.injection.injectors.TaskInjector
 import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl
 
 @Slf4j
 class InjectorCreators {
 
-    final   private PropertyFinder propertyFinder = new PropertyFinder()
+    final private PropertyFinder propertyFinder = new PropertyFinder()
 
-    public Injector findTaskInjectors(CliArgumentProviderImpl cliArgumentProvider) {
+    public TaskInjector findTaskInjectors(CliArgumentProviderImpl cliArgumentProvider) {
         def allInjectors = [] as List<AbstractModule >
         def bootstrapInjector = new TaskRootInjector(propertyFinder.createPropertyValueProvider(), cliArgumentProvider)
         allInjectors.add(bootstrapInjector)
         allInjectors.addAll(findInjectors('task-injector-class'))
 
-        return Guice.createInjector(allInjectors)
+        return new TaskInjector(allInjectors)
     }
 
-    public Injector findBootstrapInjectors() {
-        return Guice.createInjector(findInjectors('bootstrap-injector-class'))
+    public InitializationInjector createInitializationInjector() {
+        return new InitializationInjector(findInjectors('bootstrap-injector-class'))
     }
 
     public PropertyFinder getPropertyFinder() {

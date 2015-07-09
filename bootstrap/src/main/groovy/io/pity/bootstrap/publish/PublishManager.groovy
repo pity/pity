@@ -1,12 +1,11 @@
 package io.pity.bootstrap.publish
 
-
-import com.google.inject.Injector
 import groovy.util.logging.Slf4j
 import io.pity.api.StopExecutionException
 import io.pity.api.reporting.CollectionResults
 import io.pity.api.reporting.ReportPublisher
 import io.pity.bootstrap.injection.PropertyFinder
+import io.pity.bootstrap.injection.injectors.TaskInjector
 import io.pity.bootstrap.provider.cli.InternalCliArgumentProvider
 import org.apache.commons.lang3.StringUtils
 
@@ -14,11 +13,11 @@ import org.apache.commons.lang3.StringUtils
 class PublishManager {
     final ReportPublisher reportPublisher;
 
-    PublishManager(InternalCliArgumentProvider cliArgumentProvider, PropertyFinder injectorFinder, Injector injector) {
+    PublishManager(InternalCliArgumentProvider cliArgumentProvider, PropertyFinder injectorFinder, TaskInjector injector) {
         reportPublisher = getReportPublisher(cliArgumentProvider, injectorFinder, injector)
     }
 
-    static ReportPublisher getReportPublisher(InternalCliArgumentProvider cliArgumentProvider, PropertyFinder injectorFinder, Injector injector) {
+    static ReportPublisher getReportPublisher(InternalCliArgumentProvider cliArgumentProvider, PropertyFinder injectorFinder, TaskInjector injector) {
         String publisherName = findReportPublisher(injectorFinder)
         if(cliArgumentProvider.isOverridePublisher()) {
             publisherName = cliArgumentProvider.overriddenPublisher
