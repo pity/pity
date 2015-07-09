@@ -29,15 +29,11 @@ dependencies {
     testCompile(deps.spock)
 }
 
-def run = task run(type: JavaExec) {
+task run(type: JavaExec) {
     main = 'io.pity.bootstrap.AskBootstrapMain'
     classpath = sourceSets.main.runtimeClasspath
-    if(System.hasProperty('exec.args')) {
-        args System.getProperty("exec.args").split()
-    }
+    args System.getProperty('exec.args', '').split()
 }
-
-println run.args
 
 processResources {
     filter(ReplaceTokens, tokens: [version: project.version as String])
