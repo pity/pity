@@ -31,11 +31,6 @@ task createExecScript(type: Copy) {
     fileMode 0755
 }
 
-artifacts {
-    archives shadowJar
-    archives file: file("$buildDir/dist/pity-${project.version}.sh"), name: "wrapper", extension: "sh", builtBy: createExecScript
-}
-
 publishing {
     publications {
         shadow(MavenPublication) {
@@ -49,4 +44,8 @@ publishing {
             }
         }
     }
+}
+
+bintray {
+  publications += 'shadow';
 }
