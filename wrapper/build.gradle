@@ -31,21 +31,12 @@ task createExecScript(type: Copy) {
     fileMode 0755
 }
 
-publishing {
-    publications {
-        shadow(MavenPublication) {
-            from components.java
-            artifact shadowJar {
-                classifier "all"
-            }
-            artifact("$buildDir/dist/pity-${project.version}.sh") {
-                extension "sh"
-                builtBy createExecScript
-            }
-        }
-    }
-}
-
-bintray {
-  publications += 'shadow';
+publishing.publications.standardjava {
+  artifact shadowJar {
+    classifier "all"
+  }
+  artifact("$buildDir/dist/pity-${project.version}.sh") {
+    extension "sh"
+      builtBy createExecScript
+  }
 }
