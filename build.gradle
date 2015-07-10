@@ -109,7 +109,7 @@ subprojects {
                 }
 
                 mavenCentralSync {
-                  user = 'ethankhall'
+                  user = 'ehall'
                   password = System.env.MAVEN_CENTRAL_PWD ?: maven_central_pwd
                 }
             }
