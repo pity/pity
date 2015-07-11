@@ -11,120 +11,36 @@ buildscript {
     }
 }
 
-apply plugin: 'idea'
+allprojects {
+    apply plugin: 'idea'
+    repositories {
+        mavenCentral()
+        maven { url 'http://repo.gradle.org/gradle/libs-releases-local' }
+    }
+    project.buildDir = new File(rootDir, 'build/' + project.name)
+    
+    group = 'io.pity'
+    version = rootProject.file("VERSION").text.replaceAll('[^A-Za-z0-9\\.]', '');
+}
 
 project.ext.deps = new JsonSlurper().parse(file('dependencies.json')).dependencies
 
 subprojects {
-    apply plugin: 'idea'
     apply plugin: 'groovy'
-    apply plugin: 'maven-publish'
-    apply plugin: 'com.jfrog.bintray'
-
-    version = rootProject.file("VERSION").text.replaceAll('[^A-Za-z0-9\\.]', '');
-    group = 'io.pity'
+    apply from: "$rootDir/gradle/bintray.gradle"
+    apply from: "$rootDir/gradle/artifacts.gradle"
+    apply from: "$rootDir/gradle/publications.gradle"
 
     sourceCompatibility = '1.7'
     targetCompatibility = '1.7'
-
 
     test {
         beforeTest { desc ->
             println "Executing test ${desc.className}.'${desc.name}'"
         }
     }
-
-    task sourceJar(type: Jar) {
-        classifier = 'sources'
-        from sourceSets.main.allSource
-    }
-
-    task javadocJar(type: Jar, dependsOn: groovydoc) {
-        classifier = 'javadoc'
-        from groovydoc.destinationDir
-    }
-
-    artifacts {
-        archives sourceJar
-        archives javadocJar
-    }
-
-    publishing {
-        publications {
-            standardjava(MavenPublication) {
-                from components.java
-                artifact sourceJar
-                artifact javadocJar
-                pom.withXml {
-                    asNode().children().last() + {
-                        resolveStrategy = Closure.DELEGATE_FIRST
-                        name 'pity'
-                        description 'Pity that Bug Report'
-                        url 'http://pity.io'
-                        scm {
-                            url 'https://github.com/pity/pity.git'
-                            connection 'scm:git:git://github.com/pity/pity.git'
-                            developerConnection 'scm:git:ssh:git@github.com:pity/pity.git'
-                        }
-                        licenses {
-                            license {
-                                name 'The Apache Software License, Version 2.0'
-                                url 'http://www.apache.org/license/LICENSE-2.0.txt'
-                                distribution 'repo'
-                            }
-                        }
-                        developers {
-                            developer {
-                                id 'ethankhall'
-                                name 'Ethan Hall'
-                                email 'ethan@ehdev.io'
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-    bintray {
-        user = System.env.BINTRAY_USER ?: bintray_user
-        key = System.env.BINTRAY_PASSWORD ?: bintray_key
-        publications = ['standardjava']
-        publish = project.hasProperty('bintray.publish') ? project.property('bintray.publish') as Boolean: false
-        pkg {
-            repo = 'maven'
-            name = 'pity'
-            desc = 'Pity that Bug Report'
-            websiteUrl = 'https://github.com/pity/pity'
-            issueTrackerUrl = 'https://github.com/pity/pity/issues'
-            vcsUrl = 'https://github.com/pity/pity.git'
-            licenses = ['Apache-2.0']
-            publicDownloadNumbers = true
-            version {
-                name = project.version
-                vcsTag = "V$project.version"
-
-                gpg {
-                  sign = true
-                }
-
-                mavenCentralSync {
-                  user = 'ehall'
-                  password = System.env.MAVEN_CENTRAL_PWD ?: maven_central_pwd
-                }
-            }
-        }
-    }
-
-    project.buildDir = new File(rootDir, 'build/' + project.name)
 }
 
-allprojects {
-    repositories {
-        mavenCentral()
-        maven { url 'http://repo.gradle.org/gradle/libs-releases-local' }
-    }
-}
 
 idea {
     project {

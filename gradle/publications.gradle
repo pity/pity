@@ -1,0 +1,38 @@
+apply plugin: 'maven-publish'
+publishing {
+    publications {
+        standardjava(MavenPublication) {
+            from components.java
+            artifact sourceJar
+            artifact javadocJar
+            pom.withXml {
+                asNode().children().last() + {
+                    resolveStrategy = Closure.DELEGATE_FIRST
+                    name 'pity'
+                    description 'Pity that Bug Report'
+                    url 'http://pity.io'
+                    scm {
+                        url 'https://github.com/pity/pity.git'
+                        connection 'scm:git:git://github.com/pity/pity.git'
+                        developerConnection 'scm:git:ssh:git@github.com:pity/pity.git'
+                    }
+                    licenses {
+                        license {
+                            name 'The Apache Software License, Version 2.0'
+                            url 'http://www.apache.org/license/LICENSE-2.0.txt'
+                            distribution 'repo'
+                        }
+                    }
+                    developers {
+                        developer {
+                            id 'ethankhall'
+                            name 'Ethan Hall'
+                            email 'ethan@ehdev.io'
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
