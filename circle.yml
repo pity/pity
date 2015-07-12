@@ -9,4 +9,4 @@ deployment:
   master:
     branch: master
     commands:
-      - ./gradlew bintrayUpload versionBump -Prelease=true
+      - ./gradlew bintrayUpload versionBump -Prelease=true -Pbintray.publish=true
