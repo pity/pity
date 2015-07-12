@@ -12,7 +12,6 @@ bintray {
     key = System.env.BINTRAY_PASSWORD ?: bintray_key
     publications = ['standardjava']
     publish = project.hasProperty('bintray.publish') ? project.property('bintray.publish') as Boolean: false
-    dryRun = true;
     pkg {
         repo = 'maven'
         name = 'pity'
