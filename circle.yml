@@ -7,6 +7,4 @@ deployment:
   master:
     branch: master
     commands:
-      - git config user.name "circleci"
-      - git config user.email "ci@pity.io"
-      - scripts/version-bump.sh
+      - ./gradlew bintrayUpload versionBump

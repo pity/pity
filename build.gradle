@@ -1,15 +1,5 @@
-import groovy.json.JsonSlurper
-
-buildscript {
-    repositories {
-        mavenLocal()
-        jcenter()
-    }
-    dependencies {
-        classpath "com.jfrog.bintray.gradle:gradle-bintray-plugin:1.2"
-        classpath "com.github.jengelman.gradle.plugins:shadow:1.2.1"
-    }
-}
+apply plugin: 'dependencies'
+apply plugin: 'version'
 
 allprojects {
     apply plugin: 'idea'
@@ -17,13 +7,11 @@ allprojects {
         mavenCentral()
         maven { url 'http://repo.gradle.org/gradle/libs-releases-local' }
     }
-    project.buildDir = new File(rootDir, 'build/' + project.name)
-    
-    group = 'io.pity'
-    version = rootProject.file("VERSION").text.replaceAll('[^A-Za-z0-9\\.]', '');
-}
 
-project.ext.deps = new JsonSlurper().parse(file('dependencies.json')).dependencies
+    project.buildDir = new File(rootDir, 'build/' + project.name)
+
+    group = 'io.pity'
+}
 
 subprojects {
     apply plugin: 'groovy'
@@ -40,7 +28,6 @@ subprojects {
         }
     }
 }
-
 
 idea {
     project {
