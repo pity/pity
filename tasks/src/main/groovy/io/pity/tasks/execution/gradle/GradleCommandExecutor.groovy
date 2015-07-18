@@ -1,5 +1,6 @@
 package io.pity.tasks.execution.gradle
 import com.google.inject.Inject
+import groovy.transform.CompileDynamic
 import groovy.util.logging.Slf4j
 import io.pity.api.WorkingDirectoryProvider
 import io.pity.api.execution.AbstractCommandExecutor
@@ -72,6 +73,7 @@ class GradleCommandExecutor extends AbstractCommandExecutor {
     }
 
     @Slf4j
+    @CompileDynamic
     static class GradleProgressListener implements ProgressListener {
 
         def statusEvents = []

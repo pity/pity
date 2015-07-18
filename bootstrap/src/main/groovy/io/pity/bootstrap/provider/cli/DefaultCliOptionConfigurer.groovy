@@ -1,7 +1,9 @@
 package io.pity.bootstrap.provider.cli
 
 import io.pity.api.cli.CliOptionConfigurer
+import groovy.transform.CompileDynamic
 
+@CompileDynamic
 class DefaultCliOptionConfigurer implements CliOptionConfigurer {
 
     @Override

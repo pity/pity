@@ -19,8 +19,15 @@ subprojects {
     apply from: "$rootDir/gradle/artifacts.gradle"
     apply from: "$rootDir/gradle/publications.gradle"
 
-    sourceCompatibility = '1.7'
-    targetCompatibility = '1.7'
+    sourceCompatibility = '1.6'
+    targetCompatibility = '1.6'
+
+    plugins.withType(GroovyPlugin) {
+        compileGroovy {
+            groovyOptions.optimizationOptions.all = true
+            groovyOptions.configurationScript = file("$rootDir/gradle/compiler-config.groovy")
+        }
+    }
 
     test {
         beforeTest { desc ->
@@ -32,6 +39,6 @@ subprojects {
 idea {
     project {
         jdkName = '1.7'
-        languageLevel = '1.7'
+        languageLevel = '1.6'
     }
 }

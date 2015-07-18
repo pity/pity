@@ -1,27 +1,28 @@
 package io.pity.bootstrap.environment
-
 import com.google.inject.Inject
-import io.pity.api.environment.EnvironmentCollector
+import groovy.transform.CompileStatic
 import io.pity.api.reporting.ResultCollector
+import io.pity.bootstrap.provider.container.EnvironmentCollectorContainer
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+@CompileStatic
 class BootstrapEnvironmentCollectorImpl implements BootstrapEnvironmentCollector {
 
     private static final Logger logger = LoggerFactory.getLogger(BootstrapEnvironmentCollectorImpl.class)
-    Set<EnvironmentCollector> environmentCollectors
+    EnvironmentCollectorContainer environmentCollectorContainer
     private final ResultCollector resultCollector
 
     @Inject
-    BootstrapEnvironmentCollectorImpl(Set<EnvironmentCollector> environmentCollectors, ResultCollector resultCollector) {
+    BootstrapEnvironmentCollectorImpl(EnvironmentCollectorContainer environmentCollectorContainer,
+                                      ResultCollector resultCollector) {
         this.resultCollector = resultCollector
-        this.environmentCollectors = environmentCollectors
+        this.environmentCollectorContainer = environmentCollectorContainer
     }
 
     @Override
     void collectEnvironmentData() {
-        environmentCollectors.findAll { it }
-        environmentCollectors.collect {
+        environmentCollectorContainer.getAvailable().collect {
             logger.debug("Getting results from {}", it.getClass().getSimpleName())
             resultCollector.collect(it.collectEnvironmentData())
         }

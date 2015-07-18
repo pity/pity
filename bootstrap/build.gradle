@@ -20,6 +20,7 @@ dependencies {
     compile deps.'slf4j-api'
     compile deps.'commons-cli'
     compile deps.ivy
+    compile deps.'commons-collections'
 
     runtime project(':tasks')
     compile project(':api')

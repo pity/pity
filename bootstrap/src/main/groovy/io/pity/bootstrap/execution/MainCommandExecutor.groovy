@@ -16,8 +16,9 @@ class MainCommandExecutor implements RootCollectorExecutor {
     CommandExecutorRunner commandExecutorRunner;
 
     @Inject
-    MainCommandExecutor(InternalCliArgumentProvider cliArgumentProvider, PreProcessorExecutor preProcessorExecutor,
-        CommandExecutorRunner commandExecutorRunner) {
+    MainCommandExecutor(InternalCliArgumentProvider cliArgumentProvider,
+                        PreProcessorExecutor preProcessorExecutor,
+                        CommandExecutorRunner commandExecutorRunner) {
         this.cliArgumentProvider = cliArgumentProvider
         this.preProcessorExecutor = preProcessorExecutor
         this.commandExecutorRunner = commandExecutorRunner

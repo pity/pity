@@ -1,4 +1,6 @@
 package io.pity.bootstrap.publish
+
+import groovy.transform.CompileDynamic
 import groovy.util.logging.Slf4j
 import groovy.xml.StreamingMarkupBuilder
 import groovy.xml.XmlUtil
@@ -7,6 +9,7 @@ import io.pity.api.execution.CommandExecutionResult
 import io.pity.api.reporting.CollectionResults
 
 @Slf4j
+@CompileDynamic
 class XmlOutputGenerator {
 
     Set<EnvironmentData> envData;

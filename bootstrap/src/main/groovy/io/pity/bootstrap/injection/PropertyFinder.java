@@ -44,6 +44,16 @@ public class PropertyFinder {
         return propertiesList;
     }
 
+    public List<String> findProperties(String name) throws IOException {
+        List<String> propertiesList = new ArrayList<String>();
+        for(Properties properties: findAskProperties() ) {
+            if(properties.containsKey(name)) {
+                propertiesList.add(properties.getProperty(name));
+            }
+        }
+        return propertiesList;
+    }
+
     public PropertyValueProvider createPropertyValueProvider() throws IOException {
         return new PropertyValueProviderImpl(findAskProperties());
     }

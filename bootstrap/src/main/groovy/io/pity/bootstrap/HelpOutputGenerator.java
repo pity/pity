@@ -4,34 +4,41 @@ import com.google.inject.Inject;
 import io.pity.api.PropertyValueProvider;
 import io.pity.api.environment.EnvironmentCollector;
 import io.pity.api.execution.CommandExecutor;
+import io.pity.bootstrap.provider.container.CommandExecutorContainer;
+import io.pity.bootstrap.provider.container.EnvironmentCollectorContainer;
 import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl;
+import io.pity.bootstrap.provider.container.FilteringContainer;
 import org.apache.commons.lang3.StringUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
 public class HelpOutputGenerator {
 
-    private final Set<CommandExecutor> commandExecutors;
-    private final Set<EnvironmentCollector> environmentCollectors;
+    private final CommandExecutorContainer commandContainer;
+    private final EnvironmentCollectorContainer environmentContainer;
     private final PropertyValueProvider propertyValueProvider;
 
     @Inject
-    HelpOutputGenerator(Set<CommandExecutor> commandExecutors, Set<EnvironmentCollector> environmentCollectors, PropertyValueProvider propertyValueProvider) {
-        this.commandExecutors = commandExecutors;
-        this.environmentCollectors = environmentCollectors;
+    HelpOutputGenerator(CommandExecutorContainer commandExecutorContainer,
+                        EnvironmentCollectorContainer environmentCollectorContainer,
+                        PropertyValueProvider propertyValueProvider) {
+        this.commandContainer = commandExecutorContainer;
+        this.environmentContainer = environmentCollectorContainer;
         this.propertyValueProvider = propertyValueProvider;
     }
 
-    public String getHelpOutput(CliArgumentProviderImpl cliArgumentProvider) {
+    public String getHelpOutput(CliArgumentProviderImpl cliArgumentProvider) throws IOException {
         StringBuilder usageBuilder = new StringBuilder();
         usageBuilder.append(cliArgumentProvider.usage());
 
-        usageBuilder.append(String.format("\nPity Version: %s\n", propertyValueProvider.getProperty("ask.version")));
+        usageBuilder.append(String.format("\nPity Version: %s\n", propertyValueProvider.getProperty("pity.version")));
         appendClasspath(usageBuilder);
-        appendCollectorData(usageBuilder, CommandExecutor.class.getSimpleName(), commandExecutors);
-        appendCollectorData(usageBuilder, EnvironmentCollector.class.getSimpleName(), environmentCollectors);
+
+        appendCollectorData(usageBuilder, CommandExecutor.class.getSimpleName(), commandContainer);
+        appendCollectorData(usageBuilder, EnvironmentCollector.class.getSimpleName(), environmentContainer);
 
         return usageBuilder.toString();
     }
@@ -47,10 +54,14 @@ public class HelpOutputGenerator {
         usageBuilder.append(String.format("Classpath: %s\n", StringUtils.join(urls, ", ")));
     }
 
-    private void appendCollectorData(StringBuilder usageBuilder, String name, Set objects) {
+    private void appendCollectorData(StringBuilder usageBuilder, String name, FilteringContainer objects) throws IOException {
         usageBuilder.append("\n" + name + "'s Available\n");
-        for (Object object : objects) {
+        for (Object object : objects.getAvailable()) {
             usageBuilder.append(String.format("    %s\n", object.getClass().getName()));
+        }
+
+        for (Object object : objects.getFiltered()) {
+            usageBuilder.append(String.format("    %s - (excluded)\n", object.getClass().getName()));
         }
     }
 

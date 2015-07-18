@@ -1,4 +1,6 @@
 package io.pity.bootstrap.provider.cli
+
+import groovy.transform.CompileDynamic
 import groovy.util.logging.Slf4j
 import io.pity.api.cli.CliOptionConfigurer
 import io.pity.api.preprocess.CommandOptions
@@ -6,6 +8,7 @@ import io.pity.api.preprocess.CommandOptionsFactory
 import org.apache.commons.cli.DefaultParser
 
 @Slf4j
+@CompileDynamic
 class CliArgumentProviderImpl implements InternalCliArgumentProvider {
     private final String[] args
     private final CliBuilder cliBuilder
