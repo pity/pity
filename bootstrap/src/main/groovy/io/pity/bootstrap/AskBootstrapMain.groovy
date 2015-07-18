@@ -26,7 +26,7 @@ class AskBootstrapMain {
 
         log.info("Loading version {}", taskInjector.getPropertyValueProvider().getProperty('ask.version'))
 
-        def publishManager = new PublishManager(cliArgumentProvider, instanceInjector.getPropertyFinder(), taskInjector)
+        def publishManager = new PublishManager(taskInjector.getReportPublisher())
         if(!publishManager.shouldExecutionContinue()) {
             return;
         }

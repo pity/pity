@@ -15,12 +15,15 @@ allprojects {
 
 subprojects {
     apply plugin: 'groovy'
+    apply plugin: "jacoco"
     apply from: "$rootDir/gradle/bintray.gradle"
     apply from: "$rootDir/gradle/artifacts.gradle"
     apply from: "$rootDir/gradle/publications.gradle"
 
     sourceCompatibility = '1.6'
     targetCompatibility = '1.6'
+    
+    tasks.getByPath('build').dependsOn('jacocoTestReport')
 
     plugins.withType(GroovyPlugin) {
         compileGroovy {
