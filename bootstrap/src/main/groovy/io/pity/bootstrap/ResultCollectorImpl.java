@@ -4,14 +4,14 @@ import io.pity.api.environment.EnvironmentData;
 import io.pity.api.execution.CommandExecutionResult;
 import io.pity.api.reporting.CollectionResults;
 import io.pity.api.reporting.ResultCollector;
-import java.util.ArrayList;
+
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-
+/**
+ * Used to contains all of the collectors.
+ */
 public class ResultCollectorImpl implements ResultCollector, CollectionResults {
 
     Set<EnvironmentData> environmentDataSet = Collections.synchronizedSet(new TreeSet<EnvironmentData>());

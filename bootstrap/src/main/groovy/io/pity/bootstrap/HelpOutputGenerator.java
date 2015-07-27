@@ -15,6 +15,9 @@ import java.io.IOException;
 import java.util.Set;
 import java.util.TreeSet;
 
+/**
+ * Used to generate the help output.
+ */
 public class HelpOutputGenerator {
 
     private final CommandExecutorContainer commandContainer;
@@ -43,6 +46,10 @@ public class HelpOutputGenerator {
         return usageBuilder.toString();
     }
 
+    /**
+     * Appends the classpath to the help output
+     * @param usageBuilder Builder that should be used to add the help contents to
+     */
     private void appendClasspath(StringBuilder usageBuilder) {
         String property = System.getProperty("java.class.path");
         Set<String> urls = new TreeSet<String>();
@@ -54,8 +61,16 @@ public class HelpOutputGenerator {
         usageBuilder.append(String.format("Classpath: %s\n", StringUtils.join(urls, ", ")));
     }
 
+    /**
+     * Used to append {@link FilteringContainer} to the help output
+     *
+     * @param usageBuilder Where the output should be added to
+     * @param name title used for the {@link FilteringContainer}
+     * @param objects the {@link FilteringContainer}
+     * @throws IOException
+     */
     private void appendCollectorData(StringBuilder usageBuilder, String name, FilteringContainer objects) throws IOException {
-        usageBuilder.append("\n" + name + "'s Available\n");
+        usageBuilder.append("\n").append(name).append("'s Available\n");
         for (Object object : objects.getAvailable()) {
             usageBuilder.append(String.format("    %s\n", object.getClass().getName()));
         }

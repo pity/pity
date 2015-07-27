@@ -1,4 +1,5 @@
 package io.pity.bootstrap.preprocess
+
 import com.google.inject.Inject
 import groovy.transform.CompileDynamic
 import groovy.util.logging.Slf4j
@@ -18,10 +19,12 @@ public class PreProcessorExecutorImpl implements PreProcessorExecutor {
     @Override
     CommandOptions processCommandOptions(CommandOptions commandOptions) {
         orderPreProcessors().each { processor -> commandOptions = runPreProcessor(processor, commandOptions) }
-
         return commandOptions
     }
 
+    /**
+     * @return Orders all the {@link CommandPreProcessor} in descending order.
+     */
     @CompileDynamic
     Set<CommandPreProcessor> orderPreProcessors() {
         return preProcessCommands.sort { it.commandPrecedence() }.reverse(true)

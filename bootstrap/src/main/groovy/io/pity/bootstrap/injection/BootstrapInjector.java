@@ -5,6 +5,9 @@ import com.google.inject.multibindings.Multibinder;
 import io.pity.api.cli.CliOptionConfigurer;
 import io.pity.bootstrap.provider.cli.DefaultCliOptionConfigurer;
 
+/**
+ * Used for binding the {@link CliOptionConfigurer}
+ */
 public class BootstrapInjector extends AbstractModule {
 
     @Override

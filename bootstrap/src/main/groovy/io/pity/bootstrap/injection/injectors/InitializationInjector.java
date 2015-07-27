@@ -6,6 +6,9 @@ import io.pity.api.cli.CliOptionConfigurer;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Used to configure the CLI arguments via {@link CliOptionConfigurer}
+ */
 public class InitializationInjector {
 
     static private final TypeLiteral cliOptionConfigurerSet = new TypeLiteral<Set<CliOptionConfigurer>>() { };

@@ -32,7 +32,7 @@ dependencies {
 
 task run(type: JavaExec) {
     main = 'io.pity.bootstrap.AskBootstrapMain'
-    classpath = sourceSets.main.runtimeClasspath
+    classpath = sourceSets.main.runtimeClasspath + configurations.provided
     args System.getProperty('exec.args', '').split()
 }
 

@@ -26,6 +26,9 @@ import io.pity.bootstrap.provider.container.EnvironmentCollectorContainerImpl;
 
 import java.io.File;
 
+/**
+ * Used to inject the task work.
+ */
 public class TaskRootInjector extends AbstractModule {
 
 

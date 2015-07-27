@@ -16,7 +16,7 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
 
     CliArgumentProviderImpl(String[] args, Set<CliOptionConfigurer> configurers) {
         this.args = args
-        cliBuilder = new CliBuilder(usage: 'ask', parser: new DefaultParser())
+        cliBuilder = new CliBuilder(usage: 'pity', parser: new DefaultParser())
 
         configurers.each { it.configureCli(cliBuilder) }
 
@@ -72,6 +72,17 @@ class CliArgumentProviderImpl implements InternalCliArgumentProvider {
     @Override
     String getOverriddenPublisher() {
         return optionAccessor.'publisher'
+    }
+
+    @Override
+    List<String> getExcludedCollectors() {
+        if(null == optionAccessor.'exclude' || !(optionAccessor.'exclude')){
+            return new ArrayList<String>()
+        }
+        if(optionAccessor.'exclude' instanceof String){
+            return [optionAccessor.'exclude']
+        }
+        return optionAccessor.'exclude' as List<String>
     }
 
     public boolean isCommandExecution() {

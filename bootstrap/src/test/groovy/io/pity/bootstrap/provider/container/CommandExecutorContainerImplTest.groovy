@@ -4,6 +4,7 @@ import io.pity.api.execution.CommandExecutionResult
 import io.pity.api.execution.CommandExecutor
 import io.pity.api.preprocess.CommandOptions
 import io.pity.bootstrap.injection.PropertyFinder
+import io.pity.bootstrap.provider.cli.InternalCliArgumentProvider
 import spock.lang.Specification
 
 class CommandExecutorContainerImplTest extends Specification {
@@ -12,9 +13,10 @@ class CommandExecutorContainerImplTest extends Specification {
         setup:
         def executors = [new TestDouble1(), new TestDouble2()] as Set<CommandExecutor>
         def propertyFinder = ['findProperties': { it -> [TestDouble1.name] }] as PropertyFinder
+        def cli = [ 'getExcludedCollectors': { -> [] }] as InternalCliArgumentProvider
 
         when:
-        def impl = new CommandExecutorContainerImpl(executors, propertyFinder)
+        def impl = new CommandExecutorContainerImpl(cli, propertyFinder, executors)
 
         then:
         def commandExecutors = impl.getAvailable()

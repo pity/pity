@@ -3,6 +3,7 @@ package io.pity.bootstrap.provider.cli;
 import io.pity.api.cli.CliArgumentProvider;
 
 import java.io.File;
+import java.util.List;
 
 
 public interface InternalCliArgumentProvider extends CliArgumentProvider {
@@ -14,5 +15,7 @@ public interface InternalCliArgumentProvider extends CliArgumentProvider {
     boolean isOverridePublisher();
 
     String getOverriddenPublisher();
+
+    List<String> getExcludedCollectors();
 
 }

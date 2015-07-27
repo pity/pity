@@ -24,7 +24,7 @@ class AskBootstrapMain {
             return
         }
 
-        log.info("Loading version {}", taskInjector.getPropertyValueProvider().getProperty('ask.version'))
+        log.info("Loading version {}", taskInjector.getPropertyValueProvider().getProperty('pity.version'))
 
         def publishManager = new PublishManager(taskInjector.getReportPublisher())
         if(!publishManager.shouldExecutionContinue()) {

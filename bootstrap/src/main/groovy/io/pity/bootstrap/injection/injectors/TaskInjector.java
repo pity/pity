@@ -14,6 +14,9 @@ import org.slf4j.LoggerFactory;
 import java.io.IOException;
 import java.util.List;
 
+/**
+ * Used using the 'task' phase of execution.
+ */
 public class TaskInjector {
 
     private static final Logger log = LoggerFactory.getLogger(TaskInjector.class);
