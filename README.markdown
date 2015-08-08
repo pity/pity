@@ -33,5 +33,8 @@ privileges are needed other than Internet access and Java 7.
 
 You will see that a file gets created called `generated-data.xml`. In the future this will be an html file or markdown.
 
+Once the script has been run once, you can manually execute the program by running
+`java -jar $HOME/.pity/cache/wrapper-1.0.7-all.jar`
+
 ## Plugins
 Pity is a plugin based system. For more details how to write plugins check out [PLUGINS](docs/PLUGINS.markdown)
