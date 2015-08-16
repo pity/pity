@@ -20,9 +20,14 @@ class ExternalProcessReporterImpl implements ExternalProcessReporter {
 
     ProcessResult getResult() {
         logger.debug("String process `{}` with PWD: `{}`", command, workingDir)
-        def process = new ProcessBuilder(command.split(' '))
+        Process process;
+        try {
+            process = new ProcessBuilder(command.split(' '))
                 .directory(workingDir)
                 .start()
+        } catch (IOException ioe) {
+            return new ProcessResult('', ioe.getMessage(), -1)
+        }
 
         def output = new ByteArrayOutputStream()
         def error = new ByteArrayOutputStream()

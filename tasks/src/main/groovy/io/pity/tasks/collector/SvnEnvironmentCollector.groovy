@@ -21,7 +21,7 @@ class SvnEnvironmentCollector extends ProcessBasedEnvironmentCollector {
     boolean shouldCollect() {
         def result = externalProcessCreatorProvider.get().createProcess('svn status --depth=empty', workingDirectory).getResult()
 
-        def inputStream = result.inputStream.text
+        def inputStream = result.standardOut.text
         def errorStream = result.errorStream.text
         if(inputStream.contains(WORKING_COPY) || errorStream.contains(WORKING_COPY)){
             return false;

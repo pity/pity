@@ -3,18 +3,18 @@ package io.pity.tasks.util.process
 import org.apache.commons.io.IOUtils
 
 class ProcessResult {
-    public InputStreamReader inputStream;
+    public InputStreamReader standardOut;
     public InputStreamReader errorStream;
     public int exitCode;
 
-    ProcessResult(Process process, InputStream inputStream, InputStream errorStream) {
-        this.inputStream = new InputStreamReader(inputStream)
+    ProcessResult(Process process, InputStream standardOut, InputStream errorStream) {
+        this.standardOut = new InputStreamReader(standardOut)
         this.errorStream = new InputStreamReader(errorStream)
         this.exitCode = process.exitValue()
     }
 
-    ProcessResult(String inputString, String errorString, int exitCode) {
-        this.inputStream = new InputStreamReader(IOUtils.toInputStream(inputString))
+    ProcessResult(String standardOutString, String errorString, int exitCode) {
+        this.standardOut = new InputStreamReader(IOUtils.toInputStream(standardOutString))
         this.errorStream = new InputStreamReader(IOUtils.toInputStream(errorString))
         this.exitCode = exitCode
     }
