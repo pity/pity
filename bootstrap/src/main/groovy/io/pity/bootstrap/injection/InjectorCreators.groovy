@@ -4,6 +4,7 @@ import groovy.util.logging.Slf4j
 import io.pity.bootstrap.injection.injectors.InitializationInjector
 import io.pity.bootstrap.injection.injectors.TaskInjector
 import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl
+import io.pity.bootstrap.publish.PublisherAbstractModule
 
 @Slf4j
 class InjectorCreators {
@@ -12,8 +13,10 @@ class InjectorCreators {
 
     public TaskInjector findTaskInjectors(CliArgumentProviderImpl cliArgumentProvider) {
         def allInjectors = [] as List<AbstractModule >
-        def bootstrapInjector = new TaskRootInjector(propertyFinder.createPropertyValueProvider(), cliArgumentProvider)
-        allInjectors.add(bootstrapInjector)
+        def propertyValueProvider = propertyFinder.createPropertyValueProvider()
+
+        allInjectors.add(new TaskRootInjector(propertyValueProvider, cliArgumentProvider))
+        allInjectors.add(new PublisherAbstractModule(propertyValueProvider, cliArgumentProvider))
         allInjectors.addAll(findInjectors('task-injector-class'))
 
         return new TaskInjector(allInjectors)

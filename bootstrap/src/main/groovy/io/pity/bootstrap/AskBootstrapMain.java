@@ -1,6 +1,7 @@
 package io.pity.bootstrap;
 
 import io.pity.api.reporting.CollectionResults;
+import io.pity.api.reporting.ReportPublisher;
 import io.pity.bootstrap.injection.InjectorCreators;
 import io.pity.bootstrap.injection.injectors.InitializationInjector;
 import io.pity.bootstrap.injection.injectors.TaskInjector;
@@ -28,7 +29,7 @@ public class AskBootstrapMain {
 
         log.info("Loading version {}", taskInjector.getPropertyValueProvider().getProperty("pity.version"));
 
-        PublishManager publishManager = new PublishManager(taskInjector.getReportPublisher());
+        PublishManager publishManager = new PublishManager(taskInjector.getInstance(ReportPublisher.class));
         if (!publishManager.shouldExecutionContinue()) {
             return;
         }

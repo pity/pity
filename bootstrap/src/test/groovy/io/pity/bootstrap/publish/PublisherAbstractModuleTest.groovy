@@ -1,26 +1,25 @@
-package io.pity.bootstrap.injection.injectors
-import com.google.inject.AbstractModule
+package io.pity.bootstrap.publish
 import io.pity.api.PropertyValueProvider
 import io.pity.api.StopExecutionException
 import io.pity.api.reporting.CollectionResults
 import io.pity.api.reporting.ReportPublisher
+import io.pity.bootstrap.injection.injectors.TaskInjector
 import io.pity.bootstrap.provider.cli.InternalCliArgumentProvider
-import io.pity.bootstrap.publish.xml.XmlReportPublisher
+import io.pity.bootstrap.publish.html.HtmlReportPublisher
 import spock.lang.Specification
 
-class TaskInjectorTest extends Specification {
-
-    def 'when nothing is setup, will default to XmlReportPublisher'() {
+class PublisherAbstractModuleTest extends Specification {
+    def 'when nothing is setup, will default to HtmlReportPublisher'() {
         setup:
         def propertyValueProvider = Mock(PropertyValueProvider)
         def cliArgumentProvider = Mock(InternalCliArgumentProvider)
-        def injector = new TaskInjector([new TestDoubleAbstractModule(propertyValueProvider, cliArgumentProvider)])
 
         when:
+        def injector = new TaskInjector([new PublisherAbstractModule(propertyValueProvider, cliArgumentProvider)])
         def publisher = injector.getReportPublisher()
 
         then:
-        publisher.class == XmlReportPublisher
+        publisher.class == HtmlReportPublisher
         1 * cliArgumentProvider.isOverridePublisher() >> false
     }
 
@@ -28,9 +27,9 @@ class TaskInjectorTest extends Specification {
         setup:
         def propertyValueProvider = Mock(PropertyValueProvider)
         def cliArgumentProvider = Mock(InternalCliArgumentProvider)
-        def injector = new TaskInjector([new TestDoubleAbstractModule(propertyValueProvider, cliArgumentProvider)])
 
         when:
+        def injector = new TaskInjector([new PublisherAbstractModule(propertyValueProvider, cliArgumentProvider)])
         def publisher = injector.getReportPublisher()
 
         then:
@@ -43,9 +42,9 @@ class TaskInjectorTest extends Specification {
         setup:
         def propertyValueProvider = Mock(PropertyValueProvider)
         def cliArgumentProvider = Mock(InternalCliArgumentProvider)
-        def injector = new TaskInjector([new TestDoubleAbstractModule(propertyValueProvider, cliArgumentProvider)])
 
         when:
+        def injector = new TaskInjector([new PublisherAbstractModule(propertyValueProvider, cliArgumentProvider)])
         def publisher = injector.getReportPublisher()
 
         then:
@@ -58,15 +57,15 @@ class TaskInjectorTest extends Specification {
         setup:
         def propertyValueProvider = Mock(PropertyValueProvider)
         def cliArgumentProvider = Mock(InternalCliArgumentProvider)
-        def injector = new TaskInjector([new TestDoubleAbstractModule(propertyValueProvider, cliArgumentProvider)])
 
         when:
+        def injector = new TaskInjector([new PublisherAbstractModule(propertyValueProvider, cliArgumentProvider)])
         def publisher = injector.getReportPublisher()
 
         then:
-        publisher.class == XmlReportPublisher
+        publisher.class == TestPublisher.class
         1 * cliArgumentProvider.isOverridePublisher() >> true
-        1 * cliArgumentProvider.getOverriddenPublisher() >> TestDoubleAbstractModule.name
+        1 * cliArgumentProvider.getOverriddenPublisher() >> TestPublisher.name
     }
 
     private static class TestPublisher implements ReportPublisher {
@@ -78,22 +77,6 @@ class TaskInjectorTest extends Specification {
         @Override
         void validateRequirements() throws StopExecutionException {
 
-        }
-    }
-
-    private static class TestDoubleAbstractModule extends AbstractModule {
-        PropertyValueProvider propertyValueProvider
-        InternalCliArgumentProvider cliArgumentProvider
-
-        TestDoubleAbstractModule(PropertyValueProvider propertyValueProvider, InternalCliArgumentProvider cliArgumentProvider) {
-            this.propertyValueProvider = propertyValueProvider
-            this.cliArgumentProvider = cliArgumentProvider
-        }
-
-        @Override
-        protected void configure() {
-            bind(InternalCliArgumentProvider.class).toInstance(cliArgumentProvider);
-            bind(PropertyValueProvider.class).toInstance(propertyValueProvider);
         }
     }
 }

@@ -4,9 +4,11 @@ import com.google.inject.Inject;
 import io.pity.api.PropertyValueProvider;
 import io.pity.api.environment.EnvironmentCollector;
 import io.pity.api.execution.CommandExecutor;
+import io.pity.api.reporting.ReportPublisher;
+import io.pity.bootstrap.injection.ReflectionUtils;
+import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl;
 import io.pity.bootstrap.provider.container.CommandExecutorContainer;
 import io.pity.bootstrap.provider.container.EnvironmentCollectorContainer;
-import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl;
 import io.pity.bootstrap.provider.container.FilteringContainer;
 import org.apache.commons.lang3.StringUtils;
 
@@ -40,10 +42,21 @@ public class HelpOutputGenerator {
         usageBuilder.append(String.format("\nPity Version: %s\n", propertyValueProvider.getProperty("pity.version")));
         appendClasspath(usageBuilder);
 
+        appendReporters(usageBuilder);
         appendCollectorData(usageBuilder, CommandExecutor.class.getSimpleName(), commandContainer);
         appendCollectorData(usageBuilder, EnvironmentCollector.class.getSimpleName(), environmentContainer);
 
         return usageBuilder.toString();
+    }
+
+    private void appendReporters(StringBuilder usageBuilder) {
+        Class<ReportPublisher> reportPublisherClass = ReportPublisher.class;
+        usageBuilder.append("\n").append(reportPublisherClass.getSimpleName()).append("'s Available\n");
+
+        for (Class<? extends ReportPublisher> reportClass : new ReflectionUtils().searchForClass(reportPublisherClass)) {
+            usageBuilder.append(String.format("    %s", reportClass.getName()));
+            usageBuilder.append("\n");
+        }
     }
 
     /**
@@ -79,6 +92,4 @@ public class HelpOutputGenerator {
             usageBuilder.append(String.format("    %s - (excluded)\n", object.getClass().getName()));
         }
     }
-
-
 }

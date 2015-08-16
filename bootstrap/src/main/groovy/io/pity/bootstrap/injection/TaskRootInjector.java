@@ -31,7 +31,6 @@ import java.io.File;
  */
 public class TaskRootInjector extends AbstractModule {
 
-
     private final File workingDirectory;
     private final PropertyValueProvider propertyValueProvider;
     private final InternalCliArgumentProvider cliArgumentProvider;
