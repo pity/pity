@@ -2,6 +2,7 @@ package io.pity.bootstrap.publish.markdown
 import io.pity.api.environment.EnvironmentData
 import io.pity.api.execution.CommandExecutionResult
 import io.pity.api.reporting.CollectionResults
+import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.exception.ExceptionUtils
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -43,8 +44,13 @@ public class MarkdownCreator {
 
 
         environmentData.environmentResults.each { key, value ->
-            sb.append("### ${key}")
-            sb.append('\n```\n').append(value.toString()).append('\n```\n')
+            sb.append("\n### ${key}")
+
+            def valueString = value.toString()
+            if(StringUtils.isNotBlank(valueString)) {
+                valueString.replaceAll("(?m)^", "    ")
+                sb.append("\n").append(valueString.replaceAll("(?m)^", "    ")).append("\n")
+            }
         }
     }
 
