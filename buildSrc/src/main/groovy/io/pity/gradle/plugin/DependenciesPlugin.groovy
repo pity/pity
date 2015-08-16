@@ -11,6 +11,6 @@ class DependenciesPlugin implements Plugin<Project> {
         if(target.getRootProject() != target) {
             throw new GradleException('Cannot apply dependency plugin to a non-root project')
         }
-        target.ext.deps = new JsonSlurper().parse(target.file('dependencies.json')).dependencies
+        target.ext.deps = ((Map) new JsonSlurper().parse(target.file('dependencies.json')).dependencies)
     }
 }

@@ -1,4 +1,4 @@
-package io.pity.bootstrap.publish;
+package io.pity.bootstrap.publish.xml;
 
 import io.pity.api.reporting.CollectionResults;
 import io.pity.api.reporting.ReportPublisher;

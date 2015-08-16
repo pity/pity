@@ -16,6 +16,7 @@
         "objenesis": "org.objenesis:objenesis:2.1",
         "jsr305": "com.google.code.findbugs:jsr305:3.0.0",
         "commons-collections": "org.apache.commons:commons-collections4:4.0",
-        "ivy": "org.apache.ivy:ivy:2.4.0"
+        "ivy": "org.apache.ivy:ivy:2.4.0",
+        "pegdown": "org.pegdown:pegdown:1.5.0"
     }
 }

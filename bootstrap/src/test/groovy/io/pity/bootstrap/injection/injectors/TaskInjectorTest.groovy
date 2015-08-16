@@ -5,7 +5,7 @@ import io.pity.api.StopExecutionException
 import io.pity.api.reporting.CollectionResults
 import io.pity.api.reporting.ReportPublisher
 import io.pity.bootstrap.provider.cli.InternalCliArgumentProvider
-import io.pity.bootstrap.publish.XmlReportPublisher
+import io.pity.bootstrap.publish.xml.XmlReportPublisher
 import spock.lang.Specification
 
 class TaskInjectorTest extends Specification {

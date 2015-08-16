@@ -6,7 +6,7 @@ import com.google.inject.Injector;
 import io.pity.api.PropertyValueProvider;
 import io.pity.api.reporting.ReportPublisher;
 import io.pity.bootstrap.provider.cli.InternalCliArgumentProvider;
-import io.pity.bootstrap.publish.XmlReportPublisher;
+import io.pity.bootstrap.publish.xml.XmlReportPublisher;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -21,6 +21,7 @@ dependencies {
     compile deps.'commons-cli'
     compile deps.ivy
     compile deps.'commons-collections'
+    compile deps.pegdown
 
     runtime project(':tasks')
     compile project(':api')
@@ -28,6 +29,12 @@ dependencies {
     provided deps.logback
 
     testCompile(deps.spock)
+}
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'io.pity.bootstrap.AskBootstrapMain'
+    }
 }
 
 task run(type: JavaExec) {

@@ -2,6 +2,7 @@ package io.pity.bootstrap.publish
 import io.pity.api.environment.EnvironmentDataBuilder
 import io.pity.api.execution.CommandExecutionResultBuilder
 import io.pity.bootstrap.ResultCollectorImpl
+import io.pity.bootstrap.publish.xml.XmlOutputGenerator
 import org.junit.Rule
 import org.junit.rules.TemporaryFolder
 import spock.lang.Specification

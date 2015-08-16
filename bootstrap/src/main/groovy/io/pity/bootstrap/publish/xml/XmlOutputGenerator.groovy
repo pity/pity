@@ -1,4 +1,4 @@
-package io.pity.bootstrap.publish
+package io.pity.bootstrap.publish.xml
 
 import groovy.transform.CompileDynamic
 import groovy.util.logging.Slf4j
