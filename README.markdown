@@ -21,20 +21,20 @@ For ease of use, there is a script that is runnable on linux that will download 
 This can be helpful if you want to run this on a remote system quickly without having to install any software. No special
 privileges are needed other than Internet access and Java 7.
 
-    bash <(curl https://dl.bintray.com/ethankhall/maven/io/pity/wrapper/1.0.7/wrapper-1.0.7.sh)
+    bash <(curl https://dl.bintray.com/ethankhall/maven/io/pity/wrapper/1.0.10/wrapper-1.0.10.sh)
 
     ... (download) ...
 
-    2015-08-08 08:26:55 (4.08 MB/s) - '/Users/ethan/.pity/cache/wrapper-1.0.7-all.jar' saved [2049037/2049037]
+    2015-08-08 08:26:55 (4.08 MB/s) - '/Users/ethan/.pity/cache/wrapper-1.0.10-all.jar' saved [2049037/2049037]
 
     08:26:56.325 INFO  i.p.wrapper.ivy.DependencyResolver - Retrieving Dependencies...
     08:27:04.317 INFO  i.p.wrapper.ivy.DependencyResolver - Finished downloading 20 dependencies
-    08:27:05.235 INFO  io.pity.bootstrap.AskBootstrapMain - Loading version 1.0.7
+    08:27:05.235 INFO  io.pity.bootstrap.AskBootstrapMain - Loading version 1.0.10
 
-You will see that a file gets created called `generated-data.xml`. In the future this will be an html file or markdown.
+You will see that a file gets created called `pity.html`. This contains all of the collected data.
 
 Once the script has been run once, you can manually execute the program by running
-`java -jar $HOME/.pity/cache/wrapper-1.0.7-all.jar`
+`java -jar $HOME/.pity/cache/wrapper-1.0.10-all.jar`
 
 ## Plugins
 Pity is a plugin based system. For more details how to write plugins check out [PLUGINS](docs/PLUGINS.markdown)
