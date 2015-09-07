@@ -10,7 +10,7 @@ import java.util.Map;
 public class EnvironmentDataImpl implements EnvironmentData {
 
     private final String collectorName;
-    private final Map<String, Object> environmentResults = new LinkedHashMap<String, Object>();
+    private final Map<String, String> environmentResults = new LinkedHashMap<>();
 
     public EnvironmentDataImpl(String collectorName) {
         this.collectorName = collectorName;
@@ -22,7 +22,7 @@ public class EnvironmentDataImpl implements EnvironmentData {
     }
 
     @Override
-    public Map<String, Object> getEnvironmentResults() {
+    public Map<String, String> getEnvironmentResults() {
         return environmentResults;
     }
 

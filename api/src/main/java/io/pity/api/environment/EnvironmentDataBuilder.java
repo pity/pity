@@ -33,13 +33,13 @@ public class EnvironmentDataBuilder {
      * @param data The result
      * @return this {@link EnvironmentDataBuilder} instance
      */
-    public EnvironmentDataBuilder addData(String name, Object data) {
+    public EnvironmentDataBuilder addData(String name, String data) {
         environmentData.getEnvironmentResults().put(name, data);
         return this;
     }
 
     /**
-     * Get an instance of {@link EnvironmentData}. This may update if {@link EnvironmentDataBuilder#addData(String, Object)}
+     * Get an instance of {@link EnvironmentData}. This may update if {@link EnvironmentDataBuilder#addData(String, String)}
      * is called after build is called.
      *
      * @return an instance of {@link EnvironmentData}g
