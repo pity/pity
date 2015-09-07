@@ -2,12 +2,17 @@ package io.pity.gradle.plugin.version
 import org.ajoberstar.grgit.Grgit
 import org.ajoberstar.grgit.Person
 import org.gradle.api.DefaultTask
+import org.gradle.api.logging.Logger
+import org.gradle.api.logging.Logging
 import org.gradle.api.tasks.Input
 import org.gradle.api.tasks.InputFile
 import org.gradle.api.tasks.StopActionException
 import org.gradle.api.tasks.TaskAction
+import org.gradle.api.tasks.VerificationTask
 
 class VersionBumpTask extends DefaultTask {
+
+    public static final Logger logger = Logging.getLogger(VerificationTask)
 
     @InputFile
     File versionFile
@@ -26,9 +31,11 @@ class VersionBumpTask extends DefaultTask {
         def message = repo.head().fullMessage
 
         if (message.contains('[no bump]') || message.contains('[ci skip]') || currentVersion.isSnapshot()) {
+            logger.lifecycle("Skipping bump...")
             throw new StopActionException('No bump should happen');
         }
 
+        logger.info("Using message: {}", message)
         repo.tag.add(name: "v${currentVersion.toString()}")
 
         Version nextVersion;
