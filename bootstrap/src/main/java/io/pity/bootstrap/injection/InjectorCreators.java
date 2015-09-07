@@ -1,7 +1,6 @@
 package io.pity.bootstrap.injection;
 
 import com.google.inject.AbstractModule;
-import groovy.util.logging.Slf4j;
 import io.pity.api.PropertyValueProvider;
 import io.pity.bootstrap.injection.injectors.InitializationInjector;
 import io.pity.bootstrap.injection.injectors.TaskInjector;
@@ -15,9 +14,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.stream.Collectors;
 
-@Slf4j
 public class InjectorCreators {
-
     private static final Logger logger = LoggerFactory.getLogger(InjectorCreators.class);
 
     private final PropertyFinder propertyFinder = new PropertyFinder();

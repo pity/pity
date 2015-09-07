@@ -1,7 +1,6 @@
 package io.pity.bootstrap.execution;
 
 import com.google.inject.Inject;
-import groovy.transform.CompileStatic;
 import io.pity.api.execution.CommandExecutor;
 import io.pity.api.preprocess.CommandOptions;
 import io.pity.api.reporting.ResultCollector;
@@ -10,7 +9,6 @@ import io.pity.bootstrap.provider.container.CommandExecutorContainer;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CompileStatic
 public class CommandExecutorRunnerImpl implements CommandExecutorRunner {
 
     private final CommandExecutorContainer commandExecutorContainer;

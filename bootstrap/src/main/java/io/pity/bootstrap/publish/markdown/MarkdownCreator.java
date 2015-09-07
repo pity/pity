@@ -6,7 +6,6 @@ import io.pity.api.reporting.CollectionResults;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -71,7 +70,8 @@ public class MarkdownCreator {
         addHeader(sb, "##", it.getCommandExecutorClass());
 
         addHeader(sb, "### Command Executed");
-        addResult(sb, it.getCommandExecuted().getCommand(), DefaultGroovyMethods.join(it.getCommandExecuted().getArguments(), " "));
+        String executed = it.getCommandExecuted().getArguments().stream().collect(Collectors.joining(", "));
+        addResult(sb, it.getCommandExecuted().getCommand(), executed, " ");
 
         addHeader(sb, "### Exception Thrown");
         addResult(sb, ExceptionUtils.getStackTrace(it.getExceptionThrown()));

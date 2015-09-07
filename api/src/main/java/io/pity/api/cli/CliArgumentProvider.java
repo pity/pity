@@ -39,7 +39,21 @@ public interface CliArgumentProvider {
      * @param param name of the option
      * @return raw option, you must know the type
      */
-    Object getRawOption(String param);
+    String getRawOption(String param);
+
+    /**
+     * Method to get option from the CLI parser. If a plugin needs to provide a new option see {@link CliArgumentProvider}
+     * @param param name of the option
+     * @return raw option, you must know the type
+     */
+    String[] getRawOptionArray(String param);
+
+    /**
+     * Method to get option from the CLI parser. If a plugin needs to provide a new option see {@link CliArgumentProvider}
+     * @param param name of the option
+     * @return raw option, you must know the type
+     */
+    boolean hasRawOption(String param);
 
     /**
      * The raw arguments provided to the program.

@@ -1,11 +1,11 @@
 apply plugin: 'groovy'
 
 dependencies {
-    compile deps.groovy
     compile deps.guice
     compile deps.jsr305
     compile deps.'commons-lang3'
     compile deps.'commons-io'
+    compile deps.'commons-cli'
     compile deps.'slf4j-api'
 
     testCompile deps.cglib
