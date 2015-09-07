@@ -7,7 +7,6 @@ import io.pity.bootstrap.injection.injectors.InitializationInjector;
 import io.pity.bootstrap.injection.injectors.TaskInjector;
 import io.pity.bootstrap.provider.cli.CliArgumentProviderImpl;
 import io.pity.bootstrap.publish.PublisherAbstractModule;
-import org.codehaus.groovy.runtime.StringGroovyMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -53,7 +52,7 @@ public class InjectorCreators {
         String injector = properties.getProperty(propertyName);
 
         try {
-            if (StringGroovyMethods.asBoolean(injector)) {
+            if (null != injector) {
                 Class<?> injectorClass = Class.forName(injector);
                 if (AbstractModule.class.isAssignableFrom(injectorClass)) {
                     logger.debug("Found injector: {}", injectorClass.getName());

@@ -1,7 +1,6 @@
 package io.pity.bootstrap.provider;
 
 import io.pity.api.PropertyValueProvider;
-import org.codehaus.groovy.runtime.StringGroovyMethods;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -33,7 +32,7 @@ public class PropertyValueProviderImpl implements PropertyValueProvider {
      * @return the values loaded from pity-plugins, will fallback to {@link System#getProperty(String)}
      */
     public String getProperty(String name) {
-        if (StringGroovyMethods.asBoolean(loadedProperties.get(name))) {
+        if (loadedProperties.containsKey(name)) {
             return loadedProperties.get(name);
         } else {
             return System.getProperty(name);
