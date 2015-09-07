@@ -23,6 +23,8 @@ dependencies {
     compile deps.ivy
     compile deps.'commons-collections'
     compile deps.pegdown
+    compile deps.jackson
+    compile deps.woodstox
 
     runtime project(':tasks')
     compile project(':api')
