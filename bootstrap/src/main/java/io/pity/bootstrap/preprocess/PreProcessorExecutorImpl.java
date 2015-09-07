@@ -3,7 +3,6 @@ package io.pity.bootstrap.preprocess;
 import com.google.inject.Inject;
 import io.pity.api.preprocess.CommandOptions;
 import io.pity.api.preprocess.CommandPreProcessor;
-import org.codehaus.groovy.runtime.DefaultGroovyMethods;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +41,7 @@ public class PreProcessorExecutorImpl implements PreProcessorExecutor {
 
     public CommandOptions runPreProcessor(CommandPreProcessor processor, final CommandOptions commandOptions) {
         final CommandOptions command = processor.processCommand(commandOptions);
-        CommandOptions newCommandOptions = DefaultGroovyMethods.asBoolean(command) ? command : commandOptions;
+        CommandOptions newCommandOptions = (null != command) ? command : commandOptions;
         if (!newCommandOptions.equals(commandOptions)) {
             logger.info("Command was updated to: {}", commandOptions);
         }

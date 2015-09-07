@@ -1,6 +1,6 @@
 {
     "dependencies": {
-        "groovy": "org.codehaus.groovy:groovy-all:2.4.3",
+        "groovy": "org.codehaus.groovy:groovy-all:2.4.1",
         "guice-multibindings": "com.google.inject.extensions:guice-multibindings:4.0",
         "reflections": "org.reflections:reflections:0.9.9",
         "guice": "com.google.inject:guice:4.0",

@@ -29,7 +29,7 @@ class CliArgumentProviderImplTest extends Specification {
 
         then:
         !argumentProvider.isEnvironmentCollectionEnabled()
-        argumentProvider.getRawOption('disable-env-collection') == true
+        argumentProvider.hasRawOption('disable-env-collection')
 
         when:
         argumentProvider = createCliArgumentProvider([''] as String[])

@@ -14,7 +14,6 @@ sourceSets {
 }
 
 dependencies {
-    compile deps.groovy
     compile deps.'guice-multibindings'
     compile deps.reflections
     compile deps.guice

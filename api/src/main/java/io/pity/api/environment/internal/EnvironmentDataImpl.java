@@ -1,12 +1,10 @@
 package io.pity.api.environment.internal;
 
-import groovy.transform.ToString;
 import io.pity.api.environment.EnvironmentData;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-@ToString
 public class EnvironmentDataImpl implements EnvironmentData {
 
     private final String collectorName;

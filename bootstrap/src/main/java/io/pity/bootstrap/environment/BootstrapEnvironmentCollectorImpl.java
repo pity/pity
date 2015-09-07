@@ -1,13 +1,11 @@
 package io.pity.bootstrap.environment;
 
 import com.google.inject.Inject;
-import groovy.transform.CompileStatic;
 import io.pity.api.reporting.ResultCollector;
 import io.pity.bootstrap.provider.container.EnvironmentCollectorContainer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-@CompileStatic
 public class BootstrapEnvironmentCollectorImpl implements BootstrapEnvironmentCollector {
 
     private static final Logger logger = LoggerFactory.getLogger(BootstrapEnvironmentCollectorImpl.class);
