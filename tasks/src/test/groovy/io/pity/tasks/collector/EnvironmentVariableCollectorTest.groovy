@@ -6,7 +6,7 @@ class EnvironmentVariableCollectorTest extends Specification {
 
     def 'reports all env variables that do not start with _'(){
         when:
-        def collector = new EnvironmentVariableCollector(null, ['env1': 'foo', '_env2': 'bar', 'env3': 'buzz'])
+        def collector = new EnvironmentVariableCollector(['env1': 'foo', '_env2': 'bar', 'env3': 'buzz'])
         def environmentData = collector.collectEnvironmentData()
 
         then:

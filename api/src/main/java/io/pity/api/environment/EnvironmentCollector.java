@@ -1,26 +1,17 @@
 package io.pity.api.environment;
 
 import com.google.inject.Inject;
-import io.pity.api.WorkingDirectoryProvider;
-
-import java.io.File;
 
 /**
  * Base class used for all environment collectors.
  */
 public abstract class EnvironmentCollector {
 
-    public final WorkingDirectoryProvider workingDirectoryProvider;
     public final EnvironmentDataBuilder environmentDataBuilder;
 
     @Inject
-    public EnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider){
-        this.environmentDataBuilder = EnvironmentDataBuilder.Builder(this.getClass().getSimpleName());
-        this.workingDirectoryProvider = workingDirectoryProvider;
-    }
-
-    final public File getWorkingDirectory() {
-        return workingDirectoryProvider.getWorkingDirectory();
+    public EnvironmentCollector(Class<?> collectorClass){
+        this.environmentDataBuilder = EnvironmentDataBuilder.Builder(collectorClass.getSimpleName());
     }
 
     public abstract boolean shouldCollect();

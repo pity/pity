@@ -12,7 +12,7 @@ class NodeEnvironmentCollector extends ProcessBasedEnvironmentCollector {
     @Inject
     NodeEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
                              Provider<ExternalProcessCreator> externalProcessCreatorProvider) {
-        super(workingDirectoryProvider, externalProcessCreatorProvider)
+        super(NodeEnvironmentCollector.class, workingDirectoryProvider, externalProcessCreatorProvider)
     }
 
     @Override

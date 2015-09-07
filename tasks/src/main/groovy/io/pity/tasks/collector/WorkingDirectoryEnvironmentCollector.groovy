@@ -9,10 +9,12 @@ import io.pity.api.WorkingDirectoryProvider
 class WorkingDirectoryEnvironmentCollector extends EnvironmentCollector {
 
     public static final String WORKING_DIRECTORY = 'workingDirectory'
+    private final WorkingDirectoryProvider workingDirectoryProvider
 
     @Inject
     WorkingDirectoryEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider) {
-        super(workingDirectoryProvider)
+        super(WorkingDirectoryEnvironmentCollector.class)
+        this.workingDirectoryProvider = workingDirectoryProvider
     }
 
     @Override

@@ -1,9 +1,7 @@
 package io.pity.tasks.collector
-
 import com.google.inject.Inject
 import groovy.transform.CompileStatic
 import io.pity.api.environment.EnvironmentCollector
-import io.pity.api.WorkingDirectoryProvider
 
 @CompileStatic
 class EnvironmentVariableCollector extends EnvironmentCollector {
@@ -11,12 +9,12 @@ class EnvironmentVariableCollector extends EnvironmentCollector {
     final Map<String, String> envVariables;
 
     @Inject
-    EnvironmentVariableCollector(WorkingDirectoryProvider workingDirectoryProvider) {
-        this(workingDirectoryProvider, System.getenv())
+    EnvironmentVariableCollector() {
+        this(System.getenv())
     }
 
-    EnvironmentVariableCollector(WorkingDirectoryProvider workingDirectoryProvider, Map<String, String> env) {
-        super(workingDirectoryProvider)
+    EnvironmentVariableCollector(Map<String, String> env) {
+        super(EnvironmentVariableCollector.class)
         this.envVariables = env;
     }
 

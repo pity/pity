@@ -24,31 +24,35 @@ public class PropertyFinder {
         reflections = new ReflectionUtils().createPityPluginScanner();
     }
 
-    public List<Properties> findAskProperties() throws IOException {
-        if(null == propertiesList) {
-            propertiesList = new ArrayList<Properties>();
-            Set<String> resources = reflections.getResources(Pattern.compile(".*\\.properties"));
+    public List<Properties> findAskProperties() {
+        try {
+            if (null == propertiesList) {
+                propertiesList = new ArrayList<>();
+                Set<String> resources = reflections.getResources(Pattern.compile(".*\\.properties"));
 
-            for (String resource : resources) {
-                logger.debug("Found plugin property {}", resource);
-                propertiesList.add(urlToProperties(this.getClass().getResourceAsStream("/" + resource)));
+                for (String resource : resources) {
+                    logger.debug("Found plugin property {}", resource);
+                    propertiesList.add(urlToProperties(this.getClass().getResourceAsStream("/" + resource)));
+                }
             }
+        } catch (IOException e) {
+            throw new RuntimeException("Processing properties caused failure", e);
         }
 
         return propertiesList;
     }
 
-    public List<String> findProperties(String name) throws IOException {
+    public List<String> findProperties(String name)  {
         List<String> propertiesList = new ArrayList<String>();
-        for(Properties properties: findAskProperties() ) {
-            if(properties.containsKey(name)) {
+        for (Properties properties : findAskProperties()) {
+            if (properties.containsKey(name)) {
                 propertiesList.add(properties.getProperty(name));
             }
         }
         return propertiesList;
     }
 
-    public PropertyValueProvider createPropertyValueProvider() throws IOException {
+    public PropertyValueProvider createPropertyValueProvider() {
         return new PropertyValueProviderImpl(findAskProperties());
     }
 

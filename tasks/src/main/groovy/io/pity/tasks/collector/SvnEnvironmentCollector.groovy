@@ -14,7 +14,7 @@ class SvnEnvironmentCollector extends ProcessBasedEnvironmentCollector {
     @Inject
     SvnEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
                             Provider<ExternalProcessCreator> externalProcessCreatorProvider) {
-        super(workingDirectoryProvider, externalProcessCreatorProvider)
+        super(SvnEnvironmentCollector.class, workingDirectoryProvider, externalProcessCreatorProvider)
     }
 
     @Override

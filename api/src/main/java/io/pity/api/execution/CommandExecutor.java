@@ -6,7 +6,7 @@ import io.pity.api.preprocess.CommandOptions;
 /**
  * All plugins that want to be able to execute a command <strong>must</strong> extend this.
  */
-public interface CommandExecutor {
+public interface CommandExecutor extends Comparable<CommandExecutor> {
 
     /**
      * The order that the {@CommandPreProcessor} will be applied.

@@ -50,11 +50,15 @@ abstract public class AbstractContainer<T> implements FilteringContainer<T> {
         return filteredCommandExecutors;
     }
 
-    public Set<T> getAvailable() throws IOException {
-        return filter();
+    public Set<T> getAvailable() {
+        try {
+            return filter();
+        } catch (IOException e) {
+            throw new RuntimeException("Unable to process properties", e);
+        }
     }
 
-    public Set<T> getFiltered() throws IOException {
-        return new HashSet<T>(CollectionUtils.disjunction(originalSet, getAvailable()));
+    public Set<T> getFiltered() {
+        return new HashSet<>(CollectionUtils.disjunction(originalSet, getAvailable()));
     }
 }

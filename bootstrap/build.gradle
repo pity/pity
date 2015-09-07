@@ -4,6 +4,7 @@ apply plugin: 'groovy'
 
 configurations {
     provided
+    groovyDoc.extendsFrom runtime
 }
 
 sourceSets {
@@ -26,9 +27,15 @@ dependencies {
     runtime project(':tasks')
     compile project(':api')
 
+    groovyDoc deps.jansi
+
     provided deps.logback
 
     testCompile(deps.spock)
+}
+
+groovydoc {
+    groovyClasspath = project.configurations.groovyDoc
 }
 
 jar {

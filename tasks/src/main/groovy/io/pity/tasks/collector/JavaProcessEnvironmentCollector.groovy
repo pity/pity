@@ -12,7 +12,7 @@ class JavaProcessEnvironmentCollector extends ProcessBasedEnvironmentCollector {
     @Inject
     JavaProcessEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
                              Provider<ExternalProcessCreator> externalProcessCreatorProvider) {
-        super(workingDirectoryProvider, externalProcessCreatorProvider)
+        super(JavaProcessEnvironmentCollector.class, workingDirectoryProvider, externalProcessCreatorProvider)
     }
 
     @Override

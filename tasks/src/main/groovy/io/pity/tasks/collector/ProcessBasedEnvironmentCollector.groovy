@@ -11,11 +11,18 @@ abstract class ProcessBasedEnvironmentCollector extends EnvironmentCollector {
 
     public final Logger logger = LoggerFactory.getLogger(this.getClass())
     final Provider<ExternalProcessCreator> externalProcessCreatorProvider
+    final WorkingDirectoryProvider workingDirectoryProvider;
 
-    public ProcessBasedEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
+    public ProcessBasedEnvironmentCollector(Class<?> collectorClass,
+                                            WorkingDirectoryProvider workingDirectoryProvider,
                                             Provider<ExternalProcessCreator> externalProcessCreatorProvider) {
-        super(workingDirectoryProvider)
+        super(collectorClass)
+        this.workingDirectoryProvider = workingDirectoryProvider;
         this.externalProcessCreatorProvider = externalProcessCreatorProvider
+    }
+
+    File getWorkingDirectory() {
+        return workingDirectoryProvider.getWorkingDirectory();
     }
 
     public void collectCommandResults(String resultKey, String command, Closure filter) {
