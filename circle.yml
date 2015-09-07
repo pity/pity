@@ -5,7 +5,8 @@ machine:
 
 test:
   override:
-    - ./gradlew build -Prelease=true
+    - ./gradlew versionBump -Prelease=true
+    - ./gradlew versionBump build
   post:
       - mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - find build -type f -regex ".*/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
@@ -14,4 +15,4 @@ deployment:
   master:
     branch: master
     commands:
-      - ./gradlew bintrayUpload versionBump -Prelease=true -Pbintray.publish=true
+      - ./gradlew bintrayUpload -Prelease=true -Pbintray.publish=true
