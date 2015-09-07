@@ -36,7 +36,6 @@ class VersionBumpTask extends DefaultTask {
         }
 
         logger.info("Using message: {}", message)
-        repo.tag.add(name: "v${currentVersion.toString()}")
 
         Version nextVersion;
         if (message.contains('[bump minor]')) {
@@ -46,6 +45,8 @@ class VersionBumpTask extends DefaultTask {
         } else {
             nextVersion = currentVersion.withNextPatch()
         }
+
+        repo.tag.add(name: "v${nextVersion.toString()}")
 
         VersionFile.writeVersionToFile(versionFile, nextVersion)
         repo.add(patterns: ['version.properties'])

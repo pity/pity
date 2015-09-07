@@ -21,7 +21,7 @@ public class VersionPlugin implements Plugin<Project> {
 
         File versionProperties = target.file("version.properties");
 
-        Version version = VersionFile.getVersion(versionProperties);
+        Version version = VersionFile.getVersion(versionProperties).withNextPatch();
 
         if(!target.hasProperty("release") || !Boolean.parseBoolean((String) target.property("release"))) {
             version = version.asSnapshot();
