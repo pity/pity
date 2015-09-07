@@ -1,3 +1,8 @@
+machine:
+  java:
+    version:
+      oraclejdk8
+
 test:
   override:
     - ./gradlew build -Prelease=true
