@@ -6,7 +6,7 @@ machine:
 test:
   override:
     - ./gradlew versionBump -Prelease=true
-    - ./gradlew versionBump build
+    - ./gradlew build
   post:
       - mkdir -p $CIRCLE_TEST_REPORTS/junit/
       - find build -type f -regex ".*/test-results/.*xml" -exec cp {} $CIRCLE_TEST_REPORTS/junit/ \;
