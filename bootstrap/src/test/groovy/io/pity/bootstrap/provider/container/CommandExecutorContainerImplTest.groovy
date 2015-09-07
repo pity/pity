@@ -47,6 +47,11 @@ class CommandExecutorContainerImplTest extends Specification {
         CommandExecutionResult execute(CommandOptions commandOptions) {
             return null
         }
+
+        @Override
+        int compareTo(CommandExecutor commandExecutor) {
+            return Integer.compare(commandPrecedence(), commandExecutor.commandPrecedence())
+        }
     }
 
     private static class TestDouble2 extends TestDouble1 {}

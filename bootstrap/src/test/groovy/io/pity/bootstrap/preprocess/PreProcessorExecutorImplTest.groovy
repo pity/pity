@@ -1,5 +1,4 @@
 package io.pity.bootstrap.preprocess
-
 import groovy.transform.TupleConstructor
 import io.pity.api.preprocess.CommandOptions
 import io.pity.api.preprocess.CommandPreProcessor

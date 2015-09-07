@@ -7,7 +7,6 @@ import io.pity.api.PropertyValueProvider;
 import io.pity.api.reporting.ReportPublisher;
 import io.pity.bootstrap.publish.html.HtmlReportPublisher;
 
-import java.io.IOException;
 import java.util.List;
 
 /**
@@ -19,7 +18,7 @@ public class TaskInjector {
 
     private final Injector injector;
 
-    public TaskInjector(List<AbstractModule> abstractModules) throws IOException {
+    public TaskInjector(List<AbstractModule> abstractModules) {
         injector = Guice.createInjector(abstractModules);
     }
 

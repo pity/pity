@@ -20,8 +20,8 @@ subprojects {
     apply from: "$rootDir/gradle/artifacts.gradle"
     apply from: "$rootDir/gradle/publications.gradle"
 
-    sourceCompatibility = '1.6'
-    targetCompatibility = '1.6'
+    sourceCompatibility = '1.8'
+    targetCompatibility = '1.8'
 
     tasks.getByPath('build').dependsOn('jacocoTestReport')
 

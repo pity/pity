@@ -1,21 +1,24 @@
-package io.pity.api.environment
-import io.pity.api.environment.internal.EnvironmentDataImpl
+package io.pity.api.environment;
+
+import io.pity.api.environment.internal.EnvironmentDataImpl;
 
 /**
  * Builder to create environment data by {@link EnvironmentCollector}
  */
-class EnvironmentDataBuilder {
-    EnvironmentDataImpl environmentData
+public class EnvironmentDataBuilder {
+
+    private EnvironmentDataImpl environmentData;
 
     /**
      * @param collectorName collector name
      */
     private EnvironmentDataBuilder(String collectorName) {
-        environmentData = new EnvironmentDataImpl(collectorName: collectorName)
+        environmentData = new EnvironmentDataImpl(collectorName);
     }
 
     /**
      * Builder method to create a {@link EnvironmentDataBuilder}.
+     *
      * @param collectorName Name of the collector
      * @return a new {@link EnvironmentDataBuilder}
      */
@@ -25,13 +28,14 @@ class EnvironmentDataBuilder {
 
     /**
      * Add more data that will be available to the collection mechanism.
+     *
      * @param name Name of data collected
      * @param data The result
      * @return this {@link EnvironmentDataBuilder} instance
      */
     public EnvironmentDataBuilder addData(String name, Object data) {
-        environmentData.environmentResults[name] = data
-        return this
+        environmentData.getEnvironmentResults().put(name, data);
+        return this;
     }
 
     /**

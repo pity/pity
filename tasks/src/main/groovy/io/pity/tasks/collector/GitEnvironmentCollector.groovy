@@ -10,7 +10,7 @@ class GitEnvironmentCollector extends ProcessBasedEnvironmentCollector {
     @Inject
     def GitEnvironmentCollector(WorkingDirectoryProvider workingDirectoryProvider,
                                 Provider<ExternalProcessCreator> externalProcessCreatorProvider) {
-        super(workingDirectoryProvider, externalProcessCreatorProvider)
+        super(GitEnvironmentCollector.class, workingDirectoryProvider, externalProcessCreatorProvider)
     }
 
     @Override

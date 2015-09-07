@@ -5,6 +5,7 @@ import io.pity.api.WorkingDirectoryProvider;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.RandomStringUtils;
 
+import javax.annotation.Nullable;
 import java.io.File;
 import java.io.IOException;
 
@@ -35,5 +36,13 @@ abstract public class AbstractCommandExecutor implements CommandExecutor {
      */
     public File getWorkingDirectory() {
         return workingDirectoryProvider.getWorkingDirectory();
+    }
+
+    @Override
+    public int compareTo(@Nullable CommandExecutor commandExecutor) {
+        if(null == commandExecutor) {
+            return 1;
+        }
+        return Integer.compare(commandPrecedence(), commandExecutor.commandPrecedence());
     }
 }

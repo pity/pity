@@ -41,7 +41,7 @@ class EnvironmentCollectorTest extends Specification {
     class TestEvnCollector extends EnvironmentCollector {
 
         TestEvnCollector() {
-            super([ ('getWorkingDirectory'): { -> EnvironmentCollectorTest.this.temporaryFolder.newFile() } ] as WorkingDirectoryProvider)
+            super(TestEvnCollector.class)
         }
 
         @Override

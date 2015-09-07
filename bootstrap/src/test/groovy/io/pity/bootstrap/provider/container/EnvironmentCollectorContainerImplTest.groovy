@@ -26,7 +26,7 @@ class EnvironmentCollectorContainerImplTest extends Specification {
 
     private static class TestDouble1 extends EnvironmentCollector {
         TestDouble1() {
-            super(null)
+            super(TestDouble1.class)
         }
 
         @Override

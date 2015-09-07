@@ -14,8 +14,8 @@ import java.util.TreeSet;
  */
 public class ResultCollectorImpl implements ResultCollector, CollectionResults {
 
-    Set<EnvironmentData> environmentDataSet = Collections.synchronizedSet(new TreeSet<EnvironmentData>());
-    Set<CommandExecutionResult> commandExecutionResultSet = Collections.synchronizedSet(new TreeSet<CommandExecutionResult>());
+    Set<EnvironmentData> environmentDataSet = Collections.synchronizedSet(new TreeSet<>());
+    Set<CommandExecutionResult> commandExecutionResultSet = Collections.synchronizedSet(new TreeSet<>());
 
     @Override
     public void collect(EnvironmentData environmentData) {
